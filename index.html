@@ -34,12 +34,6 @@
             background-color: #ff9100;
             transform: scale(1.05);
         }
-        .countdown {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffb400;
-            margin-top: 20px;
-        }
         footer {
             margin-top: 50px;
             padding: 20px;
@@ -53,35 +47,18 @@
     <!-- شريط التنقل -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand">
-                <img src="static/images/logo.png" alt="Earn Money" width="50"> 
-                <span>Earn Money</span>
-            </a>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link" onclick="showPage('home')">الرئيسية</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('login')">تسجيل الدخول</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('register')">إنشاء حساب</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('contact')">تواصل معنا</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('deposit')">إيداع/سحب</a></li>
             </ul>
-            <select id="language-select" class="form-select ms-auto w-auto">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="es">Español</option>
-            </select>
         </div>
     </nav>
 
     <!-- الصفحة الرئيسية -->
     <div id="home" class="container mt-5">
-        <div class="hero-section">
-            <h1>مرحبًا بك في Earn Money</h1>
-            <p>ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.</p>
-            <button class="btn btn-custom mt-3" onclick="showPage('register')">ابدأ الآن</button>
-            <div class="countdown" id="countdown"></div>
-        </div>
+        <div class="hero-section"></div>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
@@ -89,27 +66,34 @@
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <div class="input-group mb-2">
-                <input type="password" id="password" class="form-control" placeholder="كلمة المرور" required>
-                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
+            <input type="password" id="password" class="form-control mb-2" placeholder="كلمة المرور" required>
             <button class="btn btn-primary mt-3" onclick="showNotification('تم تسجيل الدخول بنجاح')">دخول</button>
         </form>
     </div>
 
-    <!-- صفحة الاتصال -->
+    <!-- صفحة إنشاء الحساب -->
+    <div id="register" class="container mt-5 hidden">
+        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+        <form onsubmit="return validatePassword()">
+            <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
+            <input type="password" id="new-password" class="form-control mb-2" placeholder="كلمة المرور" required>
+            <input type="password" id="confirm-password" class="form-control mb-2" placeholder="تأكيد كلمة المرور" required>
+            <button class="btn btn-success mt-3">إنشاء حساب</button>
+        </form>
+        <div id="error-message" class="text-danger mt-2 hidden">كلمة المرور يجب أن تحتوي على 10 أحرف على الأقل تشمل أحرف وأرقام.</div>
+    </div>
+
+    <!-- صفحة تواصل معنا -->
     <div id="contact" class="container mt-5 hidden">
         <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني: support@earnmoney.com</p>
+        <p>يمكنك التواصل معنا عبر البريد الإلكتروني: <strong>mahmoudtech2025@gmail.com</strong></p>
     </div>
 
     <!-- إشعارات -->
     <div id="notification" class="alert alert-success hidden" role="alert"></div>
 
     <footer>
-        <p>© 2024 جميع الحقوق محفوظة | Earn Money</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
@@ -126,28 +110,30 @@
             setTimeout(() => notification.classList.add('hidden'), 3000);
         }
 
-        function togglePassword() {
-            const password = document.getElementById('password');
-            if (password.type === "password") {
-                password.type = "text";
-            } else {
-                password.type = "password";
+        function validatePassword() {
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorMessage = document.getElementById('error-message');
+            const regex = /^(?=.*[a-zA-Z])(?=.*\d).{10,}$/;
+
+            if (!regex.test(password)) {
+                errorMessage.classList.remove('hidden');
+                return false;
             }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "كلمتا المرور غير متطابقتين.";
+                errorMessage.classList.remove('hidden');
+                return false;
+            }
+
+            errorMessage.classList.add('hidden');
+            return true;
         }
 
-        function startCountdown() {
-            const targetTime = new Date().getTime() + (24 * 60 * 60 * 1000);
-            const countdownEl = document.getElementById('countdown');
-            setInterval(() => {
-                const now = new Date().getTime();
-                const remaining = targetTime - now;
-                const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((remaining / (1000 * 60)) % 60);
-                const seconds = Math.floor((remaining / 1000) % 60);
-                countdownEl.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        }
-        startCountdown();
+        document.addEventListener("DOMContentLoaded", function() {
+            showPage('home');
+        });
     </script>
 
 </body>
