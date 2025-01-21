@@ -7,144 +7,134 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: white;
             text-align: center;
-        }
-        .hidden { display: none; }
-        .form-container {
-            max-width: 400px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .btn-custom {
-            padding: 10px 30px;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-        .game-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
+            font-family: 'Arial', sans-serif;
+            color: white;
         }
         .plane {
-            width: 80px;
-            position: relative;
-            animation: fly 5s linear infinite;
+            width: 300px;
+            animation: fly 5s infinite linear;
         }
         @keyframes fly {
             from { left: 0; }
-            to { left: 80%; }
+            to { left: 100%; }
         }
     </style>
 </head>
 <body>
-
-    <div id="home">
+    <div class="container mt-5">
         <h1>مرحبًا بك في لعبة Crash</h1>
-        <img src="https://i.imgur.com/Iq6Y7Dr.png" class="plane" alt="Crash Game">
+        <img src="/static/images/plane.png" class="plane" alt="Crash Game">
         <br><br>
-        <button class="btn btn-success btn-custom" onclick="showPage('register')">إنشاء حساب</button>
-        <button class="btn btn-primary btn-custom" onclick="showPage('login')">تسجيل الدخول</button>
+        <a href="/register" class="btn btn-success btn-lg">إنشاء حساب</a>
+        <a href="/login" class="btn btn-primary btn-lg">تسجيل الدخول</a>
     </div>
-
-    <div id="login" class="hidden">
-        <div class="form-container">
-            <h2>تسجيل الدخول</h2>
-            <input type="text" id="loginUsername" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" id="loginPassword" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <button class="btn btn-primary w-100" onclick="login()">تسجيل الدخول</button>
-            <p class="mt-3">ليس لديك حساب؟ <a href="#" onclick="showPage('register')">إنشاء حساب</a></p>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h2>تسجيل الدخول</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="username" class="form-control mb-2" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" class="form-control mb-2" placeholder="كلمة المرور" required>
+            <button type="submit" class="btn btn-primary w-100">دخول</button>
+        </form>
+        <p class="mt-3">ليس لديك حساب؟ <a href="/register">إنشاء حساب</a></p>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h2>إنشاء حساب</h2>
+        <form action="/register" method="POST">
+            <input type="text" name="username" class="form-control mb-2" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" class="form-control mb-2" placeholder="كلمة المرور" required>
+            <button type="submit" class="btn btn-success w-100">إنشاء حساب</button>
+        </form>
+        <p class="mt-3">لديك حساب؟ <a href="/login">تسجيل الدخول</a></p>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>اللعبة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h1>لعبة Crash</h1>
+        <img src="/static/images/plane.png" class="plane mb-4" alt="Crash Game">
+        <p>رصيدك الحالي: <span id="balance">$100</span></p>
+        <button class="btn btn-warning">صرف الأرباح</button>
+        <div class="mt-4">
+            <a href="/deposit" class="btn btn-success">إيداع</a>
+            <a href="/withdraw" class="btn btn-danger">سحب</a>
+            <a href="/about" class="btn btn-info">من نحن</a>
         </div>
     </div>
-
-    <div id="register" class="hidden">
-        <div class="form-container">
-            <h2>إنشاء حساب</h2>
-            <input type="text" id="registerUsername" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" id="registerPassword" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <button class="btn btn-success w-100" onclick="register()">إنشاء الحساب</button>
-            <p class="mt-3">لديك حساب بالفعل؟ <a href="#" onclick="showPage('login')">تسجيل الدخول</a></p>
-        </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إيداع</title>
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h2>إيداع الأموال</h2>
+        <form method="POST">
+            <input type="number" name="amount" class="form-control mb-2" placeholder="أدخل القيمة" required>
+            <button type="submit" class="btn btn-success">إيداع</button>
+        </form>
+        <p class="mt-3">رقم باير: <b>P107654686</b></p>
     </div>
-
-    <div id="game" class="hidden">
-        <h1>مرحبًا بك في اللعبة!</h1>
-        <div class="game-section">
-            <img src="https://i.imgur.com/Iq6Y7Dr.png" class="plane" id="plane" alt="Plane">
-            <p id="multiplier">1.00x</p>
-            <button class="btn btn-warning" onclick="cashOut()">صرف الأرباح</button>
-        </div>
-        <nav class="mt-4">
-            <button class="btn btn-info" onclick="showPage('deposit')">إيداع</button>
-            <button class="btn btn-danger" onclick="showPage('withdraw')">سحب</button>
-            <button class="btn btn-secondary" onclick="showPage('about')">من نحن</button>
-        </nav>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>سحب</title>
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h2>سحب الأموال</h2>
+        <form method="POST">
+            <input type="number" name="amount" class="form-control mb-2" placeholder="أدخل القيمة" required>
+            <input type="text" name="payer_id" class="form-control mb-2" placeholder="رقم الباير الخاص بك" required>
+            <button type="submit" class="btn btn-danger">سحب</button>
+        </form>
     </div>
-
-    <div id="deposit" class="hidden">
-        <div class="form-container">
-            <h2>إيداع الأموال</h2>
-            <input type="number" id="depositAmount" class="form-control mb-2" placeholder="أدخل القيمة" required>
-            <button class="btn btn-success w-100" onclick="deposit()">إيداع</button>
-            <p class="mt-3">رقم الباير: <b>P107654686</b></p>
-            <button class="btn btn-secondary mt-3" onclick="showPage('game')">عودة</button>
-        </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>من نحن</title>
+</head>
+<body class="text-center bg-dark text-light">
+    <div class="container mt-5">
+        <h2>من نحن</h2>
+        <p>نحن نقدم أفضل تجربة للعبة Crash مع نظام آمن وعادل.</p>
     </div>
-
-    <div id="withdraw" class="hidden">
-        <div class="form-container">
-            <h2>سحب الأموال</h2>
-            <input type="number" id="withdrawAmount" class="form-control mb-2" placeholder="أدخل القيمة" required>
-            <input type="text" id="payerId" class="form-control mb-2" placeholder="أدخل رقم الباير الخاص بك" required>
-            <button class="btn btn-danger w-100" onclick="withdraw()">سحب</button>
-            <button class="btn btn-secondary mt-3" onclick="showPage('game')">عودة</button>
-        </div>
-    </div>
-
-    <div id="about" class="hidden">
-        <div class="form-container">
-            <h2>من نحن</h2>
-            <p>مرحبًا بك في موقعنا! نحن نقدم أفضل تجربة لعبة Crash بمزايا رائعة وعشوائية عادلة. سجل الآن وابدأ اللعب!</p>
-            <button class="btn btn-secondary mt-3" onclick="showPage('game')">عودة</button>
-        </div>
-    </div>
-
-    <script>
-        function showPage(pageId) {
-            document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
-            document.getElementById(pageId).classList.remove('hidden');
-        }
-
-        function login() {
-            alert("تم تسجيل الدخول بنجاح!");
-            showPage('game');
-        }
-
-        function register() {
-            alert("تم إنشاء الحساب بنجاح!");
-            showPage('login');
-        }
-
-        function deposit() {
-            alert("تمت عملية الإيداع بنجاح!");
-            showPage('game');
-        }
-
-        function withdraw() {
-            alert("تمت عملية السحب بنجاح!");
-            showPage('game');
-        }
-
-        function cashOut() {
-            alert("لقد ربحت " + (Math.random() * 100).toFixed(2) + "$!");
-        }
-    </script>
-
 </body>
 </html>
