@@ -17,13 +17,11 @@
             padding: 0;
         }
 
-        /* تحسين شريط التنقل */
         .navbar { 
             background: rgba(0, 0, 0, 0.85);
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* إخفاء جميع الصفحات افتراضيًا */
         .page {
             display: none;
             position: absolute;
@@ -35,12 +33,10 @@
             text-align: center;
         }
 
-        /* الصفحة النشطة */
         .active {
             display: block;
         }
 
-        /* تحسين النص Earn Money */
         .hero-section h1 {
             font-size: 5rem;
             font-weight: 900;
@@ -50,14 +46,12 @@
             animation: blink-effect 2s infinite alternate ease-in-out;
         }
 
-        /* تأثير وميض كلمة Earn Money */
         @keyframes blink-effect {
             0% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(1.05); }
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* الفوتر */
         footer {
             background: rgba(0, 0, 0, 0.85);
             padding: 15px;
@@ -71,7 +65,6 @@
 </head>
 <body>
 
-    <!-- شريط التنقل -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
@@ -83,35 +76,31 @@
         </div>
     </nav>
 
-    <!-- الصفحة الرئيسية -->
     <div id="home" class="page active">
         <div class="hero-section">
             <h1>Earn Money</h1>
         </div>
     </div>
 
-    <!-- صفحة تسجيل الدخول -->
     <div id="login" class="page">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <form>
-            <input type="text" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            <button type="button" class="btn btn-primary mt-3" onclick="showNotification('تم تسجيل الدخول بنجاح')">دخول</button>
+        <form onsubmit="loginUser(event)">
+            <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <button class="btn btn-primary mt-3" type="submit">دخول</button>
         </form>
     </div>
 
-    <!-- صفحة إنشاء الحساب -->
     <div id="register" class="page">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-        <form>
-            <input type="text" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            <input type="password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
-            <button class="btn btn-success mt-3">إنشاء حساب</button>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
+            <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
         </form>
     </div>
 
-    <!-- صفحة تواصل معنا -->
     <div id="contact" class="page">
         <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
         <p>يمكنك التواصل معنا عبر البريد الإلكتروني:</p>
@@ -124,17 +113,41 @@
 
     <script>
         function showPage(pageId) {
-            // إخفاء جميع الصفحات
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            // إظهار الصفحة المطلوبة فقط
             document.getElementById(pageId).classList.add('active');
         }
 
-        function showNotification(message) {
-            alert(message);
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, confirm_password: confirmPassword })
+            });
+
+            const result = await response.json();
+            alert(result.success || result.error);
         }
 
-        // عرض الصفحة الرئيسية عند تحميل الموقع
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+            alert(result.success || result.error);
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             showPage('home');
         });
