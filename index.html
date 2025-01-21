@@ -24,17 +24,21 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* الصفحة الرئيسية */
-        .hero-section {
+        /* الصفحات تكون مخفية بشكل افتراضي */
+        .page {
+            display: none;
             height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+            justify-content: center;
         }
 
-        /* تحسين النص Earn Money مع تأثير الوميض */
+        /* الصفحة النشطة */
+        .active-page {
+            display: flex;
+        }
+
+        /* تحسين النص Earn Money */
         .hero-section h1 {
             font-size: 5rem;
             font-weight: 900;
@@ -60,7 +64,6 @@
             bottom: 0;
             width: 100%;
         }
-
     </style>
 </head>
 <body>
@@ -78,61 +81,61 @@
     </nav>
 
     <!-- الصفحة الرئيسية -->
-    <div id="home" class="hero-section">
-        <h1>Earn Money</h1>
+    <div id="home" class="page active-page">
+        <div class="hero-section">
+            <h1>Earn Money</h1>
+        </div>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
-    <div id="login" class="container mt-5 page hidden">
-        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <form>
-            <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <button class="btn btn-primary mt-3" onclick="showNotification('تم تسجيل الدخول بنجاح')">دخول</button>
-        </form>
+    <div id="login" class="page">
+        <div class="container text-center">
+            <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+            <form class="w-50 mx-auto">
+                <input type="text" class="form-control mb-3" placeholder="اسم المستخدم" required>
+                <input type="password" class="form-control mb-3" placeholder="كلمة المرور" required>
+                <button class="btn btn-primary mt-3">دخول</button>
+            </form>
+        </div>
     </div>
 
     <!-- صفحة إنشاء الحساب -->
-    <div id="register" class="container mt-5 page hidden">
-        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-        <form>
-            <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" id="new-password" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <input type="password" id="confirm-password" class="form-control mb-2" placeholder="تأكيد كلمة المرور" required>
-            <button class="btn btn-success mt-3">إنشاء حساب</button>
-        </form>
+    <div id="register" class="page">
+        <div class="container text-center">
+            <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+            <form class="w-50 mx-auto">
+                <input type="text" class="form-control mb-3" placeholder="اسم المستخدم" required>
+                <input type="password" class="form-control mb-3" placeholder="كلمة المرور" required>
+                <input type="password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
+                <button class="btn btn-success mt-3">إنشاء حساب</button>
+            </form>
+        </div>
     </div>
 
     <!-- صفحة تواصل معنا -->
-    <div id="contact" class="container mt-5 page hidden">
-        <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني: <strong>mahmoudtech2025@gmail.com</strong></p>
+    <div id="contact" class="page">
+        <div class="container text-center">
+            <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
+            <p>يمكنك التواصل معنا عبر البريد الإلكتروني:</p>
+            <p><strong>mahmoudtech2025@gmail.com</strong></p>
+        </div>
     </div>
-
-    <!-- إشعارات -->
-    <div id="notification" class="alert alert-success hidden" role="alert"></div>
 
     <footer>
         <p>© 2025 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        function showPage(page) {
+        // دالة لعرض الصفحة المطلوبة وإخفاء الباقي
+        function showPage(pageId) {
             // إخفاء جميع الصفحات
-            document.querySelectorAll('.page').forEach(el => el.style.display = 'none');
-            // عرض الصفحة المطلوبة فقط
-            document.getElementById(page).style.display = 'block';
-            // تمرير الصفحة لأعلى عند الانتقال
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+            // إظهار الصفحة المطلوبة فقط
+            document.getElementById(pageId).classList.add('active-page');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.innerText = message;
-            notification.classList.remove('hidden');
-            setTimeout(() => notification.classList.add('hidden'), 3000);
-        }
-
+        // تحميل الصفحة الرئيسية عند فتح الموقع
         document.addEventListener("DOMContentLoaded", function() {
             showPage('home');
         });
