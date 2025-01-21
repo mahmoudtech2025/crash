@@ -29,7 +29,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100%;
-            max-width: 500px;
+            max-width: 900px;
             text-align: center;
         }
 
@@ -81,6 +81,23 @@
             transform: translateY(-50%);
             cursor: pointer;
         }
+
+        /* تصميم البطاقات */
+        .card {
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -129,10 +146,70 @@
         </form>
     </div>
 
-    <div id="contact" class="page">
-        <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
-        <p>يمكنك التواصل معنا عبر البريد الإلكتروني:</p>
-        <p><strong>mahmoudtech2025@gmail.com</strong></p>
+    <div id="dashboard" class="page">
+        <h2>مرحباً بك في حسابك</h2>
+        <p>اختر أحد الخيارات المتاحة:</p>
+        <div class="container text-center">
+            <div class="row">
+                <!-- المربعات -->
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>100</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>200</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>300</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>400</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>500</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>600</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>700</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-3">
+                        <h3>800</h3>
+                        <p>العائد اليومي: 20%</p>
+                        <button class="btn btn-success">اشترك</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -199,7 +276,13 @@
 
             const result = await response.json();
             loadingText.style.display = 'none';
-            alert(result.success || result.error);
+
+            if (result.success) {
+                alert(result.success);
+                showPage('dashboard'); // التبديل إلى صفحة Dashboard
+            } else {
+                alert(result.error);
+            }
         }
 
         // عرض الصفحة الرئيسية عند التحميل
