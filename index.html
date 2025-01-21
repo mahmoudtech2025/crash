@@ -3,19 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BestPilot Clone</title>
+    <title>BestPilot Clone - تصميم احترافي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="static/css/styles.css">
     <style>
         body {
             background: linear-gradient(to right, #1e3c72, #2a5298);
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: white;
+            text-align: center;
         }
-        .hidden {
-            display: none;
+        .hidden { display: none; }
+        .navbar {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .nav-link {
-            cursor: pointer;
+        .hero-section {
+            background: url('static/images/banner.jpg') center/cover no-repeat;
+            padding: 100px 20px;
+            border-radius: 10px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .countdown {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .btn-custom {
+            background-color: #ffb400;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            transition: 0.3s ease-in-out;
+        }
+        .btn-custom:hover {
+            background-color: #ff9100;
+            transform: scale(1.05);
+        }
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -24,14 +57,14 @@
     <!-- شريط التنقل -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand">BestPilot Clone</a>
+            <a class="navbar-brand">
+                <img src="static/images/logo.png" alt="شعار" width="50"> BestPilot
+            </a>
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" onclick="showPage('home')">الرئيسية</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('login')">تسجيل الدخول</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('register')">إنشاء حساب</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('dashboard')">لوحة التحكم</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('deposit')">إيداع</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('withdraw')">سحب</a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showPage('about')">من نحن</a></li>
             </ul>
         </div>
@@ -39,14 +72,17 @@
 
     <!-- الصفحة الرئيسية -->
     <div id="home" class="container mt-5">
-        <h1>مرحبًا بك في موقع BestPilot Clone</h1>
-        <p>ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.</p>
-        <button class="btn btn-warning" onclick="showPage('register')">ابدأ الآن</button>
+        <div class="hero-section">
+            <h1>مرحبًا بك في BestPilot</h1>
+            <p>ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.</p>
+            <div class="countdown" id="countdown">00:00:00</div>
+            <button class="btn btn-custom" onclick="showPage('register')">ابدأ الآن</button>
+        </div>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
     <div id="login" class="container mt-5 hidden">
-        <h2>تسجيل الدخول</h2>
+        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
             <input type="password" class="form-control mb-2" placeholder="كلمة المرور">
@@ -56,7 +92,7 @@
 
     <!-- صفحة إنشاء الحساب -->
     <div id="register" class="container mt-5 hidden">
-        <h2>إنشاء حساب</h2>
+        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
             <input type="email" class="form-control mb-2" placeholder="البريد الإلكتروني">
@@ -65,52 +101,50 @@
         </form>
     </div>
 
-    <!-- لوحة التحكم -->
-    <div id="dashboard" class="container mt-5 hidden">
-        <h2>لوحة التحكم</h2>
-        <p>رصيدك الحالي: <b>$500</b></p>
-        <button class="btn btn-success" onclick="showPage('deposit')">إيداع</button>
-        <button class="btn btn-danger" onclick="showPage('withdraw')">سحب</button>
-    </div>
-
-    <!-- صفحة الإيداع -->
-    <div id="deposit" class="container mt-5 hidden">
-        <h2>إيداع الأموال</h2>
-        <form>
-            <input type="number" class="form-control mb-2" placeholder="المبلغ">
-            <button class="btn btn-success">إيداع</button>
-        </form>
-    </div>
-
-    <!-- صفحة السحب -->
-    <div id="withdraw" class="container mt-5 hidden">
-        <h2>سحب الأرباح</h2>
-        <form>
-            <input type="number" class="form-control mb-2" placeholder="المبلغ">
-            <input type="text" class="form-control mb-2" placeholder="رقم حساب بايير">
-            <button class="btn btn-danger">سحب</button>
-        </form>
-    </div>
-
     <!-- صفحة من نحن -->
     <div id="about" class="container mt-5 hidden">
-        <h2>من نحن</h2>
+        <h2><i class="fas fa-info-circle"></i> من نحن</h2>
         <p>نحن نقدم حلول ربحية عبر الإنترنت من خلال خدمات فريدة وعروض حصرية.</p>
     </div>
 
+    <!-- الفوتر -->
+    <footer>
+        <p>© 2024 جميع الحقوق محفوظة | BestPilot Clone</p>
+    </footer>
+
     <script>
         function showPage(page) {
-            // إخفاء جميع الصفحات
             var pages = document.querySelectorAll('.container');
             pages.forEach(function(pageElement) {
                 pageElement.classList.add('hidden');
             });
-
-            // عرض الصفحة المختارة
             document.getElementById(page).classList.remove('hidden');
         }
+        
+        // عد تنازلي 24 ساعة
+        function startCountdown() {
+            const countDownDate = new Date().getTime() + (24 * 60 * 60 * 1000); // 24 ساعة
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
 
-        // عرض الصفحة الرئيسية عند التحميل
+                const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((distance / (1000 * 60)) % 60);
+                const seconds = Math.floor((distance / 1000) % 60);
+
+                document.getElementById('countdown').innerHTML = 
+                    (hours < 10 ? "0" : "") + hours + ":" +
+                    (minutes < 10 ? "0" : "") + minutes + ":" +
+                    (seconds < 10 ? "0" : "") + seconds;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    document.getElementById('countdown').innerHTML = "انتهى الوقت!";
+                }
+            }, 1000);
+        }
+        startCountdown();
+
         document.addEventListener("DOMContentLoaded", function() {
             showPage('home');
         });
