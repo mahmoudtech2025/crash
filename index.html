@@ -61,6 +61,26 @@
             width: 100%;
             text-align: center;
         }
+
+        /* تحسين إشعارات التحميل */
+        .loading {
+            display: none;
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle i {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -86,8 +106,12 @@
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form onsubmit="loginUser(event)">
             <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <div class="password-toggle">
+                <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+                <i class="fas fa-eye" onclick="togglePassword('login-password')"></i>
+            </div>
             <button class="btn btn-primary mt-3" type="submit">دخول</button>
+            <p class="loading" id="login-loading">جاري تسجيل الدخول...</p>
         </form>
     </div>
 
@@ -95,9 +119,13 @@
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form onsubmit="registerUser(event)">
             <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <div class="password-toggle">
+                <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+                <i class="fas fa-eye" onclick="togglePassword('reg-password')"></i>
+            </div>
             <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
+            <p class="loading" id="register-loading">جاري إنشاء الحساب...</p>
         </form>
     </div>
 
@@ -112,42 +140,69 @@
     </footer>
 
     <script>
+        // تبديل الصفحات
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
+        // إظهار/إخفاء كلمة المرور
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // إنشاء حساب
         async function registerUser(event) {
             event.preventDefault();
             const username = document.getElementById('reg-username').value;
             const password = document.getElementById('reg-password').value;
             const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const loadingText = document.getElementById('register-loading');
 
-            const response = await fetch('/register', {
+            loadingText.style.display = 'block';
+
+            const response = await fetch('http://127.0.0.1:5000/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password, confirm_password: confirmPassword })
             });
 
             const result = await response.json();
+            loadingText.style.display = 'none';
             alert(result.success || result.error);
         }
 
+        // تسجيل الدخول
         async function loginUser(event) {
             event.preventDefault();
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
+            const loadingText = document.getElementById('login-loading');
 
-            const response = await fetch('/login', {
+            loadingText.style.display = 'block';
+
+            const response = await fetch('http://127.0.0.1:5000/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
 
             const result = await response.json();
+            loadingText.style.display = 'none';
             alert(result.success || result.error);
         }
 
+        // عرض الصفحة الرئيسية عند التحميل
         document.addEventListener("DOMContentLoaded", function() {
             showPage('home');
         });
