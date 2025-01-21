@@ -34,7 +34,7 @@
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* عنوان Earn Money بتصميم فخم */
+        /* عنوان Earn Money بخط فخم */
         .hero-section h1 {
             font-size: 5rem;
             font-weight: 900;
@@ -50,7 +50,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* فوتر */
+        /* الفوتر */
         footer {
             background: rgba(0, 0, 0, 0.7);
             padding: 15px;
@@ -58,6 +58,11 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+        }
+
+        /* إخفاء الصفحات الأخرى */
+        .page {
+            display: none;
         }
 
     </style>
@@ -68,21 +73,23 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" onclick="showPage('home')">الرئيسية</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('login')">تسجيل الدخول</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('register')">إنشاء حساب</a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showPage('contact')">تواصل معنا</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')">الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('contact')">تواصل معنا</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- الصفحة الرئيسية -->
-    <div id="home" class="hero-section">
-        <h1>Earn Money</h1>
+    <div id="home" class="page">
+        <div class="hero-section">
+            <h1>Earn Money</h1>
+        </div>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
-    <div id="login" class="container mt-5 hidden">
+    <div id="login" class="page">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
@@ -92,7 +99,7 @@
     </div>
 
     <!-- صفحة إنشاء الحساب -->
-    <div id="register" class="container mt-5 hidden">
+    <div id="register" class="page">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
@@ -103,7 +110,7 @@
     </div>
 
     <!-- صفحة تواصل معنا -->
-    <div id="contact" class="container mt-5 hidden">
+    <div id="contact" class="page">
         <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
         <p>يمكنك التواصل معنا عبر البريد الإلكتروني: <strong>mahmoudtech2025@gmail.com</strong></p>
     </div>
@@ -117,8 +124,11 @@
 
     <script>
         function showPage(page) {
-            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
-            document.getElementById(page).classList.remove('hidden');
+            // إخفاء جميع الصفحات
+            document.querySelectorAll('.page').forEach(el => el.style.display = 'none');
+            // عرض الصفحة المطلوبة فقط
+            document.getElementById(page).style.display = 'block';
+            // تمرير الصفحة لأعلى عند الانتقال
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
