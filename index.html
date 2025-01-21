@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* خلفية محسنة */
         body {
             background: url('https://i.imgur.com/Qf3NB1O.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -39,15 +40,7 @@
         .hero-section h1 {
             font-size: 5rem;
             font-weight: 900;
-            letter-spacing: 3px;
             color: #ffdd57;
-            animation: blink-effect 2s infinite alternate ease-in-out;
-        }
-
-        @keyframes blink-effect {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
         }
 
         footer {
@@ -67,11 +60,12 @@
             margin-top: 20px;
         }
 
-        .card {
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
+        .password-toggle i {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
         }
     </style>
 </head>
@@ -83,7 +77,6 @@
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')">الرئيسية</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('dashboard')">لوحة التحكم</a></li>
             </ul>
         </div>
     </nav>
@@ -98,7 +91,9 @@
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form onsubmit="loginUser(event)">
             <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <div class="password-toggle">
+                <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            </div>
             <button class="btn btn-primary mt-3" type="submit">دخول</button>
             <p class="loading" id="login-loading">جاري تسجيل الدخول...</p>
         </form>
@@ -115,23 +110,12 @@
         </form>
     </div>
 
-    <div id="dashboard" class="page">
-        <h2>مرحباً بك في حسابك</h2>
-        <p>اختر أحد الخيارات المتاحة:</p>
-        <button class="btn btn-info mt-3" onclick="showPage('extra-page')">اذهب للصفحة الإضافية</button>
-    </div>
-
-    <div id="extra-page" class="page">
-        <h2>مرحباً بك في الصفحة الإضافية</h2>
-        <p>هذه صفحة جديدة بعد تسجيل الدخول.</p>
-    </div>
-
     <footer>
         <p>© 2025 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        const SERVER_URL = 'http://127.0.0.1:5000';
+        const SERVER_URL = 'http://<SERVER_IP>:5000'; // استبدل <SERVER_IP> بعنوان IP الخاص بالسيرفر
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
@@ -143,6 +127,9 @@
             const username = document.getElementById('reg-username').value;
             const password = document.getElementById('reg-password').value;
             const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const loadingText = document.getElementById('register-loading');
+
+            loadingText.style.display = 'block';
 
             const response = await fetch(`${SERVER_URL}/register`, {
                 method: 'POST',
@@ -151,6 +138,7 @@
             });
 
             const result = await response.json();
+            loadingText.style.display = 'none';
             alert(result.success || result.error);
         }
 
@@ -158,6 +146,9 @@
             event.preventDefault();
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
+            const loadingText = document.getElementById('login-loading');
+
+            loadingText.style.display = 'block';
 
             const response = await fetch(`${SERVER_URL}/login`, {
                 method: 'POST',
@@ -166,15 +157,20 @@
             });
 
             const result = await response.json();
+            loadingText.style.display = 'none';
+
             if (result.success) {
                 alert(result.success);
-                showPage('dashboard');
+                showPage('home'); // تعديل لاحق إذا كنت تريد عرض صفحة أخرى
             } else {
                 alert(result.error);
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => showPage('home'));
+        document.addEventListener("DOMContentLoaded", function() {
+            showPage('home');
+        });
     </script>
+
 </body>
 </html>
