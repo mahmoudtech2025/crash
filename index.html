@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* تصميم الصفحة بالكامل بخلفية صورة المال */
+        /* خلفية محسنة تعبر عن المال */
         body {
-            background: url('https://i.imgur.com/uOaoD1L.jpg') no-repeat center center fixed;
+            background: url('https://i.imgur.com/Qf3NB1O.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Poppins', sans-serif;
             color: white;
@@ -18,10 +18,10 @@
             padding: 0;
         }
 
-        /* تحسين النافبار */
+        /* تحسين شريط التنقل */
         .navbar { 
-            background: rgba(0, 0, 0, 0.7);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         /* الصفحة الرئيسية */
@@ -31,38 +31,34 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
         }
 
-        /* عنوان Earn Money بخط فخم */
+        /* تحسين النص Earn Money مع تأثير الوميض */
         .hero-section h1 {
             font-size: 5rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: #ffb400;
-            animation: fadeIn 2s ease-in-out;
+            color: #ffdd57;
+            animation: blink-effect 2s infinite alternate ease-in-out;
         }
 
-        /* تأثيرات على النص */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        /* تأثير وميض كلمة Earn Money */
+        @keyframes blink-effect {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         /* الفوتر */
         footer {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             padding: 15px;
             font-size: 1.2rem;
             position: fixed;
             bottom: 0;
             width: 100%;
-        }
-
-        /* إخفاء الصفحات الأخرى */
-        .page {
-            display: none;
         }
 
     </style>
@@ -82,14 +78,12 @@
     </nav>
 
     <!-- الصفحة الرئيسية -->
-    <div id="home" class="page">
-        <div class="hero-section">
-            <h1>Earn Money</h1>
-        </div>
+    <div id="home" class="hero-section">
+        <h1>Earn Money</h1>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
-    <div id="login" class="page">
+    <div id="login" class="container mt-5 page hidden">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
@@ -99,7 +93,7 @@
     </div>
 
     <!-- صفحة إنشاء الحساب -->
-    <div id="register" class="page">
+    <div id="register" class="container mt-5 page hidden">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
@@ -110,7 +104,7 @@
     </div>
 
     <!-- صفحة تواصل معنا -->
-    <div id="contact" class="page">
+    <div id="contact" class="container mt-5 page hidden">
         <h2><i class="fas fa-envelope"></i> تواصل معنا</h2>
         <p>يمكنك التواصل معنا عبر البريد الإلكتروني: <strong>mahmoudtech2025@gmail.com</strong></p>
     </div>
