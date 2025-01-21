@@ -7,45 +7,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* تصميم الصفحة بالكامل بخلفية صورة المال */
         body {
-            background: linear-gradient(to right, #1e3c72, #2a5298);
+            background: url('https://i.imgur.com/uOaoD1L.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Poppins', sans-serif;
             color: white;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
-        .hidden { display: none; }
-        .navbar { box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); }
+
+        /* تحسين النافبار */
+        .navbar { 
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* الصفحة الرئيسية */
         .hero-section {
-            padding: 80px 20px;
-            animation: fadeIn 1.5s ease-in-out;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
         }
+
+        /* عنوان Earn Money بتصميم فخم */
+        .hero-section h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffb400;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* تأثيرات على النص */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .btn-custom {
-            background-color: #ffb400;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            transition: 0.3s ease-in-out;
-        }
-        .btn-custom:hover {
-            background-color: #ff9100;
-            transform: scale(1.05);
-        }
+
+        /* فوتر */
         footer {
-            margin-top: 50px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            font-size: 1.2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
+
     </style>
 </head>
 <body>
 
     <!-- شريط التنقل -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link" onclick="showPage('home')">الرئيسية</a></li>
@@ -57,8 +77,8 @@
     </nav>
 
     <!-- الصفحة الرئيسية -->
-    <div id="home" class="container mt-5">
-        <div class="hero-section"></div>
+    <div id="home" class="hero-section">
+        <h1>Earn Money</h1>
     </div>
 
     <!-- صفحة تسجيل الدخول -->
@@ -66,7 +86,7 @@
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" id="password" class="form-control mb-2" placeholder="كلمة المرور" required>
+            <input type="password" class="form-control mb-2" placeholder="كلمة المرور" required>
             <button class="btn btn-primary mt-3" onclick="showNotification('تم تسجيل الدخول بنجاح')">دخول</button>
         </form>
     </div>
@@ -74,13 +94,12 @@
     <!-- صفحة إنشاء الحساب -->
     <div id="register" class="container mt-5 hidden">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-        <form onsubmit="return validatePassword()">
+        <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم" required>
             <input type="password" id="new-password" class="form-control mb-2" placeholder="كلمة المرور" required>
             <input type="password" id="confirm-password" class="form-control mb-2" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3">إنشاء حساب</button>
         </form>
-        <div id="error-message" class="text-danger mt-2 hidden">كلمة المرور يجب أن تحتوي على 10 أحرف على الأقل تشمل أحرف وأرقام.</div>
     </div>
 
     <!-- صفحة تواصل معنا -->
@@ -108,27 +127,6 @@
             notification.innerText = message;
             notification.classList.remove('hidden');
             setTimeout(() => notification.classList.add('hidden'), 3000);
-        }
-
-        function validatePassword() {
-            const password = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const errorMessage = document.getElementById('error-message');
-            const regex = /^(?=.*[a-zA-Z])(?=.*\d).{10,}$/;
-
-            if (!regex.test(password)) {
-                errorMessage.classList.remove('hidden');
-                return false;
-            }
-
-            if (password !== confirmPassword) {
-                errorMessage.textContent = "كلمتا المرور غير متطابقتين.";
-                errorMessage.classList.remove('hidden');
-                return false;
-            }
-
-            errorMessage.classList.add('hidden');
-            return true;
         }
 
         document.addEventListener("DOMContentLoaded", function() {
