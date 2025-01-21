@@ -3,138 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة Crash</title>
+    <title>BestPilot Clone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         body {
             background: linear-gradient(to right, #1e3c72, #2a5298);
-            text-align: center;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             color: white;
         }
-        .plane {
-            width: 300px;
-            animation: fly 5s infinite linear;
+        .hidden {
+            display: none;
         }
-        @keyframes fly {
-            from { left: 0; }
-            to { left: 100%; }
+        .nav-link {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>مرحبًا بك في لعبة Crash</h1>
-        <img src="/static/images/plane.png" class="plane" alt="Crash Game">
-        <br><br>
-        <a href="/register" class="btn btn-success btn-lg">إنشاء حساب</a>
-        <a href="/login" class="btn btn-primary btn-lg">تسجيل الدخول</a>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>تسجيل الدخول</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
-        <h2>تسجيل الدخول</h2>
-        <form action="/login" method="POST">
-            <input type="text" name="username" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <button type="submit" class="btn btn-primary w-100">دخول</button>
-        </form>
-        <p class="mt-3">ليس لديك حساب؟ <a href="/register">إنشاء حساب</a></p>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>إنشاء حساب</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
-        <h2>إنشاء حساب</h2>
-        <form action="/register" method="POST">
-            <input type="text" name="username" class="form-control mb-2" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" class="form-control mb-2" placeholder="كلمة المرور" required>
-            <button type="submit" class="btn btn-success w-100">إنشاء حساب</button>
-        </form>
-        <p class="mt-3">لديك حساب؟ <a href="/login">تسجيل الدخول</a></p>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>اللعبة</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
-        <h1>لعبة Crash</h1>
-        <img src="/static/images/plane.png" class="plane mb-4" alt="Crash Game">
-        <p>رصيدك الحالي: <span id="balance">$100</span></p>
-        <button class="btn btn-warning">صرف الأرباح</button>
-        <div class="mt-4">
-            <a href="/deposit" class="btn btn-success">إيداع</a>
-            <a href="/withdraw" class="btn btn-danger">سحب</a>
-            <a href="/about" class="btn btn-info">من نحن</a>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand">BestPilot Clone</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" onclick="showPage('home')">الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('login')">تسجيل الدخول</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('register')">إنشاء حساب</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('dashboard')">لوحة التحكم</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('deposit')">إيداع</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('withdraw')">سحب</a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showPage('about')">من نحن</a></li>
+            </ul>
         </div>
+    </nav>
+
+    <!-- الصفحة الرئيسية -->
+    <div id="home" class="container mt-5">
+        <h1>مرحبًا بك في موقع BestPilot Clone</h1>
+        <p>ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.</p>
+        <button class="btn btn-warning" onclick="showPage('register')">ابدأ الآن</button>
     </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>إيداع</title>
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
+
+    <!-- صفحة تسجيل الدخول -->
+    <div id="login" class="container mt-5 hidden">
+        <h2>تسجيل الدخول</h2>
+        <form>
+            <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
+            <input type="password" class="form-control mb-2" placeholder="كلمة المرور">
+            <button class="btn btn-primary">دخول</button>
+        </form>
+    </div>
+
+    <!-- صفحة إنشاء الحساب -->
+    <div id="register" class="container mt-5 hidden">
+        <h2>إنشاء حساب</h2>
+        <form>
+            <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
+            <input type="email" class="form-control mb-2" placeholder="البريد الإلكتروني">
+            <input type="password" class="form-control mb-2" placeholder="كلمة المرور">
+            <button class="btn btn-success">إنشاء حساب</button>
+        </form>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="dashboard" class="container mt-5 hidden">
+        <h2>لوحة التحكم</h2>
+        <p>رصيدك الحالي: <b>$500</b></p>
+        <button class="btn btn-success" onclick="showPage('deposit')">إيداع</button>
+        <button class="btn btn-danger" onclick="showPage('withdraw')">سحب</button>
+    </div>
+
+    <!-- صفحة الإيداع -->
+    <div id="deposit" class="container mt-5 hidden">
         <h2>إيداع الأموال</h2>
-        <form method="POST">
-            <input type="number" name="amount" class="form-control mb-2" placeholder="أدخل القيمة" required>
-            <button type="submit" class="btn btn-success">إيداع</button>
-        </form>
-        <p class="mt-3">رقم باير: <b>P107654686</b></p>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>سحب</title>
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
-        <h2>سحب الأموال</h2>
-        <form method="POST">
-            <input type="number" name="amount" class="form-control mb-2" placeholder="أدخل القيمة" required>
-            <input type="text" name="payer_id" class="form-control mb-2" placeholder="رقم الباير الخاص بك" required>
-            <button type="submit" class="btn btn-danger">سحب</button>
+        <form>
+            <input type="number" class="form-control mb-2" placeholder="المبلغ">
+            <button class="btn btn-success">إيداع</button>
         </form>
     </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>من نحن</title>
-</head>
-<body class="text-center bg-dark text-light">
-    <div class="container mt-5">
+
+    <!-- صفحة السحب -->
+    <div id="withdraw" class="container mt-5 hidden">
+        <h2>سحب الأرباح</h2>
+        <form>
+            <input type="number" class="form-control mb-2" placeholder="المبلغ">
+            <input type="text" class="form-control mb-2" placeholder="رقم حساب بايير">
+            <button class="btn btn-danger">سحب</button>
+        </form>
+    </div>
+
+    <!-- صفحة من نحن -->
+    <div id="about" class="container mt-5 hidden">
         <h2>من نحن</h2>
-        <p>نحن نقدم أفضل تجربة للعبة Crash مع نظام آمن وعادل.</p>
+        <p>نحن نقدم حلول ربحية عبر الإنترنت من خلال خدمات فريدة وعروض حصرية.</p>
     </div>
+
+    <script>
+        function showPage(page) {
+            // إخفاء جميع الصفحات
+            var pages = document.querySelectorAll('.container');
+            pages.forEach(function(pageElement) {
+                pageElement.classList.add('hidden');
+            });
+
+            // عرض الصفحة المختارة
+            document.getElementById(page).classList.remove('hidden');
+        }
+
+        // عرض الصفحة الرئيسية عند التحميل
+        document.addEventListener("DOMContentLoaded", function() {
+            showPage('home');
+        });
+    </script>
+
 </body>
 </html>
