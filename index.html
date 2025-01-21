@@ -2,118 +2,16 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة Crash الحديثة</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        body {
-            text-align: center;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .form-box {
-            max-width: 400px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .plane {
-            width: 100px;
-            position: absolute;
-            top: 200px;
-            left: 10px;
-            transition: all 3s linear;
-        }
-    </style>
+    <title>لعبة Crash</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-
-<div class="container">
-    <h1 class="mb-4">لعبة Crash الحديثة</h1>
-
-    <!-- نموذج تسجيل الدخول -->
-    <div id="loginForm" class="form-box">
-        <h3>تسجيل الدخول</h3>
-        <input id="username" type="text" placeholder="اسم المستخدم" class="form-control mb-2">
-        <input id="password" type="password" placeholder="كلمة المرور" class="form-control mb-2">
-        <button onclick="login()" class="btn btn-primary w-100">تسجيل الدخول</button>
-        <p class="mt-3">ليس لديك حساب؟ <a href="#" onclick="showRegister()">أنشئ حساب</a></p>
+    <div class="container">
+        <img src="/static/images/plane.png" class="plane" alt="Crash Game">
+        <h1>مرحبًا بك في لعبة Crash</h1>
+        <a href="/register" class="btn">إنشاء حساب</a>
+        <a href="/login" class="btn">تسجيل الدخول</a>
     </div>
-
-    <!-- نموذج تسجيل المستخدم الجديد -->
-    <div id="registerForm" class="form-box" style="display: none;">
-        <h3>إنشاء حساب جديد</h3>
-        <input id="newUsername" type="text" placeholder="اسم المستخدم" class="form-control mb-2">
-        <input id="newPassword" type="password" placeholder="كلمة المرور" class="form-control mb-2">
-        <button onclick="register()" class="btn btn-success w-100">إنشاء الحساب</button>
-        <p class="mt-3">لديك حساب بالفعل؟ <a href="#" onclick="showLogin()">تسجيل الدخول</a></p>
-    </div>
-
-    <!-- قسم اللعبة -->
-    <div id="gameSection" class="mt-4" style="display: none;">
-        <h3>رصيدك الحالي: <span id="balance">0</span> $</h3>
-        <img id="plane" src="https://i.imgur.com/Iq6Y7Dr.png" class="plane">
-        <p id="multiplier">1.00x</p>
-        <button class="btn btn-warning" onclick="cashOut()">صرف الأرباح</button>
-    </div>
-</div>
-
-<script>
-    function showRegister() {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('registerForm').style.display = 'block';
-    }
-
-    function showLogin() {
-        document.getElementById('registerForm').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'block';
-    }
-
-    function login() {
-        fetch('http://127.0.0.1:5000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            })
-        }).then(response => response.json()).then(data => {
-            if (data.message === "Login successful") {
-                document.getElementById('balance').innerText = data.balance;
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('gameSection').style.display = 'block';
-            } else {
-                alert("فشل تسجيل الدخول");
-            }
-        });
-    }
-
-    function register() {
-        fetch('http://127.0.0.1:5000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: document.getElementById('newUsername').value,
-                password: document.getElementById('newPassword').value
-            })
-        }).then(response => response.json()).then(data => {
-            alert(data.message);
-            if (data.message === "Registration successful") {
-                showLogin();
-            }
-        });
-    }
-
-    function cashOut() {
-        alert("تم صرف الأرباح!");
-    }
-</script>
-
 </body>
 </html>
+
