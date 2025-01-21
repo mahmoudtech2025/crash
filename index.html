@@ -6,6 +6,7 @@
     <title>Earn Money - اربح المال عبر الإنترنت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             background: linear-gradient(to right, #1e3c72, #2a5298);
@@ -19,20 +20,10 @@
             padding: 100px 20px;
             animation: fadeIn 2s ease-in-out;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .btn-custom {
-            background-color: #ffb400;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            transition: 0.3s ease-in-out;
-        }
-        .btn-custom:hover {
-            background-color: #ff9100;
-            transform: scale(1.05);
+        .money-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         footer {
             margin-top: 50px;
@@ -48,7 +39,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand">
-                <img src="static/images/logo.png" alt="Earn Money" width="50"> 
+                <img src="static/images/logo.png" onerror="this.src='static/images/money-placeholder.jpg';" width="50"> 
                 <span id="site-name">Earn Money</span>
             </a>
             <ul class="navbar-nav">
@@ -62,6 +53,8 @@
                     <option value="ar">العربية</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="es">Español</option>
                 </select>
             </div>
         </div>
@@ -72,7 +65,8 @@
         <div class="hero-section">
             <h1 data-lang="welcome">مرحبًا بك في Earn Money</h1>
             <p data-lang="intro">ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.</p>
-            <button class="btn btn-custom" onclick="showPage('register')" data-lang="get_started">ابدأ الآن</button>
+            <img src="static/images/money.jpg" class="money-image" onerror="this.src='static/images/money-placeholder.jpg';">
+            <button class="btn btn-warning mt-3" onclick="showPage('register')" data-lang="get_started">ابدأ الآن</button>
         </div>
     </div>
 
@@ -82,7 +76,8 @@
         <form>
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
             <input type="password" class="form-control mb-2" placeholder="كلمة المرور">
-            <button class="btn btn-primary" data-lang="login_btn">دخول</button>
+            <div class="g-recaptcha" data-sitekey="YOUR_GOOGLE_RECAPTCHA_SITE_KEY"></div>
+            <button class="btn btn-primary mt-3" data-lang="login_btn">دخول</button>
         </form>
     </div>
 
@@ -93,83 +88,41 @@
             <input type="text" class="form-control mb-2" placeholder="اسم المستخدم">
             <input type="email" class="form-control mb-2" placeholder="البريد الإلكتروني">
             <input type="password" class="form-control mb-2" placeholder="كلمة المرور">
-            <button class="btn btn-success" data-lang="register_btn">إنشاء حساب</button>
+            <div class="g-recaptcha" data-sitekey="YOUR_GOOGLE_RECAPTCHA_SITE_KEY"></div>
+            <button class="btn btn-success mt-3" data-lang="register_btn">إنشاء حساب</button>
         </form>
     </div>
 
     <!-- صفحة من نحن -->
     <div id="about" class="container mt-5 hidden">
         <h2><i class="fas fa-info-circle"></i> <span data-lang="about">من نحن</span></h2>
-        <p data-lang="about_text">نحن نقدم حلول ربحية عبر الإنترنت من خلال خدمات فريدة وعروض حصرية.</p>
+        <p data-lang="about_text">نحن نقدم حلول ربحية عبر الإنترنت.</p>
     </div>
 
-    <!-- الفوتر -->
     <footer>
         <p>© 2024 جميع الحقوق محفوظة | <span data-lang="footer">Earn Money</span></p>
     </footer>
 
     <script>
         function showPage(page) {
-            var pages = document.querySelectorAll('.container');
-            pages.forEach(function(pageElement) {
-                pageElement.classList.add('hidden');
-            });
+            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
             document.getElementById(page).classList.remove('hidden');
         }
 
-        // تغيير اللغة
         const translations = {
-            ar: {
-                home: "الرئيسية",
-                login: "تسجيل الدخول",
-                register: "إنشاء حساب",
-                about: "من نحن",
-                welcome: "مرحبًا بك في Earn Money",
-                intro: "ابدأ في تحقيق الأرباح عبر الإنترنت بكل سهولة.",
-                get_started: "ابدأ الآن",
-                login_btn: "دخول",
-                register_btn: "إنشاء حساب",
-                about_text: "نحن نقدم حلول ربحية عبر الإنترنت من خلال خدمات فريدة وعروض حصرية.",
-                footer: "جميع الحقوق محفوظة"
-            },
-            en: {
-                home: "Home",
-                login: "Login",
-                register: "Register",
-                about: "About Us",
-                welcome: "Welcome to Earn Money",
-                intro: "Start earning online easily.",
-                get_started: "Get Started",
-                login_btn: "Login",
-                register_btn: "Register",
-                about_text: "We provide online earning solutions with unique services.",
-                footer: "All rights reserved"
-            },
-            fr: {
-                home: "Accueil",
-                login: "Connexion",
-                register: "S'inscrire",
-                about: "À propos",
-                welcome: "Bienvenue sur Earn Money",
-                intro: "Commencez à gagner de l'argent en ligne facilement.",
-                get_started: "Commencer",
-                login_btn: "Connexion",
-                register_btn: "S'inscrire",
-                about_text: "Nous offrons des solutions de gain en ligne avec des services uniques.",
-                footer: "Tous droits réservés"
-            }
+            ar: { welcome: "مرحبًا بك", login: "تسجيل الدخول" },
+            en: { welcome: "Welcome", login: "Login" },
+            fr: { welcome: "Bienvenue", login: "Connexion" },
+            de: { welcome: "Willkommen", login: "Anmeldung" },
+            es: { welcome: "Bienvenido", login: "Iniciar sesión" }
         };
 
         document.getElementById('language-select').addEventListener('change', function() {
-            let selectedLang = this.value;
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                element.innerHTML = translations[selectedLang][element.getAttribute('data-lang')];
-            });
+            let lang = this.value;
+            document.querySelectorAll('[data-lang]').forEach(el => el.innerText = translations[lang][el.dataset.lang] || el.innerText);
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
-            showPage('home');
-        });
+        document.addEventListener("DOMContentLoaded", () => showPage('home'));
     </script>
 
 </body>
