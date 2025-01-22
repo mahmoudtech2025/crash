@@ -3,236 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Money - اربح المال عبر الإنترنت</title>
+    <title>تسجيل الدخول وإنشاء حساب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: url('https://i.imgur.com/o9wYdff.jpg') no-repeat center center fixed;
+            background: rgba(0, 0, 0, 0.85) url('https://i.imgur.com/o9wYdff.jpg') no-repeat center center fixed;
             background-size: cover;
-            font-family: 'Poppins', sans-serif;
             color: white;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
-        .navbar {
-            background: rgba(0, 0, 0, 0.85);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .page {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 900px;
+        .center-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
-            transition: opacity 0.3s ease-in-out;
+            max-width: 400px;
+            margin: auto;
+            margin-top: 10%;
         }
 
-        .active {
-            display: block;
-            opacity: 1;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            font-size: 1.2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .password-toggle {
-            position: relative;
-        }
-
-        .password-toggle i {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
+        .center-box h2 {
+            margin-bottom: 20px;
         }
 
         .form-control {
             background: rgba(255, 255, 255, 0.1);
+            border: none;
             color: white;
-            border: 1px solid #ccc;
+            margin-bottom: 15px;
         }
 
         .form-control:focus {
             background: rgba(255, 255, 255, 0.2);
-            border-color: #ffdd57;
             color: white;
+            border: 1px solid #ccc;
         }
 
         button {
-            transition: all 0.3s ease-in-out;
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         button:hover {
-            transform: scale(1.05);
+            background-color: #0056b3;
         }
 
         .telegram-icon {
-            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        .telegram-icon img {
+            width: 50px;
             cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .telegram-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .auth-container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-        }
-
-        .auth-header {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .auth-form input {
-            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div id="login" class="page active">
-        <div class="auth-container">
-            <h2 class="auth-header"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-            <form onsubmit="loginUser(event)" class="auth-form">
-                <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-                <div class="password-toggle">
-                    <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-                    <i class="fas fa-eye" onclick="togglePassword('login-password')"></i>
-                </div>
-                <button class="btn btn-primary mt-3" type="submit">دخول</button>
-            </form>
+    <div id="auth-container" class="center-box">
+        <h2 id="form-title">إنشاء حساب</h2>
+        <form id="auth-form" onsubmit="handleFormSubmit(event)">
+            <input type="text" id="username" class="form-control" placeholder="اسم المستخدم" required>
+            <input type="password" id="password" class="form-control" placeholder="كلمة المرور" required>
+            <input type="password" id="confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" style="display: none;">
+            <button type="submit" id="submit-btn">إنشاء حساب</button>
+        </form>
+        <button id="toggle-form" onclick="toggleForm()">التبديل إلى تسجيل الدخول</button>
+        <div class="telegram-icon">
+            <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Icon">
+            </a>
         </div>
     </div>
-
-    <div id="register" class="page">
-        <div class="auth-container">
-            <h2 class="auth-header"><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-            <form onsubmit="registerUser(event)" class="auth-form">
-                <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-                <div class="password-toggle">
-                    <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-                    <i class="fas fa-eye" onclick="togglePassword('reg-password')"></i>
-                </div>
-                <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
-                <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 جميع الحقوق محفوظة</p>
-        <a href="https://t.me/+QQBrC-wtOeA1NjVk" class="telegram-icon" target="_blank">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
-    </footer>
 
     <script>
-        const API_URL = "https://backend-liard-theta-98.vercel.app";
+        const API_URL = "https://backend-liard-theta-98.vercel.app"; // URL الخاص بـ API
+        let isLogin = false;
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
+        function toggleForm() {
+            isLogin = !isLogin;
+            const formTitle = document.getElementById('form-title');
+            const confirmPassword = document.getElementById('confirm-password');
+            const submitBtn = document.getElementById('submit-btn');
+            const toggleFormBtn = document.getElementById('toggle-form');
 
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = input.nextElementSibling;
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+            if (isLogin) {
+                formTitle.textContent = "تسجيل الدخول";
+                confirmPassword.style.display = "none";
+                submitBtn.textContent = "تسجيل الدخول";
+                toggleFormBtn.textContent = "التبديل إلى إنشاء حساب";
             } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                formTitle.textContent = "إنشاء حساب";
+                confirmPassword.style.display = "block";
+                submitBtn.textContent = "إنشاء حساب";
+                toggleFormBtn.textContent = "التبديل إلى تسجيل الدخول";
             }
         }
 
-        async function registerUser(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
-            const username = document.getElementById('reg-username').value.trim();
-            const password = document.getElementById('reg-password').value.trim();
-            const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
 
-            if (password !== confirmPassword) {
-                return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
+            if (!isLogin && password !== confirmPassword) {
+                return Swal.fire("خطأ", "كلمات المرور غير متطابقة", "error");
             }
+
+            const endpoint = isLogin ? "/login" : "/register";
+            const payload = { username, password };
 
             try {
-                const response = await fetch(`${API_URL}/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
                 });
-
                 const result = await response.json();
+
                 if (result.success) {
                     Swal.fire("نجاح", result.message, "success");
-                    showPage('login');
+                    if (isLogin) {
+                        // بعد تسجيل الدخول بنجاح
+                        console.log("تم تسجيل الدخول بنجاح!");
+                    }
                 } else {
-                    Swal.fire("خطأ", result.message, "error");
+                    Swal.fire("خطأ", result.message || "حدث خطأ غير متوقع", "error");
                 }
             } catch (error) {
-                Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
+                Swal.fire("خطأ", `حدث خطأ: ${error.message}`, "error");
             }
         }
-
-        async function loginUser(event) {
-            event.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    Swal.fire("مرحبًا", result.message, "success");
-                    showPage('dashboard');
-                } else {
-                    Swal.fire("خطأ", result.message, "error");
-                }
-            } catch (error) {
-                Swal.fire("خطأ", "حدث خطأ أثناء تسجيل الدخول. حاول لاحقًا.", "error");
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            showPage('login');
-        });
     </script>
 </body>
 </html>
