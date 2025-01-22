@@ -80,6 +80,38 @@
         button:hover {
             transform: scale(1.05);
         }
+
+        /* لوحة التحكم */
+        #dashboard {
+            display: none;
+            color: black;
+            padding: 20px;
+            background: #f5f7fa;
+            text-align: center;
+        }
+
+        .dashboard-card {
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+
+        .dashboard-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .dashboard-icons div {
+            text-align: center;
+        }
+
+        .dashboard-icons img {
+            width: 50px;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +148,28 @@
             <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
         </form>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="dashboard" class="page">
+        <div class="dashboard-card">
+            <h2>مرحبًا بك في لوحة التحكم</h2>
+            <p>لقد قمت بتسجيل الدخول بنجاح.</p>
+            <div class="dashboard-icons">
+                <div>
+                    <img src="https://via.placeholder.com/50" alt="Icon">
+                    <p>يسحب</p>
+                </div>
+                <div>
+                    <img src="https://via.placeholder.com/50" alt="Icon">
+                    <p>فوق حتى</p>
+                </div>
+                <div>
+                    <img src="https://via.placeholder.com/50" alt="Icon">
+                    <p>سندات الصندوق</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -188,6 +242,7 @@
                 const result = await response.json();
                 if (result.success) {
                     Swal.fire("مرحبًا", result.message, "success");
+                    showPage('dashboard');
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
