@@ -3,145 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Money - اربح المال</title>
+    <title>تسجيل الدخول وإنشاء حساب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background-color: #f0f2f5; /* خلفية مشابهة للفيسبوك */
-            font-family: 'Poppins', sans-serif;
-            color: #000;
+            background-color: #f0f2f5;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
         }
 
-        .main-container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .form-container {
-            background: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
+        .container {
             max-width: 400px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .form-container h1 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #1877f2; /* لون أزرق مشابه لفيسبوك */
+        .btn {
+            width: 100%;
         }
 
-        .form-container .form-control {
-            background: #f0f2f5;
-            color: #000;
-            border: 1px solid #ccc;
+        .form-control {
             margin-bottom: 15px;
         }
 
-        .form-container .form-control:focus {
-            background: #e7e9ee;
-            border-color: #1877f2;
-            color: #000;
-        }
-
-        .form-container button {
-            background: #1877f2;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease-in-out;
-            width: 100%;
-        }
-
-        .form-container button:hover {
-            background: #0056b3;
-            transform: scale(1.05);
-        }
-
         .telegram-link {
+            text-align: center;
             margin-top: 20px;
-            font-size: 1.2rem;
         }
 
         .telegram-link a {
-            color: #1877f2;
+            font-size: 18px;
+            color: #0088cc;
             text-decoration: none;
         }
 
         .telegram-link a:hover {
             text-decoration: underline;
         }
-
-        .hidden {
-            display: none;
-        }
-
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-        }
-
-        .logo img {
-            width: 50px;
-            height: 50px;
-        }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="logo">
-            <img src="https://i.imgur.com/O4kBjMs.png" alt="Logo">
+
+    <div id="app" class="container">
+        <h2 class="text-center">مرحبًا بك</h2>
+        <div id="login-form">
+            <h3>تسجيل الدخول</h3>
+            <form onsubmit="loginUser(event)">
+                <input type="text" id="login-username" class="form-control" placeholder="اسم المستخدم" required>
+                <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور" required>
+                <button type="submit" class="btn btn-primary">دخول</button>
+            </form>
+            <p class="text-center mt-3">
+                لا تملك حساب؟ <a href="#" onclick="toggleForms('register')">إنشاء حساب</a>
+            </p>
         </div>
 
-        <div id="login-form" class="form-container">
-            <h1>تسجيل الدخول</h1>
-            <input type="text" id="login-username" class="form-control" placeholder="اسم المستخدم" required>
-            <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور" required>
-            <button onclick="loginUser()">دخول</button>
-            <div class="telegram-link">
-                <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
-                    <i class="fab fa-telegram fa-2x"></i>
-                </a>
-            </div>
-            <p class="mt-3">لا تملك حسابًا؟ <a href="#" onclick="toggleForms()">إنشاء حساب</a></p>
+        <div id="register-form" style="display: none;">
+            <h3>إنشاء حساب</h3>
+            <form onsubmit="registerUser(event)">
+                <input type="text" id="reg-username" class="form-control" placeholder="اسم المستخدم" required>
+                <input type="password" id="reg-password" class="form-control" placeholder="كلمة المرور" required>
+                <input type="password" id="reg-confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" required>
+                <button type="submit" class="btn btn-success">إنشاء حساب</button>
+            </form>
+            <p class="text-center mt-3">
+                لديك حساب؟ <a href="#" onclick="toggleForms('login')">تسجيل الدخول</a>
+            </p>
         </div>
 
-        <div id="register-form" class="form-container hidden">
-            <h1>إنشاء حساب</h1>
-            <input type="text" id="register-username" class="form-control" placeholder="اسم المستخدم" required>
-            <input type="password" id="register-password" class="form-control" placeholder="كلمة المرور" required>
-            <input type="password" id="register-confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" required>
-            <button onclick="registerUser()">إنشاء حساب</button>
-            <div class="telegram-link">
-                <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
-                    <i class="fab fa-telegram fa-2x"></i>
-                </a>
-            </div>
-            <p class="mt-3">لديك حساب بالفعل؟ <a href="#" onclick="toggleForms()">تسجيل الدخول</a></p>
+        <div class="telegram-link">
+            <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
+                <i class="fab fa-telegram"></i> انضم إلى مجموعتنا
+            </a>
         </div>
     </div>
 
     <script>
         const API_URL = "https://backend-liard-theta-98.vercel.app";
 
-        function toggleForms() {
-            document.getElementById('login-form').classList.toggle('hidden');
-            document.getElementById('register-form').classList.toggle('hidden');
+        function toggleForms(form) {
+            document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
+            document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
         }
 
-        async function loginUser() {
+        async function loginUser(event) {
+            event.preventDefault();
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value.trim();
 
@@ -149,12 +101,12 @@
                 const response = await fetch(`${API_URL}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ username, password })
                 });
 
                 const result = await response.json();
                 if (result.success) {
-                    Swal.fire("نجاح", result.message, "success");
+                    Swal.fire("مرحبًا", result.message, "success");
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
@@ -163,31 +115,32 @@
             }
         }
 
-        async function registerUser() {
-            const username = document.getElementById('register-username').value.trim();
-            const password = document.getElementById('register-password').value.trim();
-            const confirmPassword = document.getElementById('register-confirm-password').value.trim();
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+            const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
 
             if (password !== confirmPassword) {
-                return Swal.fire("خطأ", "كلمتا المرور غير متطابقتين", "error");
+                return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
             }
 
             try {
                 const response = await fetch(`${API_URL}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ username, password })
                 });
 
                 const result = await response.json();
                 if (result.success) {
                     Swal.fire("نجاح", result.message, "success");
-                    toggleForms();
+                    toggleForms('login');
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
             } catch (error) {
-                Swal.fire("خطأ", "حدث خطأ أثناء إنشاء الحساب. حاول لاحقًا.", "error");
+                Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
             }
         }
     </script>
