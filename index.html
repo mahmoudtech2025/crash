@@ -9,68 +9,43 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: url('https://i.imgur.com/o9wYdff.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #4a90e2, #9013fe);
             font-family: 'Poppins', sans-serif;
             color: white;
+            height: 100vh;
             margin: 0;
-            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
         }
 
-        .navbar {
-            background: rgba(0, 0, 0, 0.85);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        .navbar, footer {
+            display: none;
         }
 
         .page {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             width: 100%;
-            max-width: 900px;
-            text-align: center;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .active {
-            display: block;
-            opacity: 1;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            font-size: 1.2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .password-toggle {
-            position: relative;
-        }
-
-        .password-toggle i {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .form-control {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ddd;
             color: white;
-            border: 1px solid #ccc;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.4);
             border-color: #ffdd57;
-            color: white;
+            color: black;
         }
 
         button {
@@ -81,49 +56,38 @@
             transform: scale(1.05);
         }
 
-        /* لوحة التحكم */
-        #dashboard {
-            display: none;
-            color: black;
-            padding: 20px;
-            background: #f5f7fa;
-            text-align: center;
+        .happy-new-year {
+            font-size: 2rem;
+            font-weight: bold;
+            animation: fadeInOut 3s infinite;
         }
 
-        .dashboard-card {
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
         }
 
-        .dashboard-icons {
-            display: flex;
-            justify-content: space-around;
+        .telegram-link {
             margin-top: 20px;
         }
 
-        .dashboard-icons div {
-            text-align: center;
+        .telegram-link a {
+            color: white;
+            font-size: 2rem;
+            text-decoration: none;
         }
 
-        .dashboard-icons img {
-            width: 50px;
+        .telegram-link a:hover {
+            color: #0088cc;
         }
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="happy-new-year">Happy New Year</div>
 
     <div id="login" class="page active">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
@@ -150,39 +114,14 @@
         </form>
     </div>
 
-    <!-- لوحة التحكم -->
-    <div id="dashboard" class="page">
-        <div class="dashboard-card">
-            <h2>مرحبًا بك في لوحة التحكم</h2>
-            <p>لقد قمت بتسجيل الدخول بنجاح.</p>
-            <div class="dashboard-icons">
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>يسحب</p>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>فوق حتى</p>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>سندات الصندوق</p>
-                </div>
-            </div>
-        </div>
+    <div class="telegram-link">
+        <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
+            <i class="fab fa-telegram"></i>
+        </a>
     </div>
-
-    <footer>
-        <p>© 2025 جميع الحقوق محفوظة</p>
-    </footer>
 
     <script>
         const API_URL = "https://backend-liard-theta-98.vercel.app";
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
 
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
@@ -251,7 +190,12 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
             showPage('login');
         });
     </script>
