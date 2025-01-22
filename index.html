@@ -39,15 +39,6 @@
             opacity: 1;
         }
 
-        .hero-section h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffdd57;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-        }
-
         footer {
             background: rgba(0, 0, 0, 0.85);
             padding: 15px;
@@ -92,23 +83,17 @@
     </style>
 </head>
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')">الرئيسية</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
             </ul>
         </div>
     </nav>
 
-    <div id="home" class="page active">
-        <div class="hero-section">
-            <h1>Earn Money</h1>
-        </div>
-    </div>
-
-    <div id="login" class="page">
+    <div id="login" class="page active">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form onsubmit="loginUser(event)">
             <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
@@ -212,7 +197,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            showPage('home');
+            showPage('login');
         });
     </script>
 </body>
