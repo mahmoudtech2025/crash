@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الإيداع وإدارة الحساب</title>
+    <title>Earn Money - اربح المال عبر الإنترنت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -24,12 +24,7 @@
 
         .page {
             display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 900px;
+            padding: 20px;
             text-align: center;
             transition: opacity 0.3s ease-in-out;
         }
@@ -50,106 +45,68 @@
         }
 
         .dashboard-card {
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
             padding: 20px;
             border-radius: 10px;
             max-width: 600px;
-        }
-
-        .dashboard-icons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-
-        .dashboard-icons div {
+            margin: 20px auto;
             text-align: center;
         }
 
-        .dashboard-icons img {
-            width: 50px;
-        }
-
-        /* إيداع */
-        .deposit-page {
+        .deposit-box {
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
             padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
             text-align: center;
         }
 
-        .deposit-page h1 {
-            color: #ff8800;
+        h1 {
+            color: #ffdd57;
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
 
-        .deposit-page .instructions {
-            background: #fff5e6;
-            padding: 15px;
-            border: 1px solid #ffd700;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-            color: #5a5a5a;
-        }
-
-        .deposit-page input[type="number"] {
-            font-size: 1.2rem;
-            padding: 10px;
-        }
-
-        .deposit-page button {
-            background: #ff8800;
-            border: none;
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            margin-top: 10px;
-            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffdd57;
+            color: white;
+        }
+
+        button {
             transition: all 0.3s ease-in-out;
         }
 
-        .deposit-page button:hover {
-            background: #e56e00;
+        button:hover {
             transform: scale(1.05);
         }
 
-        .random-number {
-            background: #ffffff;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 10px;
-            margin: 20px auto;
-            max-width: 300px;
-            border: 2px dashed #ffd700;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .random-number span {
-            flex-grow: 1;
-        }
-
-        .random-number button {
-            background: #f0f0f0;
-            border: none;
-            color: #666;
-            padding: 5px 10px;
+        .back-button {
+            margin-top: 20px;
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
             border-radius: 5px;
+            text-decoration: none;
             cursor: pointer;
         }
 
-        .random-number button:hover {
-            background: #e4e4e4;
+        .back-button:hover {
+            background: #5a6268;
         }
     </style>
 </head>
 <body>
-    <!-- شريط التنقل -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
@@ -159,69 +116,113 @@
         </div>
     </nav>
 
-    <!-- الصفحات -->
+    <!-- تسجيل الدخول -->
     <div id="login" class="page active">
         <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
         <form onsubmit="loginUser(event)">
             <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <div class="password-toggle">
-                <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            </div>
+            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
             <button class="btn btn-primary mt-3" type="submit">دخول</button>
         </form>
     </div>
 
+    <!-- إنشاء حساب -->
     <div id="register" class="page">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form onsubmit="registerUser(event)">
             <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
             <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
         </form>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
+    <!-- لوحة التحكم -->
     <div id="dashboard" class="page">
-        <h2>لوحة التحكم</h2>
-        <button class="btn btn-warning mt-3" onclick="showPage('deposit')">إيداع</button>
-    </div>
-
-    <div id="deposit" class="page">
-        <div class="deposit-page">
-            <h1>إيداع</h1>
-            <div class="instructions">
-                <p>لإتمام عملية الإيداع، يرجى إدخال المبلغ ورقم الإيداع، ثم الضغط على زر الإيداع.</p>
-            </div>
-            <form id="depositForm" onsubmit="handleDeposit(event)">
-                <input type="number" id="amount" class="form-control mb-3" placeholder="أدخل المبلغ" min="1" required>
-                <input type="number" id="depositNumber" class="form-control mb-3" placeholder="أدخل رقم الإيداع" required>
-                <button type="submit">إيداع</button>
-            </form>
-            <div id="randomNumberSection" class="random-number" style="display: none;">
-                <span id="randomAccount">01112585208</span>
-                <button onclick="copyNumber()">نسخ</button>
-            </div>
-            <button class="btn btn-secondary mt-3" onclick="showPage('dashboard')">العودة للخلف</button>
+        <div class="dashboard-card">
+            <h2>مرحبًا بك</h2>
+            <p>اسم المستخدم: <b id="username">اسم المستخدم</b></p>
+            <p>رقم الحساب: <b id="userId">123456</b></p>
+            <button class="btn btn-primary mt-3" onclick="showPage('deposit')">إيداع</button>
+            <button class="btn btn-success mt-3" onclick="showPage('withdraw')">سحب</button>
+            <button class="btn btn-danger mt-3" onclick="logout()">تسجيل الخروج</button>
         </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
-    <!-- سكربت -->
+    <!-- صفحة الإيداع -->
+    <div id="deposit" class="page">
+        <h1>الإيداع</h1>
+        <div class="deposit-box">
+            <input type="number" id="deposit-amount" class="form-control mb-3" placeholder="أدخل المبلغ" required>
+            <input type="text" id="deposit-number" class="form-control mb-3" placeholder="أدخل رقم الإيداع" required>
+            <button class="btn btn-primary mt-3" onclick="confirmDeposit()">إيداع</button>
+        </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
+    </div>
+
+    <!-- صفحة تأكيد الإيداع -->
+    <div id="deposit-confirm" class="page">
+        <h1>شكرًا لإتمام الإيداع</h1>
+        <div class="deposit-box">
+            <p>يرجى إرسال المبلغ إلى الرقم التالي:</p>
+            <p id="random-number" style="font-size: 1.5rem; font-weight: bold; color: #ff0000;"></p>
+            <p>سيصل الرصيد خلال 5 إلى 30 دقيقة.</p>
+            <button class="btn btn-secondary mt-3" onclick="showPage('dashboard')">عودة إلى لوحة التحكم</button>
+        </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
+    </div>
+
+    <footer>
+        <p>© 2025 جميع الحقوق محفوظة</p>
+    </footer>
+
     <script>
+        const API_URL = "https://backend-liard-theta-98.vercel.app";
+        const phoneNumbers = ["01112585208", "01097000178"];
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
-        function handleDeposit(event) {
-            event.preventDefault();
-            const randomAccounts = ["01112585208", "01097000178", "01234567890"];
-            const randomAccount = randomAccounts[Math.floor(Math.random() * randomAccounts.length)];
-            document.getElementById('randomAccount').textContent = randomAccount;
-            document.getElementById('randomNumberSection').style.display = 'flex';
+        function goBack() {
+            history.back();
         }
 
-        function copyNumber() {
-            navigator.clipboard.writeText(document.getElementById('randomAccount').textContent);
-            alert("تم نسخ الرقم!");
+        function confirmDeposit() {
+            const amount = document.getElementById('deposit-amount').value.trim();
+            const depositNumber = document.getElementById('deposit-number').value.trim();
+
+            if (!amount || !depositNumber) {
+                Swal.fire("خطأ", "يرجى إدخال المبلغ ورقم الإيداع", "error");
+                return;
+            }
+
+            const randomNumber = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
+            document.getElementById('random-number').textContent = randomNumber;
+            showPage('deposit-confirm');
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            showPage('dashboard');
+        }
+
+        function logout() {
+            Swal.fire({
+                title: "تأكيد",
+                text: "هل تريد تسجيل الخروج؟",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "نعم",
+                cancelButtonText: "لا"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
         }
     </script>
 </body>
