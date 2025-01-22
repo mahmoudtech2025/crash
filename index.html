@@ -46,12 +46,43 @@
         .telegram-link a:hover {
             text-decoration: underline;
         }
+
+        .dashboard-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .dashboard-container h3 {
+            text-align: center;
+        }
+
+        .dashboard-btns {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .dashboard-btns .btn {
+            width: 30%;
+        }
+
+        .dashboard-container #username {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div id="app" class="container">
         <h2 class="text-center">مرحبًا بك</h2>
+
+        <!-- صفحة تسجيل الدخول -->
         <div id="login-form">
             <h3>تسجيل الدخول</h3>
             <form onsubmit="loginUser(event)">
@@ -64,6 +95,7 @@
             </p>
         </div>
 
+        <!-- صفحة إنشاء الحساب -->
         <div id="register-form" style="display: none;">
             <h3>إنشاء حساب</h3>
             <form onsubmit="registerUser(event)">
@@ -81,6 +113,17 @@
             <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
                 <i class="fab fa-telegram"></i> انضم إلى مجموعتنا
             </a>
+        </div>
+
+        <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
+        <div class="dashboard-container" id="dashboard">
+            <h3>مرحبًا <span id="username"></span></h3>
+            <div class="dashboard-btns">
+                <button class="btn btn-primary">أنا</button>
+                <button class="btn btn-success">لعبة</button>
+                <button class="btn btn-warning">إيداع</button>
+                <button class="btn btn-danger">سحب</button>
+            </div>
         </div>
     </div>
 
@@ -106,7 +149,11 @@
 
                 const result = await response.json();
                 if (result.success) {
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'none';
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
@@ -134,8 +181,11 @@
 
                 const result = await response.json();
                 if (result.success) {
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
-                    toggleForms('login');
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'none';
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
@@ -145,4 +195,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
