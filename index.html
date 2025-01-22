@@ -89,6 +89,21 @@
         button:hover {
             transform: scale(1.05);
         }
+
+        .back-button {
+            margin-top: 20px;
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -120,6 +135,7 @@
             <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
         </form>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
     <!-- لوحة التحكم -->
@@ -132,6 +148,7 @@
             <button class="btn btn-success mt-3" onclick="showPage('withdraw')">سحب</button>
             <button class="btn btn-danger mt-3" onclick="logout()">تسجيل الخروج</button>
         </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
     <!-- صفحة الإيداع -->
@@ -142,6 +159,7 @@
             <input type="text" id="deposit-number" class="form-control mb-3" placeholder="أدخل رقم الإيداع" required>
             <button class="btn btn-primary mt-3" onclick="confirmDeposit()">إيداع</button>
         </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
     <!-- صفحة تأكيد الإيداع -->
@@ -153,6 +171,7 @@
             <p>سيصل الرصيد خلال 5 إلى 30 دقيقة.</p>
             <button class="btn btn-secondary mt-3" onclick="showPage('dashboard')">عودة إلى لوحة التحكم</button>
         </div>
+        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
     <footer>
@@ -166,6 +185,10 @@
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
+        }
+
+        function goBack() {
+            history.back();
         }
 
         function confirmDeposit() {
@@ -184,7 +207,6 @@
 
         function loginUser(event) {
             event.preventDefault();
-            // Simulate login
             showPage('dashboard');
         }
 
@@ -202,12 +224,6 @@
                 }
             });
         }
-
-        // Set default user info
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById('username').textContent = "مستخدم جديد";
-            document.getElementById('userId').textContent = Math.floor(Math.random() * 1000000);
-        });
     </script>
 </body>
 </html>
