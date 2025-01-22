@@ -3,207 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Money - اربح المال عبر الإنترنت</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <title>Earn Money</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: rgba(0, 0, 0, 0.8) url('https://i.imgur.com/1gYqK5V.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
             font-family: 'Poppins', sans-serif;
-            color: white;
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            text-align: center;
+            color: white;
         }
 
-        .navbar {
-            background: rgba(0, 0, 0, 0.85);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .container h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeIn 2s;
         }
 
         .page {
             display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 900px;
-            transition: opacity 1s ease-in-out;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .active {
             display: block;
-            opacity: 1;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            font-size: 1.2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .password-toggle {
-            position: relative;
-        }
-
-        .password-toggle i {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
         }
 
         .form-control {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 1px solid #ccc;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.2);
             border-color: #ffdd57;
-            color: white;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         button {
-            transition: all 0.3s ease-in-out;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            background: #ffdd57;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         button:hover {
+            background: #f39c12;
             transform: scale(1.05);
         }
 
-        /* لوحة التحكم */
-        #dashboard {
-            display: none;
-            color: black;
-            padding: 20px;
-            background: #f5f7fa;
-            text-align: center;
+        .telegram-icon {
+            font-size: 2.5rem;
+            color: #0088cc;
+            transition: transform 0.3s ease;
         }
 
-        .dashboard-card {
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
+        .telegram-icon:hover {
+            transform: scale(1.2);
         }
 
-        .dashboard-icons {
-            display: flex;
-            justify-content: space-around;
+        footer {
             margin-top: 20px;
+            font-size: 1rem;
         }
 
-        .dashboard-icons div {
-            text-align: center;
-        }
-
-        .dashboard-icons img {
-            width: 50px;
-        }
-
-        .title-text {
-            font-size: 3rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: fadeInOut 5s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0% {
+        @keyframes fadeIn {
+            from {
                 opacity: 0;
             }
-            50% {
+            to {
                 opacity: 1;
-            }
-            100% {
-                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
-            </ul>
+    <div class="container">
+        <h1>Earn Money</h1>
+
+        <div id="login" class="page active">
+            <h2>تسجيل الدخول</h2>
+            <form onsubmit="loginUser(event)">
+                <input type="text" id="login-username" class="form-control" placeholder="اسم المستخدم" required>
+                <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور" required>
+                <button type="submit">دخول</button>
+            </form>
         </div>
-    </nav>
 
-    <div id="login" class="page active">
-        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <form onsubmit="loginUser(event)">
-            <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <div class="password-toggle">
-                <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-                <i class="fas fa-eye" onclick="togglePassword('login-password')"></i>
-            </div>
-            <button class="btn btn-primary mt-3" type="submit">دخول</button>
-        </form>
-    </div>
-
-    <div id="register" class="page">
-        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-        <form onsubmit="registerUser(event)">
-            <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <div class="password-toggle">
-                <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-                <i class="fas fa-eye" onclick="togglePassword('reg-password')"></i>
-            </div>
-            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
-            <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
-        </form>
-    </div>
-
-    <!-- لوحة التحكم -->
-    <div id="dashboard" class="page">
-        <div class="dashboard-card">
-            <h2>مرحبًا بك في لوحة التحكم</h2>
-            <p>لقد قمت بتسجيل الدخول بنجاح.</p>
-            <div class="dashboard-icons">
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>يسحب</p>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>فوق حتى</p>
-                </div>
-                <div>
-                    <img src="https://via.placeholder.com/50" alt="Icon">
-                    <p>سندات الصندوق</p>
-                </div>
-            </div>
+        <div id="register" class="page">
+            <h2>إنشاء حساب</h2>
+            <form onsubmit="registerUser(event)">
+                <input type="text" id="reg-username" class="form-control" placeholder="اسم المستخدم" required>
+                <input type="password" id="reg-password" class="form-control" placeholder="كلمة المرور" required>
+                <input type="password" id="reg-confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" required>
+                <button type="submit">إنشاء حساب</button>
+            </form>
         </div>
-    </div>
 
-    <!-- النص الذي يظهر ويختفي -->
-    <div class="title-text">
-        Earn Money
-    </div>
+        <div>
+            <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
+                <i class="telegram-icon fa-brands fa-telegram"></i>
+            </a>
+        </div>
 
-    <footer>
-        <p>© 2025 جميع الحقوق محفوظة</p>
-    </footer>
+        <footer>
+            <p>© 2025 جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
 
     <script>
         const API_URL = "https://backend-liard-theta-98.vercel.app";
@@ -211,20 +143,6 @@
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-        }
-
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = input.nextElementSibling;
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
         }
 
         async function registerUser(event) {
@@ -284,5 +202,6 @@
             showPage('login');
         });
     </script>
+
 </body>
-    </html>
+</html>
