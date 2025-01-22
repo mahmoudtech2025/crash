@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم</title>
+    <title>Earn Money - اربح المال عبر الإنترنت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -53,6 +54,22 @@
             text-align: center;
         }
 
+        .deposit-box {
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffdd57;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
         .form-control {
             background: rgba(255, 255, 255, 0.1);
             color: white;
@@ -72,40 +89,48 @@
         button:hover {
             transform: scale(1.05);
         }
-
-        .deposit-box {
-            background: rgba(255, 255, 255, 0.9);
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        h1 {
-            color: #ffdd57;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">تسجيل الخروج</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
             </ul>
         </div>
     </nav>
 
-    <div id="dashboard" class="page active">
+    <!-- تسجيل الدخول -->
+    <div id="login" class="page active">
+        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+        <form onsubmit="loginUser(event)">
+            <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <button class="btn btn-primary mt-3" type="submit">دخول</button>
+        </form>
+    </div>
+
+    <!-- إنشاء حساب -->
+    <div id="register" class="page">
+        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
+            <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
+        </form>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="dashboard" class="page">
         <div class="dashboard-card">
             <h2>مرحبًا بك</h2>
             <p>اسم المستخدم: <b id="username">اسم المستخدم</b></p>
             <p>رقم الحساب: <b id="userId">123456</b></p>
             <button class="btn btn-primary mt-3" onclick="showPage('deposit')">إيداع</button>
             <button class="btn btn-success mt-3" onclick="showPage('withdraw')">سحب</button>
+            <button class="btn btn-danger mt-3" onclick="logout()">تسجيل الخروج</button>
         </div>
     </div>
 
@@ -135,6 +160,7 @@
     </footer>
 
     <script>
+        const API_URL = "https://backend-liard-theta-98.vercel.app";
         const phoneNumbers = ["01112585208", "01097000178"];
 
         function showPage(pageId) {
@@ -154,6 +180,12 @@
             const randomNumber = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
             document.getElementById('random-number').textContent = randomNumber;
             showPage('deposit-confirm');
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            // Simulate login
+            showPage('dashboard');
         }
 
         function logout() {
