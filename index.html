@@ -29,7 +29,6 @@
             width: 100%;
             max-width: 500px;
             text-align: center;
-            transition: opacity 0.3s ease-in-out;
         }
 
         .active {
@@ -47,44 +46,16 @@
             text-align: center;
         }
 
-        .password-toggle {
-            position: relative;
-        }
-
-        .password-toggle i {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid #ccc;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: #ffdd57;
-            color: white;
-        }
-
         .dashboard-card {
             background: #fff;
+            color: black;
             padding: 20px;
             border-radius: 10px;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .dashboard-icons div {
             text-align: center;
         }
 
-        .dashboard-icons img {
-            width: 50px;
+        .dashboard-buttons button {
+            margin: 10px 0;
         }
 
         button:hover {
@@ -119,7 +90,7 @@
         </form>
     </div>
 
-    <!-- تسجيل -->
+    <!-- إنشاء حساب -->
     <div id="register" class="page">
         <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
         <form onsubmit="registerUser(event)">
@@ -136,9 +107,15 @@
     <!-- لوحة التحكم -->
     <div id="dashboard" class="page">
         <div class="dashboard-card">
-            <h2>مرحبًا، <span id="user-name"></span></h2>
-            <p>لقد قمت بتسجيل الدخول بنجاح.</p>
-            <button id="logout-btn" class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
+            <h3>مرحبًا، <span id="user-name"></span></h3>
+            <p>رقم التعريف الخاص بك: <span id="user-id"></span></p>
+            
+            <div class="dashboard-buttons">
+                <button class="btn btn-success w-100">إيداع</button>
+                <button class="btn btn-warning w-100">سحب</button>
+            </div>
+            
+            <button id="logout-btn" class="btn btn-danger w-100 mt-3" onclick="logout()">تسجيل الخروج</button>
         </div>
     </div>
 
@@ -164,6 +141,10 @@
                 input.type = 'password';
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
+        }
+
+        function generateRandomId() {
+            return Math.floor(100000 + Math.random() * 900000);
         }
 
         async function registerUser(event) {
@@ -210,6 +191,7 @@
                 const result = await response.json();
                 if (result.success) {
                     document.getElementById('user-name').textContent = username;
+                    document.getElementById('user-id').textContent = generateRandomId();
                     Swal.fire("مرحبًا", result.message, "success");
                     showPage('dashboard');
                 } else {
