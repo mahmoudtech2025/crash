@@ -22,51 +22,35 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .page {
-            display: none;
-            padding: 20px;
+        .logo-container {
             text-align: center;
-            transition: opacity 0.3s ease-in-out;
+            margin-top: 30px;
         }
 
-        .active {
-            display: block;
-            opacity: 1;
+        .logo-container img {
+            max-width: 150px;
         }
 
-        footer {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            font-size: 1.2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .dashboard-card {
-            background: rgba(255, 255, 255, 0.9);
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        .deposit-box {
-            background: rgba(255, 255, 255, 0.9);
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            margin: 20px auto;
-            text-align: center;
-        }
-
-        h1 {
+        .logo-container h1 {
+            font-size: 3rem;
             color: #ffdd57;
-            font-size: 2.5rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            margin: 50px auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-container h2 {
+            font-size: 2rem;
+            color: #ffdd57;
             margin-bottom: 20px;
         }
 
@@ -90,140 +74,76 @@
             transform: scale(1.05);
         }
 
-        .back-button {
-            margin-top: 20px;
-            display: inline-block;
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .back-button:hover {
-            background: #5a6268;
+        footer {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px;
+            font-size: 1.2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- لوجو الموقع -->
+    <div class="logo-container">
+        <img src="https://i.imgur.com/nzDW2Cq.png" alt="Logo">
+        <h1>EarnMoney2025</h1>
+    </div>
 
-    <!-- تسجيل الدخول -->
-    <div id="login" class="page active">
-        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <form onsubmit="loginUser(event)">
-            <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            <button class="btn btn-primary mt-3" type="submit">دخول</button>
+    <!-- تسجيل الدخول وإنشاء الحساب -->
+    <div id="login-register" class="auth-container">
+        <h2 id="auth-title"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+        <form id="auth-form" onsubmit="handleAuth(event)">
+            <input type="text" id="auth-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <input type="password" id="auth-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+            <div id="register-extra-fields" style="display: none;">
+                <input type="password" id="auth-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور">
+            </div>
+            <button id="auth-submit" class="btn btn-primary mt-3" type="submit">دخول</button>
         </form>
-    </div>
-
-    <!-- إنشاء حساب -->
-    <div id="register" class="page">
-        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
-        <form onsubmit="registerUser(event)">
-            <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
-            <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
-        </form>
-        <a class="back-button" onclick="goBack()">العودة للخلف</a>
-    </div>
-
-    <!-- لوحة التحكم -->
-    <div id="dashboard" class="page">
-        <div class="dashboard-card">
-            <h2>مرحبًا بك</h2>
-            <p>اسم المستخدم: <b id="username">اسم المستخدم</b></p>
-            <p>رقم الحساب: <b id="userId">123456</b></p>
-            <button class="btn btn-primary mt-3" onclick="showPage('deposit')">إيداع</button>
-            <button class="btn btn-success mt-3" onclick="showPage('withdraw')">سحب</button>
-            <button class="btn btn-danger mt-3" onclick="logout()">تسجيل الخروج</button>
+        <div class="mt-3">
+            <button class="btn btn-success" onclick="switchToRegister()">إنشاء حساب جديد</button>
+            <button class="btn btn-secondary" onclick="switchToLogin()" style="display: none;" id="login-btn">تسجيل الدخول</button>
         </div>
-        <a class="back-button" onclick="goBack()">العودة للخلف</a>
-    </div>
-
-    <!-- صفحة الإيداع -->
-    <div id="deposit" class="page">
-        <h1>الإيداع</h1>
-        <div class="deposit-box">
-            <input type="number" id="deposit-amount" class="form-control mb-3" placeholder="أدخل المبلغ" required>
-            <input type="text" id="deposit-number" class="form-control mb-3" placeholder="أدخل رقم الإيداع" required>
-            <button class="btn btn-primary mt-3" onclick="confirmDeposit()">إيداع</button>
-        </div>
-        <a class="back-button" onclick="goBack()">العودة للخلف</a>
-    </div>
-
-    <!-- صفحة تأكيد الإيداع -->
-    <div id="deposit-confirm" class="page">
-        <h1>شكرًا لإتمام الإيداع</h1>
-        <div class="deposit-box">
-            <p>يرجى إرسال المبلغ إلى الرقم التالي:</p>
-            <p id="random-number" style="font-size: 1.5rem; font-weight: bold; color: #ff0000;"></p>
-            <p>سيصل الرصيد خلال 5 إلى 30 دقيقة.</p>
-            <button class="btn btn-secondary mt-3" onclick="showPage('dashboard')">عودة إلى لوحة التحكم</button>
-        </div>
-        <a class="back-button" onclick="goBack()">العودة للخلف</a>
     </div>
 
     <footer>
-        <p>© 2025 جميع الحقوق محفوظة</p>
+        <p>© 2025 EarnMoney - جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        const API_URL = "https://backend-liard-theta-98.vercel.app";
-        const phoneNumbers = ["01112585208", "01097000178"];
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+        function switchToRegister() {
+            document.getElementById('auth-title').innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
+            document.getElementById('auth-submit').textContent = 'إنشاء حساب';
+            document.getElementById('register-extra-fields').style.display = 'block';
+            document.getElementById('login-btn').style.display = 'inline-block';
+            document.querySelector('.btn-success').style.display = 'none';
         }
 
-        function goBack() {
-            history.back();
+        function switchToLogin() {
+            document.getElementById('auth-title').innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+            document.getElementById('auth-submit').textContent = 'دخول';
+            document.getElementById('register-extra-fields').style.display = 'none';
+            document.getElementById('login-btn').style.display = 'none';
+            document.querySelector('.btn-success').style.display = 'inline-block';
         }
 
-        function confirmDeposit() {
-            const amount = document.getElementById('deposit-amount').value.trim();
-            const depositNumber = document.getElementById('deposit-number').value.trim();
-
-            if (!amount || !depositNumber) {
-                Swal.fire("خطأ", "يرجى إدخال المبلغ ورقم الإيداع", "error");
-                return;
-            }
-
-            const randomNumber = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
-            document.getElementById('random-number').textContent = randomNumber;
-            showPage('deposit-confirm');
-        }
-
-        function loginUser(event) {
+        function handleAuth(event) {
             event.preventDefault();
-            showPage('dashboard');
-        }
-
-        function logout() {
-            Swal.fire({
-                title: "تأكيد",
-                text: "هل تريد تسجيل الخروج؟",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "نعم",
-                cancelButtonText: "لا"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload();
+            const isRegister = document.getElementById('register-extra-fields').style.display === 'block';
+            if (isRegister) {
+                const password = document.getElementById('auth-password').value;
+                const confirmPassword = document.getElementById('auth-confirm-password').value;
+                if (password !== confirmPassword) {
+                    Swal.fire("خطأ", "كلمتا المرور غير متطابقتين", "error");
+                    return;
                 }
-            });
+            }
+            Swal.fire("تم", isRegister ? "تم إنشاء الحساب بنجاح" : "تم تسجيل الدخول بنجاح", "success");
         }
     </script>
 </body>
 </html>
+
