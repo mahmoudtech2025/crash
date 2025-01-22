@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* خلفية محسنة تعبر عن المال */
         body {
             background: url('https://i.imgur.com/Qf3NB1O.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -131,8 +130,9 @@
         <p>© 2025 جميع الحقوق محفوظة</p>
     </footer>
 
-    <script>  
-        
+    <script>
+        const API_URL = "https://backend-two-mu.vercel.app";
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
