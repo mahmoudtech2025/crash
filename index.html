@@ -64,11 +64,6 @@
             color: #333;
         }
 
-        .dashboard-content {
-            text-align: center;
-            margin-top: 50px;
-        }
-
         .dashboard-footer {
             position: fixed;
             bottom: 0;
@@ -140,11 +135,7 @@
 
         <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
-            <div class="dashboard-header" id="username">اسم المستخدم: </div>
-            <div class="dashboard-content">
-                <h1>مرحبًا بك!</h1>
-                <p>استمتع بخدماتنا.</p>
-            </div>
+            <div class="dashboard-header" id="username"></div>
             <div class="dashboard-footer">
                 <button onclick="alert('أنا')">أنا</button>
                 <button onclick="alert('لعبة')">لعبة</button>
@@ -176,7 +167,7 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    document.getElementById('username').textContent += username;
+                    document.getElementById('username').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -208,7 +199,7 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    document.getElementById('username').textContent += username;
+                    document.getElementById('username').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
