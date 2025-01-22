@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اربح المال عبر الإنترنت</title>
+    <title>Earn Money - اربح المال عبر الإنترنت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298); /* تدرج ألوان جذاب */
+            background: url('https://i.imgur.com/o9wYdff.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Poppins', sans-serif;
             color: white;
-            margin: 0;
-            padding: 0;
         }
 
         .navbar {
@@ -21,35 +20,43 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .logo-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .logo-container img {
-            max-width: 150px;
-        }
-
-        .logo-container h1 {
-            font-size: 3rem;
-            color: #ffdd57;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            margin-top: 10px;
-        }
-
-        .auth-container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
+        .page {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
             max-width: 500px;
-            margin: 50px auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: opacity 0.3s ease-in-out;
         }
 
-        .auth-container h2 {
-            font-size: 2rem;
-            color: #ffdd57;
-            margin-bottom: 20px;
+        .active {
+            display: block;
+            opacity: 1;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px;
+            font-size: 1.2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle i {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
         }
 
         .form-control {
@@ -64,82 +71,163 @@
             color: white;
         }
 
-        button {
-            transition: all 0.3s ease-in-out;
+        .dashboard-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .dashboard-icons div {
+            text-align: center;
+        }
+
+        .dashboard-icons img {
+            width: 50px;
         }
 
         button:hover {
             transform: scale(1.05);
         }
 
-        footer {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px;
-            font-size: 1.2rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
+        #logout-btn {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- لوجو الموقع -->
-    <div class="logo-container">
-        <img src="https://i.imgur.com/nzDW2Cq.png" alt="Logo">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')">تسجيل الدخول</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('register')">إنشاء حساب</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- تسجيل الدخول -->
+    <div id="login" class="page active">
+        <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+        <form onsubmit="loginUser(event)">
+            <input type="text" id="login-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <div class="password-toggle">
+                <input type="password" id="login-password" class="form-control mb-3" placeholder="كلمة المرور" required>
+                <i class="fas fa-eye" onclick="togglePassword('login-password')"></i>
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">دخول</button>
+        </form>
     </div>
 
-    <!-- تسجيل الدخول وإنشاء الحساب -->
-    <div id="login-register" class="auth-container">
-        <h2 id="auth-title"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-        <form id="auth-form" onsubmit="handleAuth(event)">
-            <input type="text" id="auth-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
-            <input type="password" id="auth-password" class="form-control mb-3" placeholder="كلمة المرور" required>
-            <div id="register-extra-fields" style="display: none;">
-                <input type="password" id="auth-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور">
+    <!-- تسجيل -->
+    <div id="register" class="page">
+        <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="reg-username" class="form-control mb-3" placeholder="اسم المستخدم" required>
+            <div class="password-toggle">
+                <input type="password" id="reg-password" class="form-control mb-3" placeholder="كلمة المرور (8 أحرف على الأقل)" required minlength="8">
+                <i class="fas fa-eye" onclick="togglePassword('reg-password')"></i>
             </div>
-            <button id="auth-submit" class="btn btn-primary mt-3" type="submit">دخول</button>
+            <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
+            <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
         </form>
-        <div class="mt-3">
-            <button class="btn btn-success" onclick="switchToRegister()">إنشاء حساب جديد</button>
-            <button class="btn btn-secondary" onclick="switchToLogin()" style="display: none;" id="login-btn">تسجيل الدخول</button>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="dashboard" class="page">
+        <div class="dashboard-card">
+            <h2>مرحبًا، <span id="user-name"></span></h2>
+            <p>لقد قمت بتسجيل الدخول بنجاح.</p>
+            <button id="logout-btn" class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
         </div>
     </div>
 
     <footer>
-        <p>© 2025 - جميع الحقوق محفوظة</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        function switchToRegister() {
-            document.getElementById('auth-title').innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
-            document.getElementById('auth-submit').textContent = 'إنشاء حساب';
-            document.getElementById('register-extra-fields').style.display = 'block';
-            document.getElementById('login-btn').style.display = 'inline-block';
-            document.querySelector('.btn-success').style.display = 'none';
+        const API_URL = "https://backend-liard-theta-98.vercel.app";
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
-        function switchToLogin() {
-            document.getElementById('auth-title').innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
-            document.getElementById('auth-submit').textContent = 'دخول';
-            document.getElementById('register-extra-fields').style.display = 'none';
-            document.getElementById('login-btn').style.display = 'none';
-            document.querySelector('.btn-success').style.display = 'inline-block';
-        }
-
-        function handleAuth(event) {
-            event.preventDefault();
-            const isRegister = document.getElementById('register-extra-fields').style.display === 'block';
-            if (isRegister) {
-                const password = document.getElementById('auth-password').value;
-                const confirmPassword = document.getElementById('auth-confirm-password').value;
-                if (password !== confirmPassword) {
-                    Swal.fire("خطأ", "كلمتا المرور غير متطابقتين", "error");
-                    return;
-                }
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
-            Swal.fire("تم", isRegister ? "تم إنشاء الحساب بنجاح" : "تم تسجيل الدخول بنجاح", "success");
         }
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+            const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
+
+            if (password !== confirmPassword) {
+                return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire("نجاح", result.message, "success");
+                    showPage('login');
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
+            } catch (error) {
+                Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
+            }
+        }
+
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById('user-name').textContent = username;
+                    Swal.fire("مرحبًا", result.message, "success");
+                    showPage('dashboard');
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
+            } catch (error) {
+                Swal.fire("خطأ", "حدث خطأ أثناء تسجيل الدخول. حاول لاحقًا.", "error");
+            }
+        }
+
+        function logout() {
+            Swal.fire("تم تسجيل الخروج", "نأمل رؤيتك مجددًا!", "info");
+            showPage('login');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            showPage('login');
+        });
     </script>
 </body>
 </html>
