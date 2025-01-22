@@ -6,6 +6,7 @@
     <title>Earn Money - اربح المال عبر الإنترنت</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: url('https://i.imgur.com/Qf3NB1O.jpg') no-repeat center center fixed;
@@ -16,7 +17,7 @@
             padding: 0;
         }
 
-        .navbar { 
+        .navbar {
             background: rgba(0, 0, 0, 0.85);
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
         }
@@ -30,10 +31,12 @@
             width: 100%;
             max-width: 900px;
             text-align: center;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .active {
             display: block;
+            opacity: 1;
         }
 
         .hero-section h1 {
@@ -42,13 +45,6 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             color: #ffdd57;
-            animation: blink-effect 2s infinite alternate ease-in-out;
-        }
-
-        @keyframes blink-effect {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
         }
 
         footer {
@@ -59,13 +55,6 @@
             bottom: 0;
             width: 100%;
             text-align: center;
-        }
-
-        .loading {
-            display: none;
-            color: white;
-            font-size: 1.2rem;
-            margin-top: 20px;
         }
 
         .password-toggle {
@@ -82,7 +71,6 @@
     </style>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <ul class="navbar-nav mx-auto">
@@ -108,7 +96,6 @@
                 <i class="fas fa-eye" onclick="togglePassword('login-password')"></i>
             </div>
             <button class="btn btn-primary mt-3" type="submit">دخول</button>
-            <p class="loading" id="login-loading">جاري تسجيل الدخول...</p>
         </form>
     </div>
 
@@ -122,7 +109,6 @@
             </div>
             <input type="password" id="reg-confirm-password" class="form-control mb-3" placeholder="تأكيد كلمة المرور" required>
             <button class="btn btn-success mt-3" type="submit">إنشاء حساب</button>
-            <p class="loading" id="register-loading">جاري إنشاء الحساب...</p>
         </form>
     </div>
 
@@ -157,14 +143,10 @@
             const username = document.getElementById('reg-username').value.trim();
             const password = document.getElementById('reg-password').value.trim();
             const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
-            const loadingText = document.getElementById('register-loading');
 
             if (password !== confirmPassword) {
-                alert('كلمة المرور غير متطابقة');
-                return;
+                return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
             }
-
-            loadingText.style.display = 'block';
 
             try {
                 const response = await fetch(`${API_URL}/register`, {
@@ -174,12 +156,14 @@
                 });
 
                 const result = await response.json();
-                loadingText.style.display = 'none';
-                alert(result.message || "تم إنشاء الحساب بنجاح!");
-                if (result.success) showPage('login');
+                if (result.success) {
+                    Swal.fire("نجاح", result.message, "success");
+                    showPage('login');
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
             } catch (error) {
-                loadingText.style.display = 'none';
-                alert('حدث خطأ أثناء إنشاء الحساب. حاول مرة أخرى.');
+                Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
             }
         }
 
@@ -187,9 +171,6 @@
             event.preventDefault();
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value.trim();
-            const loadingText = document.getElementById('login-loading');
-
-            loadingText.style.display = 'block';
 
             try {
                 const response = await fetch(`${API_URL}/login`, {
@@ -199,17 +180,13 @@
                 });
 
                 const result = await response.json();
-                loadingText.style.display = 'none';
-
                 if (result.success) {
-                    alert(result.message);
-                    showPage('dashboard');
+                    Swal.fire("مرحبًا", result.message, "success");
                 } else {
-                    alert(result.message || "اسم المستخدم أو كلمة المرور غير صحيح.");
+                    Swal.fire("خطأ", result.message, "error");
                 }
             } catch (error) {
-                loadingText.style.display = 'none';
-                alert('حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى.');
+                Swal.fire("خطأ", "حدث خطأ أثناء تسجيل الدخول. حاول لاحقًا.", "error");
             }
         }
 
@@ -217,6 +194,5 @@
             showPage('home');
         });
     </script>
-
 </body>
 </html>
