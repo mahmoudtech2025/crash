@@ -94,21 +94,21 @@
             border-right: 1px solid #ccc;
         }
 
+        /* التعديل هنا لجعل زر الخروج بسيط */
         .logout-btn {
             position: absolute;
             top: 10px;
             right: 20px;
-            background-color: #dc3545;
-            color: #fff;
+            background-color: transparent;
+            color: #007bff;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 5px;
         }
 
         .logout-btn:hover {
-            background-color: #c82333;
+            color: #0056b3;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -152,7 +152,7 @@
 
         <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
-            <button class="logout-btn" onclick="logoutUser()">تسجيل الخروج</button>
+            <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
             <div class="dashboard-footer">
                 <button onclick="alert('أنا')">أنا</button>
@@ -228,28 +228,4 @@
                     Swal.fire("خطأ", result.message, "error");
                 }
             } catch (error) {
-                Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('username');
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('register-form').style.display = 'none';
-            Swal.fire("نجاح", "تم تسجيل الخروج بنجاح", "success");
-        }
-
-        // Check if the user is already logged in
-        window.onload = function() {
-            const username = localStorage.getItem('username');
-            if (username) {
-                document.getElementById('username').textContent = username;
-                document.getElementById('dashboard').style.display = 'block';
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('register-form').style.display = 'none';
-            }
-        };
-    </script>
-</body>
-</html>
+                Swal.fire("خطأ", "حدث
