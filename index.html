@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -93,6 +93,15 @@
         .dashboard-footer button:not(:last-child) {
             border-right: 1px solid #ccc;
         }
+
+        .logout-btn {
+            background-color: #dc3545;
+            border-right: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +150,7 @@
                 <button onclick="alert('لعبة')">لعبة</button>
                 <button onclick="alert('إيداع')">إيداع</button>
                 <button onclick="alert('سحب')">سحب</button>
+                <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
             </div>
         </div>
     </div>
@@ -214,65 +224,9 @@
             }
         }
 
-        function changeLanguage(language) {
-            const translations = {
-                'ar': {
-                    welcomeTitle: 'مرحبًا بك',
-                    loginTitle: 'تسجيل الدخول',
-                    registerTitle: 'إنشاء حساب',
-                    loginBtn: 'دخول',
-                    registerBtn: 'إنشاء حساب',
-                    noAccount: 'لا تملك حساب؟',
-                    registerLink: 'إنشاء حساب',
-                    haveAccount: 'لديك حساب؟',
-                    loginLink: 'تسجيل الدخول'
-                },
-                'en': {
-                    welcomeTitle: 'Welcome',
-                    loginTitle: 'Login',
-                    registerTitle: 'Sign Up',
-                    loginBtn: 'Login',
-                    registerBtn: 'Sign Up',
-                    noAccount: "Don't have an account?",
-                    registerLink: 'Sign Up',
-                    haveAccount: 'Have an account?',
-                    loginLink: 'Login'
-                },
-                'fr': {
-                    welcomeTitle: 'Bienvenue',
-                    loginTitle: 'Se connecter',
-                    registerTitle: 'Créer un compte',
-                    loginBtn: 'Se connecter',
-                    registerBtn: 'Créer un compte',
-                    noAccount: 'Vous n\'avez pas de compte ?',
-                    registerLink: 'Créer un compte',
-                    haveAccount: 'Vous avez un compte ?',
-                    loginLink: 'Se connecter'
-                }
-            };
-
-            const texts = translations[language];
-            document.getElementById('welcome-title').textContent = texts.welcomeTitle;
-            document.getElementById('login-title').textContent = texts.loginTitle;
-            document.getElementById('register-title').textContent = texts.registerTitle;
-            document.getElementById('login-btn').textContent = texts.loginBtn;
-            document.getElementById('register-btn').textContent = texts.registerBtn;
-            document.getElementById('no-account').textContent = texts.noAccount;
-            document.getElementById('register-link').textContent = texts.registerLink;
-            document.getElementById('have-account').textContent = texts.haveAccount;
-            document.getElementById('login-link').textContent = texts.loginLink;
-        }
-
-        // Check if the user is already logged in
-        window.onload = function() {
-            const username = localStorage.getItem('username');
-            if (username) {
-                document.getElementById('username').textContent = username;
-                document.getElementById('dashboard').style.display = 'block';
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('register-form').style.display = 'none';
-            }
-        };
-    </script>
-</body>
-</html>
+        function logout() {
+            localStorage.removeItem('username');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+            Swal.fire("تم", "تم تسجيل الخروج
