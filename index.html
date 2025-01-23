@@ -26,6 +26,11 @@
 
         .btn {
             width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            background-color: #0056b3;
         }
 
         .form-control {
@@ -41,10 +46,11 @@
             font-size: 18px;
             color: #0088cc;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .telegram-link a:hover {
-            text-decoration: underline;
+            color: #0056b3;
         }
 
         .dashboard-container {
@@ -228,4 +234,16 @@
                     Swal.fire("خطأ", result.message, "error");
                 }
             } catch (error) {
-                Swal.fire("خطأ", "حدث
+                Swal.fire("خطأ", "حدث خطأ أثناء إنشاء الحساب. حاول لاحقًا.", "error");
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('username');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
+        }
+    </script>
+</body>
+</html>
