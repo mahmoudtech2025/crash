@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: linear-gradient(to bottom right, #4facfe, #00f2fe);
+            background-color: #000; /* خلفية سوداء */
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
@@ -53,15 +53,6 @@
 
         .btn-success:hover {
             background-color: #1e7e34;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
         }
 
         .form-control {
@@ -197,12 +188,6 @@
             </p>
         </div>
 
-        <!-- خيارات تسجيل الدخول الاجتماعي -->
-        <div class="text-center mt-3">
-            <button class="btn btn-danger" onclick="loginWithGoogle()">تسجيل الدخول عبر Google</button>
-            <button class="btn btn-primary" onclick="loginWithFacebook()">تسجيل الدخول عبر Facebook</button>
-        </div>
-
         <div class="telegram-link">
             <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
                 <i class="fab fa-telegram"></i> انضم إلى مجموعتنا
@@ -296,14 +281,6 @@
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
             Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
-        }
-
-        function loginWithGoogle() {
-            window.location.href = `${API_URL}/auth/google`;
-        }
-
-        function loginWithFacebook() {
-            window.location.href = `${API_URL}/auth/facebook`;
         }
     </script>
 </body>
