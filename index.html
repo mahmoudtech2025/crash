@@ -55,6 +55,15 @@
             background-color: #1e7e34;
         }
 
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
         .form-control {
             margin-bottom: 15px;
             border-radius: 8px;
@@ -138,6 +147,22 @@
             color: #0056b3;
             text-decoration: underline;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 40px auto;
+                padding: 15px;
+            }
+
+            h2, h3 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -170,6 +195,12 @@
             <p class="text-center mt-3">
                 <span id="have-account">لديك حساب؟</span> <a href="#" onclick="toggleForms('login')" id="login-link">تسجيل الدخول</a>
             </p>
+        </div>
+
+        <!-- خيارات تسجيل الدخول الاجتماعي -->
+        <div class="text-center mt-3">
+            <button class="btn btn-danger" onclick="loginWithGoogle()">تسجيل الدخول عبر Google</button>
+            <button class="btn btn-primary" onclick="loginWithFacebook()">تسجيل الدخول عبر Facebook</button>
         </div>
 
         <div class="telegram-link">
@@ -265,6 +296,14 @@
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
             Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
+        }
+
+        function loginWithGoogle() {
+            window.location.href = `${API_URL}/auth/google`;
+        }
+
+        function loginWithFacebook() {
+            window.location.href = `${API_URL}/auth/facebook`;
         }
     </script>
 </body>
