@@ -163,6 +163,40 @@
             transform: scale(1.1);
         }
 
+        /* صفحة الإيداع */
+        .deposit-container {
+            display: none;
+            max-width: 400px;
+            margin: 80px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .deposit-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .deposit-btn {
+            background-color: #28a745;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .deposit-btn:hover {
+            background-color: #218838;
+        }
+
         /* مظهر متجاوب */
         @media (max-width: 768px) {
             .container {
@@ -178,33 +212,6 @@
                 font-size: 0.9rem;
                 padding: 10px;
             }
-        }
-
-        /* إيداع صفحة */
-        .deposit-container {
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        .deposit-container input {
-            width: 80%;
-            margin: 10px 0;
-        }
-
-        .deposit-options {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .deposit-options input[type="radio"] {
-            margin-top: 10px;
-        }
-
-        .confirmation-container {
-            display: none;
-            text-align: center;
-            margin-top: 30px;
         }
     </style>
 </head>
@@ -240,62 +247,54 @@
             </p>
         </div>
 
-        <!-- صفحة إيداع -->
-        <div id="deposit-form" class="deposit-container" style="display: none;">
-            <h3>إيداع</h3>
-            <input type="number" id="deposit-amount" class="form-control" placeholder="أدخل قيمة الإيداع" required>
-            <input type="text" id="deposit-phone" class="form-control" placeholder="أدخل رقم الهاتف (11 رقم)" required>
-            <button class="btn btn-success" onclick="showDepositOptions()">إيداع</button>
-        </div>
-
-        <!-- اختيار رقم الهاتف للإيداع -->
-        <div id="deposit-options" class="deposit-options" style="display: none;">
-            <h4>اختر الرقم لإتمام الإيداع:</h4>
-            <label>
-                <input type="radio" name="deposit-number" value="01097000178"> 01097000178
-            </label>
-            <label>
-                <input type="radio" name="deposit-number" value="01112585208"> 01112585208
-            </label>
-            <button class="btn btn-primary" onclick="showConfirmationPage()">تأكيد</button>
-        </div>
-
-        <!-- صفحة التأكيد -->
-        <div id="confirmation-page" class="confirmation-container">
-            <h3>تفاصيل الإيداع</h3>
-            <p>القيمة: <span id="confirm-amount"></span> جنيه مصري</p>
-            <p>رقم الهاتف: <span id="confirm-phone"></span></p>
-            <p>الرقم المختار: <span id="confirm-number"></span></p>
-            <p>الرصيد يصل من 5 إلى 45 دقيقة</p>
-        </div>
-
-        <div class="telegram-link">
-            <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
-                <i class="fab fa-telegram"></i> انضم إلى مجموعتنا
-            </a>
-        </div>
-
         <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
             <div class="dashboard-footer">
-                <button onclick="openDepositPage()">إيداع</button>
-                <button onclick="alert('أنا')">أنا</button>
+                <button onclick="showDepositForm()">إيداع</button>
                 <button onclick="alert('لعبة')">لعبة</button>
                 <button onclick="alert('سحب')">سحب</button>
             </div>
+        </div>
+
+        <!-- صفحة الإيداع -->
+        <div class="deposit-container" id="deposit-form">
+            <div class="deposit-header">إيداع الأموال</div>
+            <form onsubmit="submitDeposit(event)">
+                <input type="number" id="deposit-amount" class="form-control" placeholder="أدخل قيمة الإيداع" required>
+                <input type="text" id="deposit-phone" class="form-control" placeholder="أدخل رقم الهاتف (11 رقم)" required>
+                <div class="mt-3">
+                    <label>اختر الرقم:</label>
+                    <div>
+                        <input type="radio" id="number1" name="phone-number" value="01097000178" required>
+                        <label for="number1">01097000178</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="number2" name="phone-number" value="01112585208" required>
+                        <label for="number2">01112585208</label>
+                    </div>
+                </div>
+                <button type="submit" class="deposit-btn">إتمام الإيداع</button>
+            </form>
         </div>
     </div>
 
     <script>
         const API_URL = "https://backend-liard-theta-98.vercel.app";
 
+        // التبديل بين نماذج تسجيل الدخول و إنشاء الحساب
         function toggleForms(form) {
-            document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
-            document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
+            if (form === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('register-form').style.display = 'none';
+            } else if (form === 'register') {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('register-form').style.display = 'block';
+            }
         }
 
+        // تسجيل الدخول
         async function loginUser(event) {
             event.preventDefault();
             const username = document.getElementById('login-username').value.trim();
@@ -324,6 +323,7 @@
             }
         }
 
+        // إنشاء حساب
         async function registerUser(event) {
             event.preventDefault();
             const username = document.getElementById('reg-username').value.trim();
@@ -357,8 +357,56 @@
             }
         }
 
+        // فتح نموذج الإيداع
+        function showDepositForm() {
+            document.getElementById('deposit-form').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        // إتمام الإيداع
+        async function submitDeposit(event) {
+            event.preventDefault();
+
+            const depositAmount = document.getElementById('deposit-amount').value.trim();
+            const depositPhone = document.getElementById('deposit-phone').value.trim();
+            const selectedNumber = document.querySelector('input[name="phone-number"]:checked');
+
+            if (!selectedNumber) {
+                return Swal.fire("خطأ", "يجب اختيار رقم الهاتف", "error");
+            }
+
+            if (depositPhone.length !== 11) {
+                return Swal.fire("خطأ", "رقم الهاتف يجب أن يكون 11 رقمًا", "error");
+            }
+
+            const phoneNumber = selectedNumber.value;
+            try {
+                const response = await fetch(`${API_URL}/deposit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ depositAmount, depositPhone, phoneNumber })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    Swal.fire("نجاح", result.message, "success");
+                    document.getElementById('deposit-form').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
+            } catch (error) {
+                Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
+            }
+        }
+
+        // تسجيل الخروج
         function logoutUser() {
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
-            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success
+            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
+        }
+    </script>
+</body>
+        </html>
