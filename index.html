@@ -64,6 +64,10 @@
             color: #333;
         }
 
+        .dashboard-body {
+            margin-top: 50px;
+        }
+
         .dashboard-footer {
             position: fixed;
             bottom: 0;
@@ -92,6 +96,25 @@
 
         .dashboard-footer button:not(:last-child) {
             border-right: 1px solid #ccc;
+        }
+
+        .dashboard-body .row {
+            margin-bottom: 20px;
+        }
+
+        .dashboard-body h5 {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .dashboard-body ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-body ul li {
+            font-size: 1rem;
+            color: #555;
         }
     </style>
 </head>
@@ -136,6 +159,27 @@
         <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <div class="dashboard-header" id="username"></div>
+
+            <!-- إضافة معلومات المستخدم وإحصائياته -->
+            <div class="dashboard-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h5>معلومات الحساب</h5>
+                        <ul>
+                            <li>البريد الإلكتروني: <span id="user-email">example@example.com</span></li>
+                            <li>تاريخ الإنضمام: <span id="user-join-date">1 يناير 2022</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <h5>إحصائيات</h5>
+                        <ul>
+                            <li>الرصيد الحالي: <span id="user-balance">1000$</span></li>
+                            <li>أحدث الأنشطة: <span id="user-activity">إيداع 100$</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="dashboard-footer">
                 <button onclick="alert('أنا')">أنا</button>
                 <button onclick="alert('لعبة')">لعبة</button>
@@ -214,55 +258,6 @@
             }
         }
 
-        function changeLanguage(language) {
-            const translations = {
-                'ar': {
-                    welcomeTitle: 'مرحبًا بك',
-                    loginTitle: 'تسجيل الدخول',
-                    registerTitle: 'إنشاء حساب',
-                    loginBtn: 'دخول',
-                    registerBtn: 'إنشاء حساب',
-                    noAccount: 'لا تملك حساب؟',
-                    registerLink: 'إنشاء حساب',
-                    haveAccount: 'لديك حساب؟',
-                    loginLink: 'تسجيل الدخول'
-                },
-                'en': {
-                    welcomeTitle: 'Welcome',
-                    loginTitle: 'Login',
-                    registerTitle: 'Sign Up',
-                    loginBtn: 'Login',
-                    registerBtn: 'Sign Up',
-                    noAccount: "Don't have an account?",
-                    registerLink: 'Sign Up',
-                    haveAccount: 'Have an account?',
-                    loginLink: 'Login'
-                },
-                'fr': {
-                    welcomeTitle: 'Bienvenue',
-                    loginTitle: 'Se connecter',
-                    registerTitle: 'Créer un compte',
-                    loginBtn: 'Se connecter',
-                    registerBtn: 'Créer un compte',
-                    noAccount: 'Vous n\'avez pas de compte ?',
-                    registerLink: 'Créer un compte',
-                    haveAccount: 'Vous avez un compte ?',
-                    loginLink: 'Se connecter'
-                }
-            };
-
-            const texts = translations[language];
-            document.getElementById('welcome-title').textContent = texts.welcomeTitle;
-            document.getElementById('login-title').textContent = texts.loginTitle;
-            document.getElementById('register-title').textContent = texts.registerTitle;
-            document.getElementById('login-btn').textContent = texts.loginBtn;
-            document.getElementById('register-btn').textContent = texts.registerBtn;
-            document.getElementById('no-account').textContent = texts.noAccount;
-            document.getElementById('register-link').textContent = texts.registerLink;
-            document.getElementById('have-account').textContent = texts.haveAccount;
-            document.getElementById('login-link').textContent = texts.loginLink;
-        }
-
         // Check if the user is already logged in
         window.onload = function() {
             const username = localStorage.getItem('username');
@@ -275,4 +270,4 @@
         };
     </script>
 </body>
-</html>
+    </html>
