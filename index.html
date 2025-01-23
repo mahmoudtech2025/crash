@@ -95,8 +95,16 @@
         }
 
         .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
             background-color: #dc3545;
-            border-right: none;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
         .logout-btn:hover {
@@ -144,13 +152,13 @@
 
         <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
+            <button class="logout-btn" onclick="logoutUser()">تسجيل الخروج</button>
             <div class="dashboard-header" id="username"></div>
             <div class="dashboard-footer">
                 <button onclick="alert('أنا')">أنا</button>
                 <button onclick="alert('لعبة')">لعبة</button>
                 <button onclick="alert('إيداع')">إيداع</button>
                 <button onclick="alert('سحب')">سحب</button>
-                <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
             </div>
         </div>
     </div>
@@ -224,9 +232,24 @@
             }
         }
 
-        function logout() {
+        function logoutUser() {
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
             document.getElementById('register-form').style.display = 'none';
-            Swal.fire("تم", "تم تسجيل الخروج
+            Swal.fire("نجاح", "تم تسجيل الخروج بنجاح", "success");
+        }
+
+        // Check if the user is already logged in
+        window.onload = function() {
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.getElementById('username').textContent = username;
+                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('register-form').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
