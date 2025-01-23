@@ -223,6 +223,10 @@
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
+            <div class="dashboard-body">
+                <h4>مرحبًا، <span id="username-display"></span></h4>
+                <p>قم بإدارة حسابك الشخصي من خلال الأزرار أدناه.</p>
+            </div>
             <div class="dashboard-footer">
                 <button onclick="alert('أنا')">أنا</button>
                 <button onclick="alert('لعبة')">لعبة</button>
@@ -256,6 +260,7 @@
                 if (result.success) {
                     localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
+                    document.getElementById('username-display').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -289,6 +294,7 @@
                 if (result.success) {
                     localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
+                    document.getElementById('username-display').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
