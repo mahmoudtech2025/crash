@@ -98,32 +98,32 @@
 <body>
 
     <div id="app" class="container">
-        <h2 class="text-center">مرحبًا بك</h2>
+        <h2 class="text-center" id="login-title">مرحبًا بك</h2>
 
         <!-- صفحة تسجيل الدخول -->
         <div id="login-form">
-            <h3>تسجيل الدخول</h3>
+            <h3 id="login-title">تسجيل الدخول</h3>
             <form onsubmit="loginUser(event)">
                 <input type="text" id="login-username" class="form-control" placeholder="اسم المستخدم" required>
                 <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور" required>
-                <button type="submit" class="btn btn-primary">دخول</button>
+                <button type="submit" class="btn btn-primary" id="login-btn">دخول</button>
             </form>
-            <p class="text-center mt-3">
-                لا تملك حساب؟ <a href="#" onclick="toggleForms('register')">إنشاء حساب</a>
+            <p class="text-center mt-3" id="no-account">
+                لا تملك حساب؟ <a href="#" onclick="toggleForms('register')" id="register-link">إنشاء حساب</a>
             </p>
         </div>
 
         <!-- صفحة إنشاء الحساب -->
         <div id="register-form" style="display: none;">
-            <h3>إنشاء حساب</h3>
+            <h3 id="register-title">إنشاء حساب</h3>
             <form onsubmit="registerUser(event)">
                 <input type="text" id="reg-username" class="form-control" placeholder="اسم المستخدم" required>
                 <input type="password" id="reg-password" class="form-control" placeholder="كلمة المرور" required>
                 <input type="password" id="reg-confirm-password" class="form-control" placeholder="تأكيد كلمة المرور" required>
-                <button type="submit" class="btn btn-success">إنشاء حساب</button>
+                <button type="submit" class="btn btn-success" id="register-btn">إنشاء حساب</button>
             </form>
-            <p class="text-center mt-3">
-                لديك حساب؟ <a href="#" onclick="toggleForms('login')">تسجيل الدخول</a>
+            <p class="text-center mt-3" id="have-account">
+                لديك حساب؟ <a href="#" onclick="toggleForms('login')" id="login-link">تسجيل الدخول</a>
             </p>
         </div>
 
@@ -137,36 +137,106 @@
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <div class="dashboard-header" id="username"></div>
             <div class="dashboard-footer">
-                <button onclick="alert('أنا')">أنا</button>
+                <button onclick="logoutUser()" id="logout-btn">تسجيل الخروج</button>
                 <button onclick="alert('لعبة')">لعبة</button>
                 <button onclick="alert('إيداع')">إيداع</button>
                 <button onclick="alert('سحب')">سحب</button>
             </div>
         </div>
+
+        <!-- تغيير اللغة -->
+        <select id="language" onchange="changeLanguage()">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+        </select>
     </div>
 
     <script>
         const API_URL = "https://backend-liard-theta-98.vercel.app";
+
+        const translations = {
+            ar: {
+                loginTitle: "تسجيل الدخول",
+                loginUsername: "اسم المستخدم",
+                loginPassword: "كلمة المرور",
+                loginBtn: "دخول",
+                noAccount: "لا تملك حساب؟",
+                registerLink: "إنشاء حساب",
+                registerTitle: "إنشاء حساب",
+                registerBtn: "إنشاء حساب",
+                haveAccount: "لديك حساب؟",
+                loginLink: "تسجيل الدخول",
+                dashboardTitle: "مرحبًا بك!",
+                logoutBtn: "تسجيل الخروج",
+            },
+            en: {
+                loginTitle: "Login",
+                loginUsername: "Username",
+                loginPassword: "Password",
+                loginBtn: "Login",
+                noAccount: "Don't have an account?",
+                registerLink: "Register",
+                registerTitle: "Register",
+                registerBtn: "Register",
+                haveAccount: "Already have an account?",
+                loginLink: "Login",
+                dashboardTitle: "Welcome!",
+                logoutBtn: "Logout",
+            },
+            fr: {
+                loginTitle: "Connexion",
+                loginUsername: "Nom d'utilisateur",
+                loginPassword: "Mot de passe",
+                loginBtn: "Connexion",
+                noAccount: "Vous n'avez pas de compte?",
+                registerLink: "Créer un compte",
+                registerTitle: "Créer un compte",
+                registerBtn: "Créer",
+                haveAccount: "Vous avez déjà un compte?",
+                loginLink: "Connexion",
+                dashboardTitle: "Bienvenue!",
+                logoutBtn: "Déconnexion",
+            }
+        };
+
+        function changeLanguage() {
+            const selectedLanguage = document.getElementById('language').value;
+            const text = translations[selectedLanguage];
+
+            document.getElementById('login-title').textContent = text.loginTitle;
+            document.getElementById('login-username').placeholder = text.loginUsername;
+            document.getElementById('login-password').placeholder = text.loginPassword;
+            document.getElementById('login-btn').textContent = text.loginBtn;
+            document.getElementById('no-account').textContent = text.noAccount;
+            document.getElementById('register-link').textContent = text.registerLink;
+            document.getElementById('register-title').textContent = text.registerTitle;
+            document.getElementById('register-btn').textContent = text.registerBtn;
+            document.getElementById('have-account').textContent = text.haveAccount;
+            document.getElementById('login-link').textContent = text.loginLink;
+            document.getElementById('dashboard-title').textContent = text.dashboardTitle;
+            document.getElementById('logout-btn').textContent = text.logoutBtn;
+        }
 
         function toggleForms(form) {
             document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
             document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
         }
 
-        async function loginUser(event) {
+        function loginUser(event) {
             event.preventDefault();
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value.trim();
 
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const result = await response.json();
+            fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(result => {
                 if (result.success) {
+                    localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
@@ -175,12 +245,13 @@
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
-            } catch (error) {
+            })
+            .catch(error => {
                 Swal.fire("خطأ", "حدث خطأ أثناء تسجيل الدخول. حاول لاحقًا.", "error");
-            }
+            });
         }
 
-        async function registerUser(event) {
+        function registerUser(event) {
             event.preventDefault();
             const username = document.getElementById('reg-username').value.trim();
             const password = document.getElementById('reg-password').value.trim();
@@ -190,15 +261,15 @@
                 return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
             }
 
-            try {
-                const response = await fetch(`${API_URL}/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const result = await response.json();
+            fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(result => {
                 if (result.success) {
+                    localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
@@ -207,10 +278,11 @@
                 } else {
                     Swal.fire("خطأ", result.message, "error");
                 }
-            } catch (error) {
+            })
+            .catch(error => {
                 Swal.fire("خطأ", "حدث خطأ أثناء التسجيل. حاول لاحقًا.", "error");
-            }
+            });
         }
-    </script>
-</body>
-</html>
+
+        function logoutUser() {
+            localStorage
