@@ -179,6 +179,33 @@
                 padding: 10px;
             }
         }
+
+        /* إيداع صفحة */
+        .deposit-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .deposit-container input {
+            width: 80%;
+            margin: 10px 0;
+        }
+
+        .deposit-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .deposit-options input[type="radio"] {
+            margin-top: 10px;
+        }
+
+        .confirmation-container {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -213,6 +240,35 @@
             </p>
         </div>
 
+        <!-- صفحة إيداع -->
+        <div id="deposit-form" class="deposit-container" style="display: none;">
+            <h3>إيداع</h3>
+            <input type="number" id="deposit-amount" class="form-control" placeholder="أدخل قيمة الإيداع" required>
+            <input type="text" id="deposit-phone" class="form-control" placeholder="أدخل رقم الهاتف (11 رقم)" required>
+            <button class="btn btn-success" onclick="showDepositOptions()">إيداع</button>
+        </div>
+
+        <!-- اختيار رقم الهاتف للإيداع -->
+        <div id="deposit-options" class="deposit-options" style="display: none;">
+            <h4>اختر الرقم لإتمام الإيداع:</h4>
+            <label>
+                <input type="radio" name="deposit-number" value="01097000178"> 01097000178
+            </label>
+            <label>
+                <input type="radio" name="deposit-number" value="01112585208"> 01112585208
+            </label>
+            <button class="btn btn-primary" onclick="showConfirmationPage()">تأكيد</button>
+        </div>
+
+        <!-- صفحة التأكيد -->
+        <div id="confirmation-page" class="confirmation-container">
+            <h3>تفاصيل الإيداع</h3>
+            <p>القيمة: <span id="confirm-amount"></span> جنيه مصري</p>
+            <p>رقم الهاتف: <span id="confirm-phone"></span></p>
+            <p>الرقم المختار: <span id="confirm-number"></span></p>
+            <p>الرصيد يصل من 5 إلى 45 دقيقة</p>
+        </div>
+
         <div class="telegram-link">
             <a href="https://t.me/+QQBrC-wtOeA1NjVk" target="_blank">
                 <i class="fab fa-telegram"></i> انضم إلى مجموعتنا
@@ -223,14 +279,10 @@
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
-            <div class="dashboard-body">
-                <h4>مرحبًا، <span id="username-display"></span></h4>
-                <p>قم بإدارة حسابك الشخصي من خلال الأزرار أدناه.</p>
-            </div>
             <div class="dashboard-footer">
+                <button onclick="openDepositPage()">إيداع</button>
                 <button onclick="alert('أنا')">أنا</button>
                 <button onclick="alert('لعبة')">لعبة</button>
-                <button onclick="alert('إيداع')">إيداع</button>
                 <button onclick="alert('سحب')">سحب</button>
             </div>
         </div>
@@ -260,7 +312,6 @@
                 if (result.success) {
                     localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
-                    document.getElementById('username-display').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -294,7 +345,6 @@
                 if (result.success) {
                     localStorage.setItem('username', username);
                     document.getElementById('username').textContent = username;
-                    document.getElementById('username-display').textContent = username;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -311,8 +361,4 @@
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
-            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
-        }
-    </script>
-</body>
-</html>
+            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success
