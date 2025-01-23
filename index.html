@@ -10,32 +10,19 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background: linear-gradient(135deg, #ff7eb3, #ff758c, #fd877d);
-            background-size: 400% 400%;
-            animation: gradientBackground 15s ease infinite;
+            background-color: #000; /* خلفية سوداء */
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        @keyframes gradientBackground {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .container {
             max-width: 400px;
+            margin: 80px auto;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
 
         h2, h3 {
@@ -74,6 +61,7 @@
         }
 
         .telegram-link {
+            text-align: center;
             margin-top: 20px;
         }
 
@@ -131,6 +119,10 @@
             background-color: #0056b3;
         }
 
+        .dashboard-footer button:not(:last-child) {
+            border-right: 1px solid #ccc;
+        }
+
         .logout-btn {
             position: absolute;
             top: 10px;
@@ -149,6 +141,7 @@
 
         @media (max-width: 768px) {
             .container {
+                margin: 40px auto;
                 padding: 15px;
             }
 
@@ -164,6 +157,7 @@
     </style>
 </head>
 <body>
+
     <div id="app" class="container">
         <h2 class="text-center" id="welcome-title">مرحبًا بك</h2>
 
@@ -200,7 +194,7 @@
             </a>
         </div>
 
-        <!-- صفحة المستخدم -->
+        <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
@@ -214,7 +208,80 @@
     </div>
 
     <script>
-        // كود JavaScript نفس السابق
+        const API_URL = "https://backend-liard-theta-98.vercel.app";
+
+        function toggleForms(form) {
+            document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
+            document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
+        }
+
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    localStorage.setItem('username', username);
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('dashboard').style.display = 'block';
+                    Swal.fire("مرحبًا", result.message, "success");
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'none';
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
+            } catch (error) {
+                Swal.fire("خطأ", "حدث خطأ أثناء تسجيل الدخول. حاول لاحقًا.", "error");
+            }
+        }
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+            const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
+
+            if (password !== confirmPassword) {
+                return Swal.fire("خطأ", "كلمة المرور غير متطابقة", "error");
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    localStorage.setItem('username', username);
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('dashboard').style.display = 'block';
+                    Swal.fire("نجاح", result.message, "success");
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'none';
+                } else {
+                    Swal.fire("خطأ", result.message, "error");
+                }
+            } catch (error) {
+                Swal.fire("خطأ", "حدث خطأ أثناء إنشاء الحساب. حاول لاحقًا.", "error");
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('username');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            Swal.fire("تم تسجيل الخروج", "لقد تم تسجيل الخروج بنجاح", "success");
+        }
     </script>
 </body>
 </html>
