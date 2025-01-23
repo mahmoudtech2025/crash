@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
-            background-color: #000; /* خلفية سوداء */
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
@@ -23,6 +22,9 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         h2, h3 {
@@ -76,12 +78,24 @@
             color: #0056b3;
         }
 
+        /* تأثيرات الخلفية في الصفحة الأولى */
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* تدرج لوني */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+        }
+
+        /* صفحة المستخدم بعد تسجيل الدخول */
         .dashboard-container {
             position: relative;
             width: 100%;
             height: 100vh;
             background-color: #f7faff;
             padding: 20px;
+            overflow: hidden;
         }
 
         .dashboard-header {
@@ -112,11 +126,12 @@
             color: #fff;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .dashboard-footer button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
 
         .dashboard-footer button:not(:last-child) {
@@ -139,6 +154,16 @@
             text-decoration: underline;
         }
 
+        /* تأثيرات على زر الخروج */
+        .logout-btn {
+            transition: transform 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* مظهر متجاوب */
         @media (max-width: 768px) {
             .container {
                 margin: 40px auto;
