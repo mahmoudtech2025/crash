@@ -78,9 +78,8 @@
             color: #0056b3;
         }
 
-        /* تأثيرات الخلفية في الصفحة الأولى */
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc); /* تدرج لوني */
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -88,7 +87,6 @@
             background-size: cover;
         }
 
-        /* صفحة المستخدم بعد تسجيل الدخول */
         .dashboard-container {
             position: relative;
             width: 100%;
@@ -154,7 +152,6 @@
             text-decoration: underline;
         }
 
-        /* تأثيرات على زر الخروج */
         .logout-btn {
             transition: transform 0.3s ease;
         }
@@ -163,7 +160,6 @@
             transform: scale(1.1);
         }
 
-        /* صفحة الإيداع */
         .deposit-container {
             display: none;
             max-width: 400px;
@@ -197,7 +193,6 @@
             background-color: #218838;
         }
 
-        /* مظهر متجاوب */
         @media (max-width: 768px) {
             .container {
                 margin: 40px auto;
@@ -220,7 +215,6 @@
     <div id="app" class="container">
         <h2 class="text-center" id="welcome-title">مرحبًا بك</h2>
 
-        <!-- صفحة تسجيل الدخول -->
         <div id="login-form">
             <h3 id="login-title">تسجيل الدخول</h3>
             <form onsubmit="loginUser(event)">
@@ -233,7 +227,6 @@
             </p>
         </div>
 
-        <!-- صفحة إنشاء الحساب -->
         <div id="register-form" style="display: none;">
             <h3 id="register-title">إنشاء حساب</h3>
             <form onsubmit="registerUser(event)">
@@ -247,10 +240,10 @@
             </p>
         </div>
 
-        <!-- صفحة المستخدم بعد تسجيل الدخول أو إنشاء حساب -->
         <div class="dashboard-container" id="dashboard" style="display: none;">
             <button class="logout-btn" onclick="logoutUser()">الخروج</button>
             <div class="dashboard-header" id="username"></div>
+            <div id="balance">الرصيد: 0</div> <!-- خانة الرصيد -->
             <div class="dashboard-footer">
                 <button onclick="showDepositForm()">إيداع</button>
                 <button onclick="alert('لعبة')">لعبة</button>
@@ -258,7 +251,6 @@
             </div>
         </div>
 
-        <!-- صفحة الإيداع -->
         <div class="deposit-container" id="deposit-form">
             <div class="deposit-header">إيداع الأموال</div>
             <form onsubmit="submitDeposit(event)">
@@ -283,7 +275,8 @@
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
-        // التبديل بين نماذج تسجيل الدخول و إنشاء الحساب
+        let userBalance = 0; // رصيد المستخدم
+
         function toggleForms(form) {
             if (form === 'login') {
                 document.getElementById('login-form').style.display = 'block';
@@ -294,7 +287,6 @@
             }
         }
 
-        // تسجيل الدخول
         async function loginUser(event) {
             event.preventDefault();
             const username = document.getElementById('login-username').value.trim();
@@ -310,7 +302,9 @@
                 const result = await response.json();
                 if (result.success) {
                     localStorage.setItem('username', username);
+                    userBalance = result.balance || 0; // تحديث الرصيد عند تسجيل الدخول
                     document.getElementById('username').textContent = username;
+                    document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("مرحبًا", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -323,7 +317,6 @@
             }
         }
 
-        // إنشاء حساب
         async function registerUser(event) {
             event.preventDefault();
             const username = document.getElementById('reg-username').value.trim();
@@ -344,7 +337,9 @@
                 const result = await response.json();
                 if (result.success) {
                     localStorage.setItem('username', username);
+                    userBalance = 0; // تعيين رصيد المستخدم إلى 0 عند التسجيل
                     document.getElementById('username').textContent = username;
+                    document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
                     document.getElementById('dashboard').style.display = 'block';
                     Swal.fire("نجاح", result.message, "success");
                     document.getElementById('login-form').style.display = 'none';
@@ -357,17 +352,15 @@
             }
         }
 
-        // فتح نموذج الإيداع
         function showDepositForm() {
             document.getElementById('deposit-form').style.display = 'block';
             document.getElementById('dashboard').style.display = 'none';
         }
 
-        // إتمام الإيداع
         async function submitDeposit(event) {
             event.preventDefault();
 
-            const depositAmount = document.getElementById('deposit-amount').value.trim();
+            const depositAmount = parseFloat(document.getElementById('deposit-amount').value.trim());
             const depositPhone = document.getElementById('deposit-phone').value.trim();
             const selectedNumber = document.querySelector('input[name="phone-number"]:checked');
 
@@ -389,6 +382,8 @@
 
                 const result = await response.json();
                 if (result.success) {
+                    userBalance += depositAmount; // إضافة المبلغ إلى الرصيد
+                    document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
                     Swal.fire("نجاح", result.message, "success");
                     document.getElementById('deposit-form').style.display = 'none';
                     document.getElementById('dashboard').style.display = 'block';
@@ -400,7 +395,6 @@
             }
         }
 
-        // تسجيل الخروج
         function logoutUser() {
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
@@ -409,4 +403,4 @@
         }
     </script>
 </body>
-</html>
+                            </html>
