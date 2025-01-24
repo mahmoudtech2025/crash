@@ -357,8 +357,66 @@
             document.getElementById('dashboard').style.display = 'none';
         }
 
-        
-}
+        async function submitDeposit(event) {
+    event.preventDefault();
+
+    // تحقق من وجود اسم المستخدم في localStorage
+    const username = localStorage.getItem('username');
+    if (!username) {
+        return Swal.fire("خطأ", "إسم المستخدم غير موجود. يرجى تسجيل الدخول أولاً.", "error");
+    }
+
+    const depositAmount = parseFloat(document.getElementById('deposit-amount').value.trim());
+    const depositPhone = document.getElementById('deposit-phone').value.trim();
+    const selectedNumber = document.querySelector('input[name="phone-number"]:checked');
+
+    if (!selectedNumber) {
+        return Swal.fire("خطأ", "يجب اختيار رقم الهاتف", "error");
+    }
+
+    if (depositPhone.length !== 11) {
+        return Swal.fire("خطأ", "رقم الهاتف يجب أن يكون 11 رقمًا", "error");
+    }
+
+    const phoneNumber = selectedNumber.value;
+
+    // عرض الرسالة للمستخدم "جاري إضافة الرصيد"
+    Swal.fire({
+        title: 'جاري إضافة الرصيد إلى حسابك...',
+        text: 'يرجى الانتظار لحظات.',
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        const response = await fetch(`${API_URL}/deposit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: username,
+                depositAmount,
+                depositPhone,
+                phoneNumber
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            // تحديث الرصيد في الواجهة الأمامية
+            userBalance += depositAmount; // إضافة المبلغ إلى الرصيد
+            document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+            Swal.fire("نجاح", result.message, "success");
+            document.getElementById('deposit-form').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        } else {
+            Swal.fire("خطأ", result.message, "error");
+        }
+    } catch (error) {
+        Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
+    }
+        }
 
         function logoutUser() {
             localStorage.removeItem('username');
@@ -368,4 +426,4 @@
         }
     </script>
 </body>
-                                                                                                                                     </html>
+                            </html>
