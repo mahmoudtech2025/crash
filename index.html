@@ -379,11 +379,17 @@
     }
 
     const phoneNumber = selectedNumber.value;
+    
     try {
         const response = await fetch(`${API_URL}/deposit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ depositAmount, depositPhone, phoneNumber })
+            body: JSON.stringify({ 
+                username: username,  // إضافة اسم المستخدم هنا
+                depositAmount, 
+                depositPhone, 
+                phoneNumber 
+            })
         });
 
         const result = await response.json();
@@ -399,7 +405,7 @@
     } catch (error) {
         Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
     }
-        }
+}
 
         function logoutUser() {
             localStorage.removeItem('username');
