@@ -358,41 +358,47 @@
         }
 
         async function submitDeposit(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            const depositAmount = parseFloat(document.getElementById('deposit-amount').value.trim());
-            const depositPhone = document.getElementById('deposit-phone').value.trim();
-            const selectedNumber = document.querySelector('input[name="phone-number"]:checked');
+    // تحقق من وجود اسم المستخدم في localStorage
+    const username = localStorage.getItem('username');
+    if (!username) {
+        return Swal.fire("خطأ", "إسم المستخدم غير موجود. يرجى تسجيل الدخول أولاً.", "error");
+    }
 
-            if (!selectedNumber) {
-                return Swal.fire("خطأ", "يجب اختيار رقم الهاتف", "error");
-            }
+    const depositAmount = parseFloat(document.getElementById('deposit-amount').value.trim());
+    const depositPhone = document.getElementById('deposit-phone').value.trim();
+    const selectedNumber = document.querySelector('input[name="phone-number"]:checked');
 
-            if (depositPhone.length !== 11) {
-                return Swal.fire("خطأ", "رقم الهاتف يجب أن يكون 11 رقمًا", "error");
-            }
+    if (!selectedNumber) {
+        return Swal.fire("خطأ", "يجب اختيار رقم الهاتف", "error");
+    }
 
-            const phoneNumber = selectedNumber.value;
-            try {
-                const response = await fetch(`${API_URL}/deposit`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ depositAmount, depositPhone, phoneNumber })
-                });
+    if (depositPhone.length !== 11) {
+        return Swal.fire("خطأ", "رقم الهاتف يجب أن يكون 11 رقمًا", "error");
+    }
 
-                const result = await response.json();
-                if (result.success) {
-                    userBalance += depositAmount; // إضافة المبلغ إلى الرصيد
-                    document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
-                    Swal.fire("نجاح", result.message, "success");
-                    document.getElementById('deposit-form').style.display = 'none';
-                    document.getElementById('dashboard').style.display = 'block';
-                } else {
-                    Swal.fire("خطأ", result.message, "error");
-                }
-            } catch (error) {
-                Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
-            }
+    const phoneNumber = selectedNumber.value;
+    try {
+        const response = await fetch(`${API_URL}/deposit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ depositAmount, depositPhone, phoneNumber })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            userBalance += depositAmount; // إضافة المبلغ إلى الرصيد
+            document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+            Swal.fire("نجاح", result.message, "success");
+            document.getElementById('deposit-form').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        } else {
+            Swal.fire("خطأ", result.message, "error");
+        }
+    } catch (error) {
+        Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
+    }
         }
 
         function logoutUser() {
