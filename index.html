@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - Earn Money</title>
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +14,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background: linear-gradient(to right, #3b5998, #8b9dc3);
             display: flex;
             justify-content: center;
@@ -24,30 +26,32 @@
         .container {
             width: 100%;
             max-width: 400px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .login-box {
             text-align: center;
         }
 
+        .logo {
+            font-size: 40px;
+            font-weight: bold;
+            color: #3b5998;
+            margin-bottom: 20px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
         h2 {
             margin-bottom: 20px;
             color: #3b5998;
-        }
-
-        .logo {
-            font-size: 36px;
-            font-weight: bold;
-            color: #3b5998;
-            margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .textbox {
-            margin: 10px 0;
+            margin: 15px 0;
             position: relative;
         }
 
@@ -59,15 +63,24 @@
             border-radius: 5px;
             font-size: 16px;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .textbox input:focus {
             border-color: #3b5998;
+            transform: scale(1.05);
         }
 
         .textbox input::placeholder {
-            color: #555;
+            color: #aaa;
+        }
+
+        .textbox .icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
         }
 
         .btn {
@@ -101,9 +114,27 @@
             text-decoration: underline;
         }
 
+        .tooltip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            padding: 5px 10px;
+            background-color: #3b5998;
+            color: white;
+            font-size: 12px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .textbox:hover .tooltip {
+            display: block;
+        }
+
         @media screen and (max-width: 480px) {
             .container {
                 width: 90%;
+                padding: 20px;
             }
         }
     </style>
@@ -115,10 +146,14 @@
             <h2>تسجيل الدخول</h2>
             <form>
                 <div class="textbox">
+                    <span class="icon">📧</span>
                     <input type="email" placeholder="البريد الإلكتروني" required>
+                    <div class="tooltip">أدخل بريدك الإلكتروني بشكل صحيح</div>
                 </div>
                 <div class="textbox">
+                    <span class="icon">🔒</span>
                     <input type="password" placeholder="كلمة السر" required>
+                    <div class="tooltip">استخدم كلمة سر قوية</div>
                 </div>
                 <input type="submit" value="تسجيل الدخول" class="btn">
                 <p>ليس لديك حساب؟ <a href="#">إنشاء حساب</a></p>
