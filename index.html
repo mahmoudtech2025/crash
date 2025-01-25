@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -18,7 +19,8 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, #141e30, #243b55);
+            background: linear-gradient(to right, rgba(20, 30, 48, 0.8), rgba(36, 59, 85, 0.8)), url('your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #fff;
             min-height: 100vh;
             padding: 20px;
@@ -36,6 +38,8 @@
             text-align: center;
             letter-spacing: 2px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
 
         .form-container {
@@ -84,7 +88,7 @@
             background: #f1f1f1;
             color: #333;
             outline: none;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .textbox i {
@@ -97,7 +101,6 @@
 
         .textbox input:focus {
             background: #e1f5fe;
-            box-shadow: 0 0 10px #0072ff;
         }
 
         .btn {
@@ -119,9 +122,9 @@
             transform: scale(1.05);
         }
 
-        .btn:active {
-            transform: scale(0.95);
-            background-color: #003f7f;
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.5);
         }
 
         .social-icons {
@@ -147,42 +150,86 @@
 
         .social-icons a:hover {
             background-color: #005bb5;
-            transform: scale(1.1) rotate(10deg);
+            transform: scale(1.1);
         }
 
         .form-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
+            display: none;
         }
 
         .form-content.active {
             display: block;
-            opacity: 1;
-            transform: translateY(0);
         }
 
-        @media (max-width: 480px) {
-            header {
-                font-size: 24px;
-            }
+        .language-switcher {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
 
-            .btn {
-                font-size: 16px;
-                padding: 12px;
-            }
+        .language-switcher button {
+            background: #0072ff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-            .social-icons a {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
+        .language-switcher button:hover {
+            background: #005bb5;
+        }
+
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 30, 48, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #00c6ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
             }
         }
     </style>
 </head>
 
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
     <header data-aos="fade-down">مرحباً بك</header>
+
+    <div class="language-switcher">
+        <button onclick="switchLang('ar')">AR</button>
+        <button onclick="switchLang('en')">EN</button>
+    </div>
 
     <div class="form-container" data-aos="fade-up">
         <div class="form-header">
@@ -196,9 +243,10 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" placeholder="كلمة السر" id="password" required>
+                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; cursor: pointer;"></i>
             </div>
-            <button class="btn">تسجيل الدخول</button>
+            <button class="btn" onclick="handleLogin()">تسجيل الدخول</button>
         </div>
         <div id="signupForm" class="form-content">
             <div class="textbox">
@@ -225,6 +273,10 @@
     <script>
         AOS.init();
 
+        window.onload = function () {
+            document.getElementById('loader').style.display = 'none';
+        };
+
         function toggleForm(form) {
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
@@ -232,18 +284,32 @@
             document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        document.querySelector('.btn').addEventListener('click', (e) => {
-            const email = document.querySelector('input[type="email"]');
-            const password = document.querySelector('input[type="password"]');
-            if (!email.value.includes('@')) {
-                alert('يرجى إدخال بريد إلكتروني صالح');
-                e.preventDefault();
-            } else if (password.value.length < 6) {
-                alert('كلمة المرور يجب أن تكون أطول من 6 أحرف');
-                e.preventDefault();
-            }
+        function switchLang(lang) {
+            document.documentElement.lang = lang;
+            document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+        }
+
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordField = document.getElementById('password');
+        togglePassword.addEventListener('click', () => {
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            togglePassword.classList.toggle('fa-eye-slash');
         });
+
+        function handleLogin() {
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.querySelector('input[type="password"]').value;
+
+            if (!email.includes('@')) {
+                Swal.fire('خطأ', 'يرجى إدخال بريد إلكتروني صالح', 'error');
+            } else if (password.length < 6) {
+                Swal.fire('خطأ', 'كلمة المرور يجب أن تكون أطول من 6 أحرف', 'error');
+            } else {
+                Swal.fire('تم', 'تم تسجيل الدخول بنجاح', 'success');
+            }
+        }
     </script>
 </body>
 
-                                                                                                                 </html>
+                                                                                                                        </html>
