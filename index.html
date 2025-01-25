@@ -416,28 +416,26 @@
     }
         }
         function pollDepositStatus(depositId) {
-  const interval = setInterval(() => {
-    fetch(`/poll-deposit-status/${depositId}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.success && data.status === "Completed") {
-          clearInterval(interval); // إيقاف الـ polling
-          alert("تم تحديث الإيداع بنجاح");
-          
-          // تحديث الرصيد هنا بعد إتمام الإيداع
-          userBalance += data.depositAmount; // إضافة المبلغ المودع إلى الرصيد الحالي
-          document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+    const interval = setInterval(() => {
+        fetch(`/poll-deposit-status/${depositId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.status === "Completed") {
+                    clearInterval(interval); // إيقاف الـ polling
+                    alert("تم تحديث الإيداع بنجاح");
 
-          // يمكنك هنا أيضًا إظهار رسالة للمستخدم أو تحديث الـ UI بشكل أكبر.
-        } else {
-          console.log("الإيداع لا يزال في حالة " + data.status);
-        }
-      })
-      .catch(error => {
-        console.error("❌ خطأ في الـ polling:", error);
-        clearInterval(interval); // إيقاف الـ polling في حالة حدوث خطأ
-      });
-  }, 5000); // يتم التحقق من الحالة كل 5 ثوانٍ
+                    // تحديث الرصيد بعد اكتمال الإيداع
+                    userBalance += data.depositAmount; // إضافة المبلغ المودع إلى الرصيد الحالي
+                    document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+                } else {
+                    console.log("الإيداع لا يزال في حالة " + data.status);
+                }
+            })
+            .catch(error => {
+                console.error("❌ خطأ في الـ polling:", error);
+                clearInterval(interval); // إيقاف الـ polling في حالة حدوث خطأ
+            });
+    }, 5000); // يتم التحقق من الحالة كل 5 ثوانٍ
         }
         function logoutUser() {
             localStorage.removeItem('username');
