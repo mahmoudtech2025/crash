@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -19,8 +18,7 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, rgba(20, 30, 48, 0.8), rgba(36, 59, 85, 0.8)), url('your-background-image.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
@@ -38,8 +36,24 @@
             text-align: center;
             letter-spacing: 2px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: fadeIn 2s forwards;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0072ff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: #005bb5;
+            transform: scale(1.1);
         }
 
         .form-container {
@@ -122,9 +136,20 @@
             transform: scale(1.05);
         }
 
-        .btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.5);
+        .progress-container {
+            position: relative;
+            margin: 20px 0;
+            height: 8px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: #0072ff;
+            transition: width 0.4s ease;
         }
 
         .social-icons {
@@ -161,76 +186,28 @@
             display: block;
         }
 
-        .language-switcher {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .language-switcher button {
-            background: #0072ff;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .language-switcher button:hover {
-            background: #005bb5;
-        }
-
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(20, 30, 48, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid #00c6ff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+        @media (max-width: 480px) {
+            header {
+                font-size: 24px;
             }
-        }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
+            .btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .social-icons a {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-
     <header data-aos="fade-down">مرحباً بك</header>
-
-    <div class="language-switcher">
-        <button onclick="switchLang('ar')">AR</button>
-        <button onclick="switchLang('en')">EN</button>
-    </div>
-
+    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
     <div class="form-container" data-aos="fade-up">
         <div class="form-header">
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
@@ -243,10 +220,12 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" id="password" required>
-                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; cursor: pointer;"></i>
+                <input type="password" placeholder="كلمة السر" required>
             </div>
-            <button class="btn" onclick="handleLogin()">تسجيل الدخول</button>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressLogin"></div>
+            </div>
+            <button class="btn">تسجيل الدخول</button>
         </div>
         <div id="signupForm" class="form-content">
             <div class="textbox">
@@ -261,10 +240,12 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="كلمة السر" required>
             </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressSignup"></div>
+            </div>
             <button class="btn">إنشاء حساب</button>
         </div>
     </div>
-
     <div class="social-icons" data-aos="fade-up">
         <a href="https://facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
         <a href="https://telegram.org" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>
@@ -273,10 +254,6 @@
     <script>
         AOS.init();
 
-        window.onload = function () {
-            document.getElementById('loader').style.display = 'none';
-        };
-
         function toggleForm(form) {
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
@@ -284,32 +261,12 @@
             document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        function switchLang(lang) {
-            document.documentElement.lang = lang;
-            document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
-        }
-
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordField = document.getElementById('password');
-        togglePassword.addEventListener('click', () => {
-            const type = passwordField.type === 'password' ? 'text' : 'password';
-            passwordField.type = type;
-            togglePassword.classList.toggle('fa-eye-slash');
-        });
-
-        function handleLogin() {
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
-
-            if (!email.includes('@')) {
-                Swal.fire('خطأ', 'يرجى إدخال بريد إلكتروني صالح', 'error');
-            } else if (password.length < 6) {
-                Swal.fire('خطأ', 'كلمة المرور يجب أن تكون أطول من 6 أحرف', 'error');
-            } else {
-                Swal.fire('تم', 'تم تسجيل الدخول بنجاح', 'success');
-            }
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            document.querySelector('.theme-toggle').textContent =
+                document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
         }
     </script>
 </body>
 
-                                                                                                                        </html>
+</html>
