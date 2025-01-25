@@ -357,9 +357,10 @@
             document.getElementById('dashboard').style.display = 'none';
         }
 
-       async function submitDeposit(event) {
+        async function submitDeposit(event) {
     event.preventDefault();
 
+    // تحقق من وجود اسم المستخدم في localStorage
     const username = localStorage.getItem('username');
     if (!username) {
         return Swal.fire("خطأ", "إسم المستخدم غير موجود. يرجى تسجيل الدخول أولاً.", "error");
@@ -379,6 +380,7 @@
 
     const phoneNumber = selectedNumber.value;
 
+    // عرض الرسالة للمستخدم "جاري إضافة الرصيد"
     Swal.fire({
         title: 'جاري إضافة الرصيد إلى حسابك...',
         text: 'يرجى الانتظار لحظات.',
@@ -402,16 +404,8 @@
 
         const result = await response.json();
         if (result.success) {
-            // تحديث الرصيد في الـ localStorage
-            const newBalance = result.newBalance || userBalance + depositAmount; // إذا كانت الاستجابة تحتوي على رصيد جديد
-            localStorage.setItem('balance', newBalance);  // تخزين الرصيد الجديد في localStorage
-
-            // تحديث الرصيد في الواجهة الأمامية
-            userBalance = newBalance;  // تحديث المتغير المستخدم
-            document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
-
+            // عند نجاح العملية، إظهار رسالة تفيد بأنه سيتم تحديث الرصيد لاحقًا
             Swal.fire("نجاح", "تمت إضافة طلب الإيداع. سيتم تحديث رصيدك بعد معالجة الإيداع.", "success");
-
             document.getElementById('deposit-form').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
         } else {
@@ -420,7 +414,7 @@
     } catch (error) {
         Swal.fire("خطأ", "حدث خطأ أثناء الإيداع. حاول لاحقًا.", "error");
     }
-}
+        }
 
         function logoutUser() {
             localStorage.removeItem('username');
@@ -430,4 +424,4 @@
         }
     </script>
 </body>
-</html>
+                </html>
