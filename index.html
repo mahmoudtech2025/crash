@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مرحباً بك</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -18,7 +18,7 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, #2e3b4e, #3a4a61); /* لون داكن جديد */
+            background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
@@ -29,26 +29,23 @@
         }
 
         header {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             color: #00c6ff;
             margin-bottom: 30px;
             text-align: center;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            font-family: 'Roboto', sans-serif; /* تغيير الخط للعناوين */
-            animation: fadeIn 1s ease-out;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .form-container {
             width: 90%;
-            max-width: 420px;
+            max-width: 400px;
             background: rgba(0, 0, 0, 0.8);
             border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             margin-bottom: 20px;
-            animation: slideIn 0.8s ease-out;
         }
 
         .form-header {
@@ -66,7 +63,6 @@
             cursor: pointer;
             padding: 10px;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .form-header button.active {
@@ -88,7 +84,7 @@
             background: #f1f1f1;
             color: #333;
             outline: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .textbox i {
@@ -101,7 +97,6 @@
 
         .textbox input:focus {
             background: #e1f5fe;
-            transform: scale(1.02);
         }
 
         .btn {
@@ -121,6 +116,7 @@
         .btn:hover {
             background-color: #005bb5;
             transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
         .social-icons {
@@ -147,6 +143,7 @@
         .social-icons a:hover {
             background-color: #005bb5;
             transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .form-content {
@@ -155,16 +152,6 @@
 
         .form-content.active {
             display: block;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            0% { transform: translateY(-20px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
         }
 
         @media (max-width: 480px) {
@@ -182,6 +169,18 @@
                 height: 45px;
                 font-size: 20px;
             }
+        }
+
+        /* تحسين تأثيرات التحميل */
+        [data-aos] {
+            transition: all 0.6s ease;
+        }
+
+        /* إضافة تأثير عند التمرير */
+        .textbox input:focus,
+        .btn:hover {
+            background: #e1f5fe;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -201,8 +200,7 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required id="passwordInput">
-                <i class="fas fa-eye" onclick="togglePassword()" id="togglePassword"></i>
+                <input type="password" placeholder="كلمة السر" required>
             </div>
             <button class="btn">تسجيل الدخول</button>
         </div>
@@ -217,8 +215,7 @@
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required id="signupPasswordInput">
-                <i class="fas fa-eye" onclick="togglePassword('signup')" id="toggleSignupPassword"></i>
+                <input type="password" placeholder="كلمة السر" required>
             </div>
             <button class="btn">إنشاء حساب</button>
         </div>
@@ -238,7 +235,7 @@
             document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Tab`).classList.add('active');
         }
+    </script>
+</body>
 
-        function togglePassword(form = 'login') {
-            const passwordField = document.getElementById(form === 'login' ? 'passwordInput' : 'signupPasswordInput');
-            const toggleIcon = document.getElementById
+</html>
