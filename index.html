@@ -326,45 +326,47 @@
             document.querySelector('.btn').textContent = isArabic ? 'إنشاء حساب' : 'Register';
         }
 
-        // دالة تسجيل المستخدم
-        function registerUser(event) {
-            event.preventDefault(); // منع إرسال النموذج
+        <script>
+    // دالة تسجيل المستخدم
+    function registerUser(event) {
+        event.preventDefault(); // منع إرسال النموذج
 
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
+        const username = document.getElementById('registerUsername').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
 
-            // التحقق من البيانات المدخلة
-            if (!username || !email || !password) {
-                alert('يرجى ملء جميع الحقول');
-                return;
-            }
-
-            // تخزين البيانات مؤقتًا باستخدام sessionStorage
-            sessionStorage.setItem('username', username);
-            sessionStorage.setItem('email', email);
-            sessionStorage.setItem('password', password);
-
-            alert('تم إنشاء الحساب بنجاح');
-            window.location.href = 'dashboard.html'; // التوجيه إلى الصفحة الرئيسية بعد التسجيل
+        if (!username || !email || !password) {
+            alert('يرجى ملء جميع الحقول');
+            return;
         }
 
-        // دالة تسجيل الدخول
-        function loginUser(event) {
-            event.preventDefault(); // منع إرسال النموذج
+        // تخزين البيانات مؤقتًا
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('balance', 0); // بدء الرصيد بـ 0
 
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+        alert('تم إنشاء الحساب بنجاح');
+        window.location.href = 'dashboard.html'; // التوجيه للصفحة الرئيسية
+    }
 
-            if (!email || !password) {
-                alert('يرجى إدخال البريد الإلكتروني وكلمة المرور');
-                return;
-            }
+    // دالة تسجيل الدخول
+    function loginUser(event) {
+        event.preventDefault();
 
-            // تحقق مبدئي (إضافة تحقق حقيقي لاحقًا)
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!email || !password) {
+            alert('يرجى إدخال البريد الإلكتروني وكلمة المرور');
+            return;
+        }
+
+        // هنا يجب التحقق الحقيقي من المستخدم (هذه مجرد محاكاة)
+        const storedUsername = sessionStorage.getItem('username');
+        if (storedUsername) {
             alert('تم تسجيل الدخول بنجاح');
-            window.location.href = 'dashboard.html'; // التوجيه إلى صفحة لوحة التحكم بعد تسجيل الدخول
+            window.location.href = 'dashboard.html'; // التوجيه للصفحة الرئيسية
+        } else {
+            alert('خطأ: الحساب غير موجود.');
         }
-    </script>
-</body>
-    </html>
+    }
+</script>
