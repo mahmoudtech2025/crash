@@ -143,8 +143,7 @@
 
 <body>
     <header>
-        <span>اسم المستخدم: </span><span id="username"></span> |
-        <span>الرصيد: </span><span id="balance"></span>
+        لوحة التحكم
     </header>
 
     <div class="content">
@@ -205,7 +204,7 @@
             <i class="fas fa-wallet"></i> إيداع
         </a>
         <a href="#" onclick="alert('فتح صفحة السحب')">
-            <i class="fas fa-hand-holding-usd"></i> سحب
+            <i class="fas fa-arrow-down"></i> سحب
         </a>
         <a href="#" onclick="alert('فتح صفحة اللعبة')">
             <i class="fas fa-gamepad"></i> لعبة
@@ -233,27 +232,9 @@
             sidebar.classList.toggle('open');
         }
 
-        // جلب بيانات المستخدم
-        async function fetchUserData() {
-            try {
-                const response = await fetch('https://your-api-endpoint.com/user-data'); // استبدل بعنوان API الخاص بك
-                if (!response.ok) {
-                    throw new Error('خطأ أثناء جلب البيانات');
-                }
-                const data = await response.json();
-                document.getElementById('username').textContent = data.username || 'غير معروف';
-                document.getElementById('balance').textContent = data.balance ? `${data.balance} جنيه` : 'غير متوفر';
-            } catch (error) {
-                console.error(error);
-                alert('حدث خطأ أثناء تحميل البيانات');
-            }
-        }
-
         async function purchaseVIP(price) {
             alert('جاري تفعيل الباقة...');
         }
-
-        window.onload = fetchUserData;
     </script>
 </body>
 
