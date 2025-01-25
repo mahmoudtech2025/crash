@@ -271,7 +271,7 @@
             <div class="textbox">
                 <input type="password" placeholder="كلمة السر" required>
             </div>
-            <button type="submit" class="btn">تسجيل الدخول</button>
+            <button type="submit" class="btn" onclick="redirectToDashboard()">تسجيل الدخول</button>
         </form>
         <form id="registerForm" class="form">
             <div class="textbox">
@@ -283,7 +283,7 @@
             <div class="textbox">
                 <input type="password" placeholder="كلمة السر" required>
             </div>
-            <button type="submit" class="btn">إنشاء حساب</button>
+            <button type="submit" class="btn" onclick="redirectToDashboard()">إنشاء حساب</button>
         </form>
     </div>
 
@@ -324,6 +324,12 @@
             document.getElementById('registerTab').textContent = isArabic ? 'إنشاء حساب' : 'Register';
             document.querySelector('.btn').textContent = isArabic ? 'تسجيل الدخول' : 'Login';
             document.querySelector('.btn').textContent = isArabic ? 'إنشاء حساب' : 'Register';
+        }
+
+        // دالة التوجيه إلى الصفحة التالية بعد النجاح
+        function redirectToDashboard(event) {
+            event.preventDefault(); // لمنع إرسال النموذج
+            window.location.href = 'dashboard.html'; // التوجيه إلى صفحة لوحة التحكم
         }
     </script>
 </body>
