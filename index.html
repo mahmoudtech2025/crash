@@ -18,25 +18,47 @@
             background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
             overflow: hidden;
-            position: relative;
-            transition: background-color 0.3s ease;
         }
 
-        .container {
-            width: 90%;
-            max-width: 400px;
+        /* قائمة جانبية */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #2c3e50;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #0072ff;
+            transform: scale(1.05);
+        }
+
+        /* منطقة المحتوى */
+        .content {
+            margin-left: 250px;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease;
         }
 
         .logo {
@@ -51,14 +73,6 @@
 
         .logo:hover {
             transform: scale(1.1);
-            color: #ff5722;
-        }
-
-        /* مرحباً بك في Earn Money */
-        .welcome-message {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
             color: #ff5722;
         }
 
@@ -135,15 +149,6 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* الوضع الليلي */
-        .dark-mode {
-            background: #121212;
-        }
-
-        .dark-mode .container {
-            background-color: #1e1e1e;
-        }
-
         /* أيقونة الدردشة */
         .chat-icon {
             position: fixed;
@@ -167,14 +172,37 @@
             transform: scale(1.1);
         }
 
-        /* رسائل الخطأ */
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
+        /* الرسالة الترحيبية */
+        .welcome-message {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
         }
 
-        /* زر الوضع الليلي */
+        /* تأثيرات الأنيميشن */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* الجافا سكريبت */
         .dark-mode-toggle {
             position: fixed;
             top: 20px;
@@ -197,71 +225,37 @@
             transform: scale(1.1);
         }
 
-        @media (max-width: 480px) {
-            .textbox input {
-                font-size: 16px;
-                padding: 12px;
-            }
-
-            .social-icons {
-                bottom: 10px;
-            }
-
-            .social-icons a {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-            }
-
-            .dark-mode-toggle {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-            }
-
-            .chat-icon {
-                right: 15px;
-                bottom: 70px;
-                font-size: 24px;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 
 <body>
 
-    <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
+    <!-- القائمة الجانبية -->
+    <div class="sidebar">
+        <a href="#">الرئيسية</a>
+        <a href="#">الدعم</a>
+        <a href="#">من نحن</a>
+        <a href="#">الشروط</a>
+    </div>
 
-    <div class="container">
-        <div class="welcome-message">مرحباً بك في Earn Money</div>
+    <!-- المحتوى الرئيسي -->
+    <div class="content">
+        <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
+
         <div class="logo" onclick="animateLogo()">Earn Money</div>
+
+        <!-- الرسالة الترحيبية -->
+        <div class="welcome-message">
+            مرحباً بك في Earn Money
+        </div>
+
+        <!-- أقسام التسجيل وإنشاء الحساب -->
         <div class="tabs">
             <div class="tab active" id="loginTab" onclick="showForm('login')">تسجيل الدخول</div>
             <div class="tab" id="registerTab" onclick="showForm('register')">إنشاء حساب</div>
         </div>
 
+        <!-- نموذج تسجيل الدخول -->
         <form id="loginForm" class="form active" onsubmit="return validateLoginForm()">
             <div class="textbox">
                 <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
@@ -277,6 +271,7 @@
             <button type="submit" class="btn">تسجيل الدخول</button>
         </form>
 
+        <!-- نموذج إنشاء الحساب -->
         <form id="registerForm" class="form" onsubmit="return validateRegisterForm()">
             <div class="textbox">
                 <input type="text" id="username" placeholder="اسم المستخدم" required>
@@ -291,6 +286,7 @@
         </form>
     </div>
 
+    <!-- أيقونة الدردشة -->
     <div class="chat-icon" onclick="openChat()">💬</div>
 
     <script>
@@ -364,10 +360,9 @@
         }
 
         function openChat() {
-            alert("الدردشة غير متوفرة في هذه النسخة.");
+            alert("أنت الآن في دردشة مباشرة!");
         }
     </script>
-
 </body>
 
 </html>
