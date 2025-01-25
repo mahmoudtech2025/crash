@@ -5,15 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Earn Money</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
-        /* Reset */
+        /* الأساسيات */
         * {
             margin: 0;
             padding: 0;
@@ -25,245 +20,166 @@
             background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
             min-height: 100vh;
-            padding: 0;
+            position: relative;
             overflow-x: hidden;
             transition: background-color 0.3s ease;
         }
 
-        /* Navbar */
-        .navbar {
-            position: sticky;
+        /* الشريط الجانبي */
+        .sidebar {
+            position: fixed;
+            left: -250px;
             top: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
+            height: 100%;
+            width: 250px;
+            background: rgba(0, 0, 0, 0.9);
+            transition: all 0.3s ease;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
         }
 
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #00c6ff;
-            cursor: pointer;
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
         }
 
-        .navbar .links {
-            display: flex;
-            gap: 15px;
+        .sidebar ul li {
+            margin: 15px 0;
         }
 
-        .navbar .links a {
+        .sidebar ul li a {
             color: #fff;
             text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .navbar .links a:hover {
-            color: #ff5722;
-        }
-
-        /* Main Container */
-        .container {
-            width: 90%;
-            max-width: 400px;
-            margin: 60px auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            background: #00c6ff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
+            font-size: 18px;
             padding: 10px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: block;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
 
-        .tab.active {
+        .sidebar ul li a:hover {
             background: #0072ff;
         }
 
-        .form {
-            display: none;
-            animation: slideIn 0.5s ease-in-out;
-        }
-
-        .form.active {
-            display: block;
-        }
-
-        .textbox input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            outline: none;
-            background: #f1f1f1;
-            color: #333;
-            transition: background-color 0.3s ease;
-        }
-
-        .textbox input:focus {
-            background: #e1f5fe;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            margin-top: 10px;
-            background-color: #0072ff;
+        .toggle-sidebar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #0072ff;
             color: #fff;
-            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        /* الإشعارات */
+        .notifications {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            background: #0072ff;
+            color: #fff;
+            padding: 10px 20px;
             border-radius: 10px;
-            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notifications.show {
+            right: 20px;
+        }
+
+        /* الوضع الليلي */
+        .dark-mode {
+            background: #121212;
+        }
+
+        .dark-mode .sidebar {
+            background: #1e1e1e;
+        }
+
+        /* زر الدردشة */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0072ff;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #005bb5;
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Footer */
-        footer {
-            background: #111;
-            padding: 20px;
-            text-align: center;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: #00c6ff;
-            text-decoration: none;
-            margin: 0 5px;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #ff5722;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .navbar .logo {
-                font-size: 20px;
-            }
-
-            .navbar .links a {
-                font-size: 14px;
-            }
+        .chat-button:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">Earn Money</div>
-        <div class="links">
-            <a href="#">الرئيسية</a>
-            <a href="#">من نحن</a>
-            <a href="#">تواصل معنا</a>
-        </div>
-    </nav>
+    <!-- زر التحكم بالشريط الجانبي -->
+    <div class="toggle-sidebar" onclick="toggleSidebar()">☰</div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="tabs">
-            <div class="tab active" onclick="showForm('login')">تسجيل الدخول</div>
-            <div class="tab" onclick="showForm('register')">إنشاء حساب</div>
-        </div>
-        <form id="loginForm" class="form active" onsubmit="return false;">
-            <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني">
-            </div>
-            <div class="textbox">
-                <input type="password" placeholder="كلمة المرور">
-            </div>
-            <button class="btn">تسجيل الدخول</button>
-        </form>
-        <form id="registerForm" class="form" onsubmit="return false;">
-            <div class="textbox">
-                <input type="text" placeholder="اسم المستخدم">
-            </div>
-            <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني">
-            </div>
-            <div class="textbox">
-                <input type="password" placeholder="كلمة المرور">
-            </div>
-            <button class="btn">إنشاء حساب</button>
-        </form>
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">الرئيسية</a></li>
+            <li><a href="#">الملف الشخصي</a></li>
+            <li><a href="#">الدعم الفني</a></li>
+            <li><a href="#">الإعدادات</a></li>
+        </ul>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Earn Money | <a href="#">سياسة الخصوصية</a> | <a href="#">الشروط والأحكام</a></p>
-    </footer>
+    <!-- نافذة الإشعارات -->
+    <div class="notifications" id="notification">
+        مرحبًا بك في Earn Money!
+    </div>
 
+    <!-- زر الدردشة -->
+    <div class="chat-button" onclick="openChat()">💬</div>
+
+    <!-- نص تجريبي -->
+    <div style="padding: 20px; margin-top: 100px;">
+        <h1 data-aos="fade-up">مرحبًا بك في موقعنا</h1>
+        <p data-aos="fade-up" data-aos-delay="200">هذا النص للتجربة والتحقق من التصميم.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        function showForm(formType) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const tabs = document.querySelectorAll('.tab');
-            if (formType === 'login') {
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
-                tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
-            } else {
-                registerForm.classList.add('active');
-                loginForm.classList.remove('active');
-                tabs[1].classList.add('active');
-                tabs[0].classList.remove('active');
-            }
+        AOS.init();
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
         }
+
+        function openChat() {
+            alert('الدردشة لم تُفعّل بعد.');
+        }
+
+        // إشعار ترحيب
+        setTimeout(() => {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }, 1000);
     </script>
 </body>
 
