@@ -24,6 +24,7 @@
             padding: 20px;
             overflow: hidden;
             position: relative;
+            transition: background-color 0.3s ease;
         }
 
         .container {
@@ -44,11 +45,12 @@
             color: #00c6ff;
             font-family: 'Tajawal', sans-serif;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         .logo:hover {
             transform: scale(1.1);
+            color: #ff5722;
         }
 
         .tabs {
@@ -97,6 +99,7 @@
             outline: none;
             background: #f1f1f1;
             color: #333;
+            transition: background-color 0.3s ease;
         }
 
         .textbox input:focus {
@@ -132,7 +135,14 @@
             background-color: #1e1e1e;
         }
 
-        /* أيقونات الواتساب والتليجرام */
+        /* رسائل الخطأ */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* أيقونات التواصل الاجتماعي */
         .social-icons {
             position: fixed;
             bottom: 20px;
@@ -189,23 +199,6 @@
             transform: scale(1.1);
         }
 
-        .remember-me {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .remember-me input {
-            width: auto;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
         @media (max-width: 480px) {
             .textbox input {
                 font-size: 16px;
@@ -258,7 +251,7 @@
             <div class="tab active" id="loginTab" onclick="showForm('login')">تسجيل الدخول</div>
             <div class="tab" id="registerTab" onclick="showForm('register')">إنشاء حساب</div>
         </div>
-        <form id="loginForm" class="form active">
+        <form id="loginForm" class="form active" onsubmit="return validateLoginForm()">
             <div class="textbox">
                 <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
                 <div id="loginEmailError" class="error-message"></div>
@@ -272,7 +265,7 @@
             </div>
             <button type="submit" class="btn">تسجيل الدخول</button>
         </form>
-        <form id="registerForm" class="form">
+        <form id="registerForm" class="form" onsubmit="return validateRegisterForm()">
             <div class="textbox">
                 <input type="text" id="username" placeholder="اسم المستخدم" required>
             </div>
@@ -286,4 +279,80 @@
         </form>
     </div>
 
-    <div class="social
+    <div class="social-icons">
+        <a href="#" target="_blank">📱</a>
+        <a href="#" target="_blank">🐦</a>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function showForm(formType) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            if (formType === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            } else {
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+            }
+        }
+
+        function validateLoginForm() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            let valid = true;
+
+            if (!email.includes('@')) {
+                document.getElementById('loginEmailError').textContent = "البريد الإلكتروني غير صحيح";
+                valid = false;
+            } else {
+                document.getElementById('loginEmailError').textContent = "";
+            }
+
+            if (password.length < 6) {
+                document.getElementById('loginPasswordError').textContent = "كلمة السر قصيرة جدًا";
+                valid = false;
+            } else {
+                document.getElementById('loginPasswordError').textContent = "";
+            }
+
+            return valid;
+        }
+
+        function validateRegisterForm() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            let valid = true;
+
+            if (username.length < 3) {
+                alert("اسم المستخدم يجب أن يكون أطول من 3 حروف");
+                valid = false;
+            }
+
+            if (!email.includes('@')) {
+                alert("البريد الإلكتروني غير صحيح");
+                valid = false;
+            }
+
+            if (password.length < 6) {
+                alert("كلمة السر قصيرة جدًا");
+                valid = false;
+            }
+
+            return valid;
+        }
+    </script>
+</body>
+                </html>
