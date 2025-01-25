@@ -507,6 +507,7 @@
             </div>
 
             <button class="btn">تسجيل الدخول</button>
+            <button class="btn" onclick="redirectToDashboard()">تسجيل الدخول</button>
 
         </div>
 
@@ -609,6 +610,10 @@
             document.getElementById(`${form}Tab`).classList.add('active');
 
         }
+              // التوجيه إلى لوحة التحكم
+        function redirectToDashboard() {
+            window.location.href = "dashboard.html"; // قم بتغيير الرابط حسب اسم صفحة لوحة التحكم
+                    }
 
     </script>
 
