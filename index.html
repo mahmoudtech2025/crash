@@ -38,6 +38,34 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
+        /* الشريط الجانبي */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: #141e30;
+            padding-top: 30px;
+            padding-left: 20px;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: #00c6ff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #243b55;
+            color: #fff;
+        }
+
         .form-container {
             width: 90%;
             max-width: 400px;
@@ -45,6 +73,7 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            margin-left: 270px; /* هذا لكي يكون النموذج بجانب الشريط الجانبي */
             margin-bottom: 20px;
         }
 
@@ -116,7 +145,6 @@
         .btn:hover {
             background-color: #005bb5;
             transform: scale(1.05);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
         .social-icons {
@@ -143,7 +171,6 @@
         .social-icons a:hover {
             background-color: #005bb5;
             transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .form-content {
@@ -169,23 +196,27 @@
                 height: 45px;
                 font-size: 20px;
             }
-        }
 
-        /* تحسين تأثيرات التحميل */
-        [data-aos] {
-            transition: all 0.6s ease;
-        }
+            .sidebar {
+                width: 200px;
+            }
 
-        /* إضافة تأثير عند التمرير */
-        .textbox input:focus,
-        .btn:hover {
-            background: #e1f5fe;
-            transform: scale(1.05);
+            .form-container {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+        <a href="#">الرئيسية</a>
+        <a href="#">الدعم</a>
+        <a href="#">الشروط والأحكام</a>
+        <a href="#">من نحن</a>
+    </div>
+
     <header data-aos="fade-down">مرحباً بك</header>
 
     <div class="form-container" data-aos="fade-up">
