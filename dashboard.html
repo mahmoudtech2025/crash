@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* إعدادات الأساس */
         body {
             font-family: 'Cairo', sans-serif;
             margin: 0;
@@ -18,10 +17,9 @@
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            background-color: #f2f6fc;
+            background-color: #f8f9fa;
             color: #333;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
         header {
@@ -30,42 +28,38 @@
             background-color: #0072ff;
             color: #fff;
             text-align: center;
-            font-size: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .content {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            padding: 30px;
+            padding: 20px;
             width: 100%;
-            max-width: 1300px;
-            margin-top: 30px;
+            max-width: 1200px;
         }
 
-        /* تصميم المربعات */
         .box {
             background-color: #fff;
             border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 6px solid #0072ff;
-            cursor: pointer;
+            border-top: 5px solid #0072ff;
         }
 
         .box:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .box h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 22px;
+            margin-bottom: 10px;
             color: #0072ff;
-            font-weight: bold;
         }
 
         .box p {
@@ -74,24 +68,21 @@
         }
 
         .box button {
-            margin-top: 15px;
+            margin-top: 10px;
             background-color: #0072ff;
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            width: 100%;
+            transition: background-color 0.3s ease;
         }
 
         .box button:hover {
             background-color: #005bb5;
-            transform: scale(1.05);
         }
 
-        /* تصميم الشريط الجانبي */
         .sidebar {
             position: fixed;
             top: 0;
@@ -105,7 +96,7 @@
             justify-content: flex-start;
             align-items: center;
             transition: right 0.3s ease;
-            box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+            box-shadow: -4px 0 6px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
@@ -130,15 +121,15 @@
             right: 20px;
             background-color: #0072ff;
             color: #fff;
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 1100;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .sidebar-icon:hover {
@@ -147,33 +138,6 @@
 
         .sidebar.open {
             right: 0;
-        }
-
-        /* تحسينات التصميم العامة */
-        .content {
-            margin-top: 60px;
-        }
-
-        @media (max-width: 768px) {
-            .content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-                padding: 15px;
-            }
-
-            .box {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-
-            .box {
-                padding: 15px;
-            }
         }
     </style>
 </head>
@@ -260,4 +224,4 @@
     </script>
 </body>
 
-    </html>
+        </html>
