@@ -10,8 +10,6 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, #141e30, #243b55);
-            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,60 +17,67 @@
             align-items: center;
             justify-content: space-between;
             min-height: 100vh;
+            background: url('/mnt/data/A_visually_striking_background_image_for_a_mobile-.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
         }
 
         header {
             width: 100%;
-            background-color: #0072ff;
-            color: #fff;
-            padding: 10px 15px;
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        header .info {
+            display: flex;
+            gap: 15px;
         }
 
         header span {
-            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
         }
 
         .buttons {
             display: flex;
-            justify-content: space-around;
             flex-wrap: wrap;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 10px;
             width: 100%;
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .buttons button {
-            background-color: #0072ff;
+            background-color: rgba(0, 114, 255, 0.8);
             color: #fff;
             border: none;
-            padding: 10px 15px;
+            padding: 10px 20px;
             font-size: 14px;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            flex: 1 1 45%;
+            gap: 10px;
+            flex: 1 1 calc(50% - 20px);
             max-width: 150px;
             transition: background-color 0.3s, transform 0.2s;
         }
 
         .buttons button:hover {
-            background-color: #005bb5;
+            background-color: rgba(0, 114, 255, 1);
             transform: scale(1.05);
         }
 
         .telegram {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
+            bottom: 20px;
+            right: 20px;
             background-color: #0088cc;
             color: #fff;
             width: 50px;
@@ -93,8 +98,10 @@
 
 <body>
     <header>
-        <div>username: <span id="username"></span></div>
-        <div>balance: <span id="balance"></span></div>
+        <div class="info">
+            <div>Username: <span id="username"></span></div>
+            <div>Balance:</div>
+        </div>
     </header>
 
     <div class="buttons">
@@ -120,12 +127,9 @@
     </a>
 
     <script>
-        // اجلب بيانات المستخدم من قاعدة البيانات (مثال توضيحي)
-        const username = ""; // اجلب اسم المستخدم من قاعدة البيانات
-        const balance = ""; // اجلب الرصيد من قاعدة البيانات
-
+        // بيانات المستخدم (مثال توضيحي)
+        const username = "User123"; // يتم جلبه من قاعدة البيانات
         document.getElementById('username').textContent = username;
-        document.getElementById('balance').textContent = balance;
     </script>
 </body>
 
