@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - Earn Money</title>
-    <!-- Google Fonts for better typography -->
+    <title>Earn Money</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -19,11 +18,37 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
-            color: #fff;
             overflow: hidden;
         }
 
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #0072ff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+        }
+
+        .navbar a:hover {
+            color: #f0f0f0;
+        }
+
+        /* Animated Background */
         .container {
             width: 100%;
             max-width: 450px;
@@ -31,6 +56,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-top: 80px;
             animation: fadeIn 1s ease-in-out;
         }
 
@@ -80,15 +106,6 @@
             color: #aaa;
         }
 
-        .textbox .icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-            font-size: 20px;
-        }
-
         .btn {
             width: 100%;
             padding: 15px;
@@ -121,52 +138,54 @@
             text-decoration: underline;
         }
 
-        .tooltip {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -100%);
-            padding: 5px 10px;
-            background-color: #0072ff;
+        /* Scroll Effects */
+        .scroll-effect {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .scroll-effect.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Notifications Bar */
+        .notifications-bar {
+            width: 100%;
+            background-color: #ff9800;
             color: white;
-            font-size: 12px;
-            border-radius: 5px;
-            display: none;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 200;
         }
 
-        .textbox:hover .tooltip {
-            display: block;
+        .notifications-bar a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
         }
 
-        /* Animation effects */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Social Icons */
-        .social-icons {
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
             margin-top: 20px;
+            border-radius: 10px;
         }
 
-        .social-icons a {
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 24px;
-            color: #0072ff;
-            transition: color 0.3s ease;
+        .progress-bar div {
+            height: 100%;
+            width: 0;
+            background-color: #0072ff;
+            border-radius: 10px;
         }
 
-        .social-icons a:hover {
-            color: #005bb5;
-        }
-
-        /* Language toggle */
+        /* Language Toggle */
         .language-toggle {
             position: absolute;
             top: 15px;
@@ -176,7 +195,7 @@
             color: #0072ff;
         }
 
-        /* Sidebar or Popup */
+        /* Popup */
         .popup {
             position: absolute;
             top: 20%;
@@ -211,15 +230,40 @@
             background-color: #005bb5;
         }
 
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: #0072ff;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
         @media screen and (max-width: 480px) {
             .container {
                 width: 90%;
                 padding: 25px;
             }
         }
+
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="#">الرئيسية</a>
+        <a href="#">الألعاب</a>
+        <a href="#">الإعدادات</a>
+        <a href="#">الدعم</a>
+        <a href="#">تسجيل الخروج</a>
+    </div>
+
+    <div class="notifications-bar">
+        <p>لا تنسى: العرض الجديد في متجر الألعاب! <a href="#">اكتشف الآن</a></p>
+    </div>
+
     <div class="container">
         <div class="login-box">
             <div class="logo">Earn Money</div>
@@ -228,39 +272,37 @@
                 <div class="textbox">
                     <span class="icon">📧</span>
                     <input type="email" placeholder="البريد الإلكتروني" required>
-                    <div class="tooltip">أدخل بريدك الإلكتروني بشكل صحيح</div>
                 </div>
                 <div class="textbox">
                     <span class="icon">🔒</span>
                     <input type="password" placeholder="كلمة السر" required>
-                    <div class="tooltip">استخدم كلمة سر قوية</div>
                 </div>
                 <input type="submit" value="تسجيل الدخول" class="btn">
                 <p>ليس لديك حساب؟ <a href="#">إنشاء حساب</a></p>
             </form>
         </div>
 
-        <!-- Social Media Links -->
-        <div class="social-icons">
-            <a href="#" target="_blank">📘</a>
-            <a href="#" target="_blank">🐦</a>
-            <a href="#" target="_blank">📷</a>
-        </div>
-
-        <!-- Language Toggle -->
-        <div class="language-toggle">🌐</div>
-
         <!-- Popup -->
         <div class="popup" id="popup">
             <p>مرحبًا بك في الموقع!</p>
             <button onclick="closePopup()">إغلاق</button>
         </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Earn Money. جميع الحقوق محفوظة.</p>
+        </footer>
     </div>
 
     <script>
-        // Language toggle functionality
-        document.querySelector('.language-toggle').addEventListener('click', function() {
-            alert('تغيير اللغة سيتم قريبًا!');
+        // Scroll Effect
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('.scroll-effect');
+            elements.forEach((element) => {
+                if (element.getBoundingClientRect().top < window.innerHeight) {
+                    element.classList.add('show');
+                }
+            });
         });
 
         // Popup toggle functionality
@@ -271,6 +313,11 @@
         function closePopup() {
             document.getElementById('popup').classList.remove('active');
         }
+
+        // Language toggle functionality
+        document.querySelector('.language-toggle').addEventListener('click', function() {
+            alert('تغيير اللغة سيتم قريبًا!');
+        });
     </script>
 </body>
 </html>
