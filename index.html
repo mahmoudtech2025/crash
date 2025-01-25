@@ -404,10 +404,8 @@
 
         const result = await response.json();
         if (result.success) {
-            // تحديث الرصيد في الواجهة الأمامية
-            userBalance += depositAmount; // إضافة المبلغ إلى الرصيد
-            document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
-            Swal.fire("نجاح", result.message, "success");
+            // عند نجاح العملية، إظهار رسالة تفيد بأنه سيتم تحديث الرصيد لاحقًا
+            Swal.fire("نجاح", "تمت إضافة طلب الإيداع. سيتم تحديث رصيدك بعد معالجة الإيداع.", "success");
             document.getElementById('deposit-form').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
         } else {
