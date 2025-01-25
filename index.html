@@ -26,82 +26,6 @@
             padding-top: 80px;
         }
 
-        /* Navbar */
-        .navbar {
-            width: 100%;
-            background-color: #0072ff;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-
-        .navbar a {
-            color: white;
-            font-size: 16px;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-        }
-
-        .navbar a:hover {
-            color: #f0f0f0;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #0072ff;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
-            transition: left 0.3s ease;
-            z-index: 200;
-        }
-
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 0;
-            margin: 5px 0;
-            border-bottom: 1px solid #ffffff44;
-            font-size: 18px;
-        }
-
-        .sidebar a:hover {
-            background-color: #005bb5;
-            padding-left: 10px;
-            transition: padding-left 0.3s ease;
-        }
-
-        .hamburger {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            font-size: 30px;
-            color: #0072ff;
-            cursor: pointer;
-            z-index: 201;
-        }
-
-        .hamburger:hover {
-            color: #005bb5;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        /* Container */
         .container {
             width: 90%;
             max-width: 450px;
@@ -120,10 +44,39 @@
             font-family: 'Lora', serif;
         }
 
-        h2 {
-            margin-bottom: 25px;
-            color: #0072ff;
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: #0072ff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tab {
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+            color: white;
             font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab.active {
+            background: #005bb5;
+        }
+
+        .tab:hover {
+            background: #005bb5;
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
         }
 
         .textbox input {
@@ -141,7 +94,6 @@
         .textbox input:focus {
             border-color: #0072ff;
             background-color: #e1f5fe;
-            transform: scale(1.05);
         }
 
         .btn {
@@ -160,88 +112,17 @@
             background-color: #005bb5;
             transform: scale(1.05);
         }
-
-        /* Dark Mode */
-        .dark-mode {
-            background: #121212;
-            color: #f5f5f5;
-        }
-
-        .dark-mode .container {
-            background-color: #1e1e1e;
-            color: #f5f5f5;
-        }
-
-        .dark-mode .navbar, .dark-mode .sidebar {
-            background-color: #333333;
-        }
-
-        .dark-mode .navbar a, .dark-mode .sidebar a {
-            color: #f5f5f5;
-        }
-
-        /* Dark Mode Toggle */
-        .dark-mode-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 24px;
-            background-color: #0072ff;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .dark-mode-toggle:hover {
-            background-color: #005bb5;
-            transform: scale(1.1);
-        }
-
-        /* Mobile Adjustments */
-        @media screen and (max-width: 480px) {
-            .navbar a {
-                font-size: 14px;
-            }
-
-            .logo {
-                font-size: 35px;
-            }
-
-            h2 {
-                font-size: 18px;
-            }
-
-            .textbox input {
-                padding: 10px;
-                font-size: 12px;
-            }
-
-            .btn {
-                padding: 12px;
-                font-size: 16px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu -->
-    <div class="hamburger" onclick="toggleSidebar()">☰</div>
-    <div class="sidebar" id="sidebar">
-        <a href="#">الرئيسية</a>
-        <a href="#">الألعاب</a>
-        <a href="#">الإعدادات</a>
-        <a href="#">الدعم</a>
-        <a href="#">تسجيل الخروج</a>
-    </div>
-
-    <!-- Main Content -->
     <div class="container">
         <div class="logo">Earn Money</div>
-        <h2>تسجيل الدخول</h2>
-        <form>
+        <div class="tabs">
+            <div class="tab active" id="loginTab" onclick="showForm('login')">تسجيل الدخول</div>
+            <div class="tab" id="registerTab" onclick="showForm('register')">إنشاء حساب</div>
+        </div>
+        <!-- تسجيل الدخول -->
+        <form id="loginForm" class="form active">
             <div class="textbox">
                 <input type="email" placeholder="البريد الإلكتروني" required>
             </div>
@@ -250,18 +131,42 @@
             </div>
             <button type="submit" class="btn">تسجيل الدخول</button>
         </form>
+        <!-- إنشاء حساب -->
+        <form id="registerForm" class="form">
+            <div class="textbox">
+                <input type="text" placeholder="اسم المستخدم" required>
+            </div>
+            <div class="textbox">
+                <input type="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            <div class="textbox">
+                <input type="password" placeholder="كلمة السر" required>
+            </div>
+            <div class="textbox">
+                <input type="password" placeholder="تأكيد كلمة السر" required>
+            </div>
+            <button type="submit" class="btn">إنشاء حساب</button>
+        </form>
     </div>
 
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
-
     <script>
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("open");
-        }
+        function showForm(formType) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
 
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
+            if (formType === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            } else {
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+            }
         }
     </script>
 </body>
