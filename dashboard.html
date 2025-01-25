@@ -26,7 +26,8 @@
             padding: 15px;
             background-color: #0072ff;
             color: #fff;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
             font-size: 18px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -143,7 +144,8 @@
 
 <body>
     <header>
-        لوحة التحكم
+        <span id="username">اسم المستخدم</span> |
+        <span id="balance">الرصيد</span>
     </header>
 
     <div class="content">
@@ -154,42 +156,49 @@
             <p>الأرباح: 8%</p>
             <button onclick="purchaseVIP(100)">شراء</button>
         </div>
+
         <div class="box" data-price="300">
             <h3>VIP2</h3>
             <p>القيمة: 300 جنيه</p>
             <p>الأرباح: 10%</p>
             <button onclick="purchaseVIP(300)">شراء</button>
         </div>
+
         <div class="box" data-price="500">
             <h3>VIP3</h3>
             <p>القيمة: 500 جنيه</p>
             <p>الأرباح: 13%</p>
             <button onclick="purchaseVIP(500)">شراء</button>
         </div>
+
         <div class="box" data-price="800">
             <h3>VIP4</h3>
             <p>القيمة: 800 جنيه</p>
             <p>الأرباح: 15%</p>
             <button onclick="purchaseVIP(800)">شراء</button>
         </div>
+
         <div class="box" data-price="1200">
             <h3>VIP5</h3>
             <p>القيمة: 1200 جنيه</p>
             <p>الأرباح: 17%</p>
             <button onclick="purchaseVIP(1200)">شراء</button>
         </div>
+
         <div class="box" data-price="1500">
             <h3>VIP6</h3>
             <p>القيمة: 1500 جنيه</p>
             <p>الأرباح: 19%</p>
             <button onclick="purchaseVIP(1500)">شراء</button>
         </div>
+
         <div class="box" data-price="2500">
             <h3>VIP7</h3>
             <p>القيمة: 2500 جنيه</p>
             <p>الأرباح: 21%</p>
             <button onclick="purchaseVIP(2500)">شراء</button>
         </div>
+
         <div class="box" data-price="5000">
             <h3>VIP8</h3>
             <p>القيمة: 5000 جنيه</p>
@@ -204,7 +213,7 @@
             <i class="fas fa-wallet"></i> إيداع
         </a>
         <a href="#" onclick="alert('فتح صفحة السحب')">
-            <i class="fas fa-arrow-down"></i> سحب
+            <i class="fas fa-hand-holding-usd"></i> سحب
         </a>
         <a href="#" onclick="alert('فتح صفحة اللعبة')">
             <i class="fas fa-gamepad"></i> لعبة
@@ -232,10 +241,17 @@
             sidebar.classList.toggle('open');
         }
 
+        // جلب بيانات المستخدم
+        async function fetchUserData() {
+            // الكود تم تعليقه لأنك لم تضع الـ API
+        }
+
         async function purchaseVIP(price) {
             alert('جاري تفعيل الباقة...');
         }
+
+        window.onload = fetchUserData;
     </script>
 </body>
 
-                </html>
+</html>
