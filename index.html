@@ -48,11 +48,26 @@
             margin-bottom: 20px;
         }
 
-        .form-container h2 {
-            font-size: 24px;
+        .form-header {
+            display: flex;
+            justify-content: space-around;
             margin-bottom: 20px;
-            text-align: center;
+        }
+
+        .form-header button {
+            background: none;
+            border: none;
             color: #00c6ff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-header button.active {
+            color: #fff;
+            border-bottom: 2px solid #00c6ff;
         }
 
         .textbox {
@@ -129,6 +144,14 @@
             transform: scale(1.1);
         }
 
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
         @media (max-width: 480px) {
             header {
                 font-size: 24px;
@@ -151,17 +174,37 @@
 <body>
     <header data-aos="fade-down">مرحباً بك</header>
 
-    <div class="form-container" id="loginForm" data-aos="fade-up">
-        <h2>تسجيل الدخول</h2>
-        <div class="textbox">
-            <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="البريد الإلكتروني" required>
+    <div class="form-container" data-aos="fade-up">
+        <div class="form-header">
+            <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
+            <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
         </div>
-        <div class="textbox">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="كلمة السر" required>
+        <div id="loginForm" class="form-content active">
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            <div class="textbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="كلمة السر" required>
+            </div>
+            <button class="btn">تسجيل الدخول</button>
         </div>
-        <button class="btn">تسجيل الدخول</button>
+        <div id="signupForm" class="form-content">
+            <div class="textbox">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="اسم المستخدم" required>
+            </div>
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            <div class="textbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="كلمة السر" required>
+            </div>
+            <button class="btn">إنشاء حساب</button>
+        </div>
     </div>
 
     <div class="social-icons" data-aos="fade-up">
@@ -171,6 +214,13 @@
 
     <script>
         AOS.init();
+
+        function toggleForm(form) {
+            document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
+            document.getElementById(`${form}Form`).classList.add('active');
+            document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
+            document.getElementById(`${form}Tab`).classList.add('active');
+        }
     </script>
 </body>
 
