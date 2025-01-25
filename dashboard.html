@@ -52,7 +52,6 @@
             font-size: 20px;
             font-weight: bold;
             color: #00c6ff;
-            cursor: pointer;
         }
 
         .buttons-container {
@@ -72,17 +71,19 @@
             cursor: pointer;
             transition: transform 0.3s ease, background-color 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button i {
+            margin-left: 10px;
+            font-size: 20px;
         }
 
         .button:hover {
             background-color: #005bb5;
             transform: scale(1.05);
-        }
-
-        .button:active {
-            transform: scale(1.1);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
         }
 
         /* الوضع الليلي */
@@ -151,35 +152,6 @@
             transform: scale(1.1);
         }
 
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background-color: #0072ff;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .dropdown-menu a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #005bb5;
-        }
-
-        .dropdown-btn:hover {
-            background-color: #005bb5;
-        }
-
-        /* استجابة للهاتف المحمول */
         @media (max-width: 480px) {
             .username {
                 font-size: 18px;
@@ -221,22 +193,26 @@
     <div class="header">
         <div class="user-info">
             <div class="balance">رصيدك: <span id="balance">0</span></div>
-            <div class="username" id="username" onclick="toggleDropdown()">اسم المستخدم</div>
+            <div class="username" id="username">اسم المستخدم</div>
         </div>
     </div>
 
-    <!-- قائمة منسدلة -->
-    <div id="dropdownMenu" class="dropdown-menu">
-        <a href="#">إعدادات الحساب</a>
-        <a href="#">تسجيل الخروج</a>
-    </div>
-
     <div class="buttons-container">
-        <div class="button">شحن</div>
-        <div class="button">سحب</div>
-        <div class="button">باقة</div>
-        <div class="button">الشروط</div>
-        <div class="button">مكافآت</div>
+        <div class="button" onclick="showChargeForm()">
+            <i class="fas fa-credit-card"></i> شحن
+        </div>
+        <div class="button" onclick="showWithdrawForm()">
+            <i class="fas fa-arrow-down"></i> سحب
+        </div>
+        <div class="button" onclick="showPackageForm()">
+            <i class="fas fa-cogs"></i> باقة
+        </div>
+        <div class="button" onclick="showTermsForm()">
+            <i class="fas fa-file-alt"></i> الشروط
+        </div>
+        <div class="button" onclick="showRewardsForm()">
+            <i class="fas fa-gift"></i> مكافآت
+        </div>
     </div>
 
     <div class="social-icons">
@@ -244,17 +220,36 @@
         <a href="https://t.me" target="_blank">✈️</a>
     </div>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
         }
 
-        function toggleDropdown() {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        // Example function to show charge form
+        function showChargeForm() {
+            alert('فتح نموذج الشحن');
         }
 
-        // يمكنك هنا إضافة الكود الخاص بتحميل البيانات مثل الرصيد واسم المستخدم
+        // Example function to show withdraw form
+        function showWithdrawForm() {
+            alert('فتح نموذج السحب');
+        }
+
+        // Example function to show package form
+        function showPackageForm() {
+            alert('فتح نموذج الباقة');
+        }
+
+        // Example function to show terms form
+        function showTermsForm() {
+            alert('فتح الشروط');
+        }
+
+        // Example function to show rewards form
+        function showRewardsForm() {
+            alert('فتح نموذج المكافآت');
+        }
     </script>
 </body>
         </html>
