@@ -416,6 +416,7 @@
     }
         }
         function pollDepositStatus(depositId) {
+    consfunction pollDepositStatus(depositId) {
     const interval = setInterval(() => {
         fetch(`/poll-deposit-status/${depositId}`)
             .then(response => response.json())
@@ -427,6 +428,9 @@
                     // تحديث الرصيد بعد اكتمال الإيداع
                     userBalance += data.depositAmount; // إضافة المبلغ المودع إلى الرصيد الحالي
                     document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+
+                    // قم بتحديث الرصيد أيضًا في الواجهة الأمامية بعد عملية الإيداع
+                    Swal.fire("نجاح", "تم إضافة الإيداع إلى حسابك بنجاح", "success");
                 } else {
                     console.log("الإيداع لا يزال في حالة " + data.status);
                 }
@@ -436,7 +440,7 @@
                 clearInterval(interval); // إيقاف الـ polling في حالة حدوث خطأ
             });
     }, 5000); // يتم التحقق من الحالة كل 5 ثوانٍ
-        }
+                                 }
         function logoutUser() {
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
