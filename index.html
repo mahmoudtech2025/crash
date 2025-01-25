@@ -1,715 +1,310 @@
 <!DOCTYPE html>
-
 <html lang="ar">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Earn Money</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-
         * {
-
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
-
         }
-
-
 
         body {
-
             font-family: 'Cairo', sans-serif;
-
             background: linear-gradient(to right, #141e30, #243b55);
-
             color: #fff;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             flex-direction: column;
-
             min-height: 100vh;
-
             padding: 20px;
-
             overflow: hidden;
-
             position: relative;
-
-            transition: background-color 0.3s ease;
-
         }
-
-
 
         .container {
-
             width: 90%;
-
             max-width: 400px;
-
             padding: 20px;
-
             background-color: rgba(0, 0, 0, 0.8);
-
             border-radius: 15px;
-
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-
             text-align: center;
-
             animation: fadeIn 1s ease-in-out;
-
         }
-
-
 
         .logo {
-
             font-size: 40px;
-
             font-weight: bold;
-
-            margin-bottom: 20px;
-
+            margin-bottom: 10px;
             color: #00c6ff;
-
-            font-family: 'Tajawal', sans-serif;
-
+            font-family: 'Amiri', serif;
             cursor: pointer;
-
             transition: transform 0.3s ease, color 0.3s ease;
-
         }
-
-
 
         .logo:hover {
-
             transform: scale(1.1);
-
             color: #ff5722;
-
         }
 
-
+        .welcome-message {
+            font-size: 18px;
+            font-family: 'Tajawal', sans-serif;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+            animation: slideIn 1s ease-in-out;
+        }
 
         .tabs {
-
             display: flex;
-
             justify-content: space-between;
-
             margin-bottom: 20px;
-
             background: #00c6ff;
-
             border-radius: 10px;
-
             overflow: hidden;
-
         }
-
-
 
         .tab {
-
             flex: 1;
-
             text-align: center;
-
             padding: 10px;
-
             color: #fff;
-
             font-weight: bold;
-
             cursor: pointer;
-
             transition: all 0.3s ease;
-
         }
-
-
 
         .tab.active {
-
             background: #0072ff;
-
         }
-
-
 
         .tab:hover {
-
             background: #005bb5;
-
         }
-
-
 
         .form {
-
             display: none;
-
-            animation: slideIn 0.5s ease-in-out;
-
+            animation: fadeIn 0.5s ease-in-out;
         }
-
-
 
         .form.active {
-
             display: block;
-
         }
-
-
 
         .textbox input {
-
             width: 100%;
-
             padding: 15px;
-
             margin: 10px 0;
-
             border: none;
-
             border-radius: 10px;
-
             font-size: 18px;
-
             outline: none;
-
             background: #f1f1f1;
-
             color: #333;
-
             transition: background-color 0.3s ease;
-
         }
-
-
 
         .textbox input:focus {
-
             background: #e1f5fe;
-
         }
-
-
 
         .btn {
-
             width: 100%;
-
             padding: 15px;
-
             margin-top: 10px;
-
             background-color: #0072ff;
-
             color: #fff;
-
             border: none;
-
             border-radius: 10px;
-
             font-size: 18px;
-
             cursor: pointer;
-
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-
+            position: relative;
+            overflow: hidden;
         }
-
-
 
         .btn:hover {
-
             background-color: #005bb5;
-
             transform: scale(1.05);
-
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
-
         }
 
-
-
-        /* الوضع الليلي */
-
-        .dark-mode {
-
-            background: #121212;
-
+        .btn:active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s linear;
         }
-
-
-
-        .dark-mode .container {
-
-            background-color: #1e1e1e;
-
-        }
-
-
-
-        /* رسائل الخطأ */
-
-        .error-message {
-
-            color: red;
-
-            font-size: 14px;
-
-            margin-top: 5px;
-
-        }
-
-
-
-        /* أيقونات التواصل الاجتماعي */
 
         .social-icons {
-
             position: fixed;
-
             bottom: 20px;
-
             left: 50%;
-
             transform: translateX(-50%);
-
             display: flex;
-
             gap: 20px;
-
         }
-
-
 
         .social-icons a {
-
             width: 50px;
-
             height: 50px;
-
             background: #0072ff;
-
             color: #fff;
-
             font-size: 24px;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             border-radius: 50%;
-
             text-decoration: none;
-
             transition: transform 0.3s ease, background-color 0.3s ease;
-
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-
         }
-
-
 
         .social-icons a:hover {
-
             background: #ff5722;
-
             transform: scale(1.2);
-
         }
 
-
-
-        .dark-mode .social-icons a {
-
-            background: #333;
-
+        .social-icons a.disabled {
+            pointer-events: none;
+            cursor: default;
+            background: #444;
         }
 
+        .dark-mode {
+            background: #121212;
+        }
 
-
-        /* زر الوضع الليلي */
+        .dark-mode .container {
+            background-color: #1e1e1e;
+        }
 
         .dark-mode-toggle {
-
             position: fixed;
-
             top: 20px;
-
             right: 20px;
-
             width: 50px;
-
             height: 50px;
-
             background: #0072ff;
-
             color: #fff;
-
             font-size: 24px;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             border-radius: 50%;
-
             cursor: pointer;
-
             transition: transform 0.3s ease, background-color 0.3s ease;
-
         }
-
-
 
         .dark-mode-toggle:hover {
-
             background: #005bb5;
-
             transform: scale(1.1);
-
         }
-
-
-
-        @media (max-width: 480px) {
-
-            .textbox input {
-
-                font-size: 16px;
-
-                padding: 12px;
-
-            }
-
-
-
-            .social-icons {
-
-                bottom: 10px;
-
-            }
-
-
-
-            .social-icons a {
-
-                width: 45px;
-
-                height: 45px;
-
-                font-size: 20px;
-
-            }
-
-
-
-            .dark-mode-toggle {
-
-                width: 45px;
-
-                height: 45px;
-
-                font-size: 20px;
-
-            }
-
-        }
-
-
 
         @keyframes fadeIn {
-
             from {
-
                 opacity: 0;
-
             }
-
             to {
-
                 opacity: 1;
-
             }
-
         }
-
-
 
         @keyframes slideIn {
-
             from {
-
                 transform: translateY(-20px);
-
                 opacity: 0;
-
             }
-
             to {
-
                 transform: translateY(0);
-
                 opacity: 1;
-
             }
-
         }
 
+        @keyframes ripple {
+            from {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
     </style>
-
 </head>
 
 <body>
-
     <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
-
     <div class="container">
-
         <div class="logo" onclick="animateLogo()">Earn Money</div>
-
+        <div class="welcome-message">مرحبًا بك! اختر تسجيل الدخول أو إنشاء حساب جديد</div>
         <div class="tabs">
-
             <div class="tab active" id="loginTab" onclick="showForm('login')">تسجيل الدخول</div>
-
             <div class="tab" id="registerTab" onclick="showForm('register')">إنشاء حساب</div>
-
         </div>
-
         <form id="loginForm" class="form active" onsubmit="return validateLoginForm()">
-
             <div class="textbox">
-
                 <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
-
-                <div id="loginEmailError" class="error-message"></div>
-
             </div>
-
             <div class="textbox">
-
                 <input type="password" id="loginPassword" placeholder="كلمة السر" required>
-
-                <div id="loginPasswordError" class="error-message"></div>
-
             </div>
-
-            <div class="remember-me">
-
-                <label><input type="checkbox"> تذكرني</label>
-
-            </div>
-
             <button type="submit" class="btn">تسجيل الدخول</button>
-
         </form>
-
         <form id="registerForm" class="form" onsubmit="return validateRegisterForm()">
-
             <div class="textbox">
-
                 <input type="text" id="username" placeholder="اسم المستخدم" required>
-
             </div>
-
             <div class="textbox">
-
                 <input type="email" id="registerEmail" placeholder="البريد الإلكتروني" required>
-
             </div>
-
             <div class="textbox">
-
                 <input type="password" id="registerPassword" placeholder="كلمة السر" required>
-
             </div>
-
             <button type="submit" class="btn">إنشاء حساب</button>
-
         </form>
-
     </div>
-
-
-
     <div class="social-icons">
-
-        <a href="#" target="_blank">📱</a>
-
-        <a href="#" target="_blank">🐦</a>
-
+        <a href="#" class="disabled" onclick="alert('تحت الإنشاء')">📱</a>
+        <a href="#" class="disabled" onclick="alert('تحت الإنشاء')">🐦</a>
     </div>
-
-
-
     <script>
-
         function toggleDarkMode() {
-
             document.body.classList.toggle('dark-mode');
-
         }
-
-
 
         function showForm(formType) {
-
             const loginForm = document.getElementById('loginForm');
-
             const registerForm = document.getElementById('registerForm');
-
             const loginTab = document.getElementById('loginTab');
-
             const registerTab = document.getElementById('registerTab');
-
-
-
             if (formType === 'login') {
-
                 loginForm.classList.add('active');
-
                 registerForm.classList.remove('active');
-
                 loginTab.classList.add('active');
-
                 registerTab.classList.remove('active');
-
             } else {
-
                 registerForm.classList.add('active');
-
                 loginForm.classList.remove('active');
-
                 loginTab.classList.remove('active');
-
                 registerTab.classList.add('active');
-
             }
-
         }
-
-
-
-        function validateLoginForm() {
-
-            const email = document.getElementById('loginEmail').value;
-
-            const password = document.getElementById('loginPassword').value;
-
-            let valid = true;
-
-
-
-            if (!email.includes('@')) {
-
-                document.getElementById('loginEmailError').textContent = "البريد الإلكتروني غير صحيح";
-
-                valid = false;
-
-            } else {
-
-                document.getElementById('loginEmailError').textContent = "";
-
-            }
-
-
-
-            if (password.length < 6) {
-
-                document.getElementById('loginPasswordError').textContent = "كلمة السر قصيرة جدًا";
-
-                valid = false;
-
-            } else {
-
-                document.getElementById('loginPasswordError').textContent = "";
-
-            }
-
-
-
-            return valid;
-
-        }
-
-
-
-        function validateRegisterForm() {
-
-            const username = document.getElementById('username').value;
-
-            const email = document.getElementById('registerEmail').value;
-
-            const password = document.getElementById('registerPassword').value;
-
-            let valid = true;
-
-
-
-            if (username.length < 3) {
-
-                alert("اسم المستخدم يجب أن يكون أطول من 3 حروف");
-
-                valid = false;
-
-            }
-
-
-
-            if (!email.includes('@')) {
-
-                alert("البريد الإلكتروني غير صحيح");
-
-                valid = false;
-
-            }
-
-
-
-            if (password.length < 6) {
-
-                alert("كلمة السر قصيرة جدًا");
-
-                valid = false;
-
-            }
-
-
-
-            return valid;
-
-        }
-
     </script>
-
 </body>
 
 </html>
