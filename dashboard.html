@@ -19,7 +19,6 @@
             min-height: 100vh;
             background-color: #f8f9fa;
             color: #333;
-            overflow: hidden;
         }
 
         header {
@@ -149,79 +148,113 @@
     </header>
 
     <div class="content">
+        <!-- صناديق VIP -->
         <div class="box" data-price="100">
             <h3>VIP1</h3>
             <p>القيمة: 100 جنيه</p>
-            <p>الأرباح: 5%</p>
+            <p>الأرباح: 8%</p>
             <button onclick="purchaseVIP(100)">شراء</button>
         </div>
         <div class="box" data-price="300">
             <h3>VIP2</h3>
             <p>القيمة: 300 جنيه</p>
-            <p>الأرباح: 7%</p>
+            <p>الأرباح: 10%</p>
             <button onclick="purchaseVIP(300)">شراء</button>
         </div>
         <div class="box" data-price="500">
             <h3>VIP3</h3>
             <p>القيمة: 500 جنيه</p>
-            <p>الأرباح: 10%</p>
+            <p>الأرباح: 13%</p>
             <button onclick="purchaseVIP(500)">شراء</button>
         </div>
         <div class="box" data-price="800">
             <h3>VIP4</h3>
             <p>القيمة: 800 جنيه</p>
-            <p>الأرباح: 12%</p>
+            <p>الأرباح: 15%</p>
             <button onclick="purchaseVIP(800)">شراء</button>
         </div>
         <div class="box" data-price="1200">
             <h3>VIP5</h3>
             <p>القيمة: 1200 جنيه</p>
-            <p>الأرباح: 14%</p>
+            <p>الأرباح: 17%</p>
             <button onclick="purchaseVIP(1200)">شراء</button>
         </div>
         <div class="box" data-price="1500">
             <h3>VIP6</h3>
             <p>القيمة: 1500 جنيه</p>
-            <p>الأرباح: 16%</p>
+            <p>الأرباح: 19%</p>
             <button onclick="purchaseVIP(1500)">شراء</button>
         </div>
         <div class="box" data-price="2500">
             <h3>VIP7</h3>
             <p>القيمة: 2500 جنيه</p>
-            <p>الأرباح: 18%</p>
+            <p>الأرباح: 21%</p>
             <button onclick="purchaseVIP(2500)">شراء</button>
         </div>
         <div class="box" data-price="5000">
             <h3>VIP8</h3>
             <p>القيمة: 5000 جنيه</p>
-            <p>الأرباح: 22%</p>
+            <p>الأرباح: 25%</p>
             <button onclick="purchaseVIP(5000)">شراء</button>
         </div>
     </div>
 
+    <!-- الشريط الجانبي -->
     <div class="sidebar" id="sidebar">
-        <a href="#" onclick="alert('فتح صفحة الإيداع')">إيداع</a>
-        <a href="#" onclick="alert('فتح صفحة السحب')">سحب</a>
-        <a href="#" onclick="alert('فتح صفحة اللعبة')">لعبة</a>
-        <a href="#" onclick="alert('فتح صفحة سجلات الإيداع')">سجلات الإيداع</a>
-        <a href="#" onclick="alert('فتح صفحة سجلات السحب')">سجلات السحب</a>
-        <a href="#" onclick="alert('فتح صفحة الهدايا')">الهدايا</a>
+        <a href="#" onclick="alert('فتح صفحة الإيداع')">
+            <i class="fas fa-wallet"></i> إيداع
+        </a>
+        <a href="#" onclick="alert('فتح صفحة السحب')">
+            <i class="fas fa-hand-holding-usd"></i> سحب
+        </a>
+        <a href="#" onclick="alert('فتح صفحة اللعبة')">
+            <i class="fas fa-gamepad"></i> لعبة
+        </a>
+        <a href="#" onclick="alert('فتح صفحة سجلات الإيداع')">
+            <i class="fas fa-list-alt"></i> سجلات الإيداع
+        </a>
+        <a href="#" onclick="alert('فتح صفحة سجلات السحب')">
+            <i class="fas fa-list-alt"></i> سجلات السحب
+        </a>
+        <a href="#" onclick="alert('فتح صفحة الهدايا')">
+            <i class="fas fa-gift"></i> الهدايا
+        </a>
     </div>
 
+    <!-- أيقونة فتح/إغلاق الشريط الجانبي -->
     <div class="sidebar-icon" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
 
     <script>
+        // فتح/إغلاق الشريط الجانبي
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
 
-        function purchaseVIP(price) {
-            alert(`عملية الشراء: ${price}`);
+        // جلب بيانات المستخدم
+        async function fetchUserData() {
+            try {
+                const response = await fetch('https://your-api-endpoint.com/user-data'); // استبدل بعنوان API الخاص بك
+                if (!response.ok) {
+                    throw new Error('خطأ أثناء جلب البيانات');
+                }
+                const data = await response.json();
+                document.getElementById('username').textContent = data.username || 'غير معروف';
+                document.getElementById('balance').textContent = data.balance ? `${data.balance} جنيه` : 'غير متوفر';
+            } catch (error) {
+                console.error(error);
+                alert('حدث خطأ أثناء تحميل البيانات');
+            }
         }
+
+        async function purchaseVIP(price) {
+            alert('جاري تفعيل الباقة...');
+        }
+
+        window.onload = fetchUserData;
     </script>
 </body>
 
-        </html> 
+                </html>
