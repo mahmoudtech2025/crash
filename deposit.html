@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيداع</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0072ff;
+            margin-bottom: 20px;
+        }
+
+        .title i {
+            margin-left: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .phone-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .phone-option input {
+            margin-right: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">
+            <i class="fas fa-wallet"></i> إيداع
+        </div>
+        <input type="text" placeholder="أدخل قيمة الإيداع" id="deposit-amount">
+        <input type="text" placeholder="أدخل رقم الهاتف" id="phone-number">
+        <div class="phone-option">
+            <input type="radio" name="phone" value="01097000178" id="phone1">
+            <label for="phone1">01097000178</label>
+        </div>
+        <div class="phone-option">
+            <input type="radio" name="phone" value="01112585208" id="phone2">
+            <label for="phone2">01112585208</label>
+        </div>
+        <button onclick="handleDeposit()">إتمام الإيداع</button>
+    </div>
+
+    <script>
+        function handleDeposit() {
+            alert('جاري إضافة الرصيد...');
+        }
+    </script>
+</body>
+
+</html>
