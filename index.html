@@ -266,24 +266,24 @@
         </div>
         <form id="loginForm" class="form active">
             <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
             </div>
             <div class="textbox">
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" id="loginPassword" placeholder="كلمة السر" required>
             </div>
-            <button type="submit" class="btn" onclick="redirectToDashboard()">تسجيل الدخول</button>
+            <button type="submit" class="btn" onclick="loginUser(event)">تسجيل الدخول</button>
         </form>
         <form id="registerForm" class="form">
             <div class="textbox">
-                <input type="text" placeholder="اسم المستخدم" required>
+                <input type="text" id="registerUsername" placeholder="اسم المستخدم" required>
             </div>
             <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" id="registerEmail" placeholder="البريد الإلكتروني" required>
             </div>
             <div class="textbox">
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" id="registerPassword" placeholder="كلمة السر" required>
             </div>
-            <button type="submit" class="btn" onclick="redirectToDashboard()">إنشاء حساب</button>
+            <button type="submit" class="btn" onclick="registerUser(event)">إنشاء حساب</button>
         </form>
     </div>
 
@@ -326,11 +326,45 @@
             document.querySelector('.btn').textContent = isArabic ? 'إنشاء حساب' : 'Register';
         }
 
-        // دالة التوجيه إلى الصفحة التالية بعد النجاح
-        function redirectToDashboard(event) {
-            event.preventDefault(); // لمنع إرسال النموذج
-            window.location.href = 'dashboard.html'; // التوجيه إلى صفحة لوحة التحكم
+        // دالة تسجيل المستخدم
+        function registerUser(event) {
+            event.preventDefault(); // منع إرسال النموذج
+
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // التحقق من البيانات المدخلة
+            if (!username || !email || !password) {
+                alert('يرجى ملء جميع الحقول');
+                return;
+            }
+
+            // تخزين البيانات مؤقتًا باستخدام sessionStorage
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('email', email);
+            sessionStorage.setItem('password', password);
+
+            alert('تم إنشاء الحساب بنجاح');
+            window.location.href = 'dashboard.html'; // التوجيه إلى الصفحة الرئيسية بعد التسجيل
+        }
+
+        // دالة تسجيل الدخول
+        function loginUser(event) {
+            event.preventDefault(); // منع إرسال النموذج
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('يرجى إدخال البريد الإلكتروني وكلمة المرور');
+                return;
+            }
+
+            // تحقق مبدئي (إضافة تحقق حقيقي لاحقًا)
+            alert('تم تسجيل الدخول بنجاح');
+            window.location.href = 'dashboard.html'; // التوجيه إلى صفحة لوحة التحكم بعد تسجيل الدخول
         }
     </script>
 </body>
-</html>
+    </html>
