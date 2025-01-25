@@ -38,7 +38,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* أيقونة الشريط الجانبي */
         .sidebar-icon {
             font-size: 30px;
             color: #00c6ff;
@@ -49,17 +48,16 @@
             z-index: 1001;
         }
 
-        /* الشريط الجانبي */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -250px; /* إخفاء الشريط الجانبي خارج الشاشة */
+            left: -250px;
             width: 250px;
             height: 100%;
             background: #141e30;
             padding-top: 30px;
             padding-left: 20px;
-            transition: left 0.3s ease; /* تأثير الانزلاق */
+            transition: left 0.3s ease;
             z-index: 1000;
         }
 
@@ -70,11 +68,10 @@
             text-decoration: none;
             font-size: 18px;
             font-weight: bold;
-            transition: background-color 0.3s ease, padding-left 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .sidebar a:hover {
-            padding-left: 15px;
             background-color: #243b55;
             color: #fff;
         }
@@ -86,7 +83,7 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin-left: 270px; /* لتكون المسافة بين الشريط الجانبي والنموذج */
+            margin-left: 270px;
             margin-bottom: 20px;
         }
 
@@ -158,7 +155,6 @@
         .btn:hover {
             background-color: #005bb5;
             transform: scale(1.05);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
         }
 
         .social-icons {
@@ -195,7 +191,45 @@
             display: block;
         }
 
-        /* تعديل التصميم للأجهزة الصغيرة */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 18px;
+            color: #00c6ff;
+            text-align: center;
+            width: 100%;
+        }
+
+        .about {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .about h2 {
+            font-size: 24px;
+            color: #00c6ff;
+            margin-bottom: 15px;
+        }
+
+        .about p {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .about .footer {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #00c6ff;
+        }
+
         @media (max-width: 480px) {
             header {
                 font-size: 24px;
@@ -224,14 +258,12 @@
 </head>
 
 <body>
-    <!-- أيقونة الشريط الجانبي -->
     <div class="sidebar-icon" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </div>
 
-    <!-- الشريط الجانبي -->
     <div class="sidebar">
-        <a href="#">الصفحة الرئيسية</a>
+        <a href="#">الرئيسية</a>
         <a href="#">الدعم</a>
         <a href="#">الشروط والأحكام</a>
         <a href="#">من نحن</a>
@@ -277,28 +309,27 @@
         <a href="https://telegram.org" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>
     </div>
 
+    <div class="about" data-aos="fade-up">
+        <h2>من نحن</h2>
+        <p>نحن نقدم حلولًا مبتكرة لتحقيق دخل مستدام عبر الإنترنت. هدفنا هو مساعدتك في الاستفادة من الفرص المتاحة
+            وتحقيق النجاح من خلال الإنترنت.</p>
+        <div class="footer">
+            <p>Mohamed & Mahmoud</p>
+        </div>
+    </div>
+
     <script>
         AOS.init();
 
-        // فتح وإغلاق الشريط الجانبي
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
-            const closeButton = document.createElement('div');
-            closeButton.className = 'close-btn';
-            closeButton.innerHTML = '&times;';
-            closeButton.onclick = function() {
-                sidebar.style.left = '-250px';
-            };
-
             if (sidebar.style.left === '0px') {
                 sidebar.style.left = '-250px';
             } else {
                 sidebar.style.left = '0';
-                sidebar.appendChild(closeButton); // إضافة الزر للغلق
             }
         }
 
-        // تغيير محتوى النموذج بين تسجيل الدخول وإنشاء حساب
         function toggleForm(form) {
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
