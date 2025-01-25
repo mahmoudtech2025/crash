@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مرحباً بك</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -18,7 +18,7 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(to right, #141e30, #243b55);
+            background: linear-gradient(to right, #2e3b4e, #3a4a61); /* لون داكن جديد */
             color: #fff;
             min-height: 100vh;
             padding: 20px;
@@ -29,23 +29,24 @@
         }
 
         header {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             color: #00c6ff;
             margin-bottom: 30px;
             text-align: center;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-family: 'Roboto', sans-serif; /* تغيير الخط للعناوين */
             animation: fadeIn 1s ease-out;
         }
 
         .form-container {
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             background: rgba(0, 0, 0, 0.8);
             border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
             animation: slideIn 0.8s ease-out;
         }
@@ -103,13 +104,6 @@
             transform: scale(1.02);
         }
 
-        .textbox input:focus ~ .error-message {
-            display: block;
-            color: #ff4d4d;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
         .btn {
             width: 100%;
             padding: 15px;
@@ -163,22 +157,6 @@
             display: block;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: #e1e1e1;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .progress-bar span {
-            display: block;
-            height: 100%;
-            width: 0%;
-            background-color: #00c6ff;
-            border-radius: 10px;
-        }
-
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
@@ -227,7 +205,6 @@
                 <i class="fas fa-eye" onclick="togglePassword()" id="togglePassword"></i>
             </div>
             <button class="btn">تسجيل الدخول</button>
-            <div class="progress-bar"><span style="width: 70%;"></span></div>
         </div>
         <div id="signupForm" class="form-content">
             <div class="textbox">
@@ -244,7 +221,6 @@
                 <i class="fas fa-eye" onclick="togglePassword('signup')" id="toggleSignupPassword"></i>
             </div>
             <button class="btn">إنشاء حساب</button>
-            <div class="progress-bar"><span style="width: 40%;"></span></div>
         </div>
     </div>
 
@@ -263,21 +239,6 @@
             document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        // Toggle password visibility for both login and signup
         function togglePassword(form = 'login') {
             const passwordField = document.getElementById(form === 'login' ? 'passwordInput' : 'signupPasswordInput');
-            const toggleIcon = document.getElementById(form === 'login' ? 'togglePassword' : 'toggleSignupPassword');
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = "password";
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            }
-        }
-    </script>
-</body>
-
-</html>
+            const toggleIcon = document.getElementById
