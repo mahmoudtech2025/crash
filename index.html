@@ -423,7 +423,12 @@
         if (data.success && data.status === "Completed") {
           clearInterval(interval); // إيقاف الـ polling
           alert("تم تحديث الإيداع بنجاح");
-          // هنا يمكنك تحديث واجهة المستخدم لإظهار الرصيد الجديد
+          
+          // تحديث الرصيد هنا بعد إتمام الإيداع
+          userBalance += data.depositAmount; // إضافة المبلغ المودع إلى الرصيد الحالي
+          document.getElementById('balance').textContent = `الرصيد: ${userBalance}`;
+
+          // يمكنك هنا أيضًا إظهار رسالة للمستخدم أو تحديث الـ UI بشكل أكبر.
         } else {
           console.log("الإيداع لا يزال في حالة " + data.status);
         }
@@ -433,12 +438,7 @@
         clearInterval(interval); // إيقاف الـ polling في حالة حدوث خطأ
       });
   }, 5000); // يتم التحقق من الحالة كل 5 ثوانٍ
-}
-
-// افترض أن لديك معرف الإيداع depositId من الـ backend
-const depositId = "id_of_the_deposit";
-pollDepositStatus(depositId);
-
+        }
         function logoutUser() {
             localStorage.removeItem('username');
             document.getElementById('dashboard').style.display = 'none';
