@@ -21,6 +21,7 @@
             align-items: center;
             height: 100vh;
             color: #fff;
+            overflow: hidden;
         }
 
         .container {
@@ -137,6 +138,7 @@
             display: block;
         }
 
+        /* Animation effects */
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
@@ -145,6 +147,68 @@
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
+        }
+
+        /* Social Icons */
+        .social-icons {
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 24px;
+            color: #0072ff;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #005bb5;
+        }
+
+        /* Language toggle */
+        .language-toggle {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #0072ff;
+        }
+
+        /* Sidebar or Popup */
+        .popup {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            color: #0072ff;
+            padding: 30px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .popup button {
+            background-color: #0072ff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .popup button:hover {
+            background-color: #005bb5;
         }
 
         @media screen and (max-width: 480px) {
@@ -175,6 +239,38 @@
                 <p>ليس لديك حساب؟ <a href="#">إنشاء حساب</a></p>
             </form>
         </div>
+
+        <!-- Social Media Links -->
+        <div class="social-icons">
+            <a href="#" target="_blank">📘</a>
+            <a href="#" target="_blank">🐦</a>
+            <a href="#" target="_blank">📷</a>
+        </div>
+
+        <!-- Language Toggle -->
+        <div class="language-toggle">🌐</div>
+
+        <!-- Popup -->
+        <div class="popup" id="popup">
+            <p>مرحبًا بك في الموقع!</p>
+            <button onclick="closePopup()">إغلاق</button>
+        </div>
     </div>
+
+    <script>
+        // Language toggle functionality
+        document.querySelector('.language-toggle').addEventListener('click', function() {
+            alert('تغيير اللغة سيتم قريبًا!');
+        });
+
+        // Popup toggle functionality
+        document.querySelector('.logo').addEventListener('click', function() {
+            document.getElementById('popup').classList.add('active');
+        });
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
