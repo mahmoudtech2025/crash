@@ -19,7 +19,7 @@
             min-height: 100vh;
             background-color: #f8f9fa;
             color: #333;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         header {
@@ -30,19 +30,15 @@
             text-align: center;
             font-size: 18px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         .content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             padding: 20px;
             width: 100%;
-            max-width: 1400px;
-            margin-top: 20px;
+            max-width: 1200px;
         }
 
         .box {
@@ -119,10 +115,6 @@
             background-color: #444;
         }
 
-        .sidebar.open {
-            right: 0;
-        }
-
         .sidebar-icon {
             position: fixed;
             top: 20px;
@@ -138,19 +130,22 @@
             cursor: pointer;
             z-index: 1100;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
         }
 
         .sidebar-icon:hover {
-            transform: rotate(90deg);
+            background-color: #005bb5;
+        }
+
+        .sidebar.open {
+            right: 0;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <span>اسم المستخدم:</span> <span id="username"></span> |
-        <span>الرصيد:</span> <span id="balance"></span>
+        <span>اسم المستخدم: </span><span id="username"></span> |
+        <span>الرصيد: </span><span id="balance"></span>
     </header>
 
     <div class="content">
@@ -205,12 +200,12 @@
     </div>
 
     <div class="sidebar" id="sidebar">
-        <a href="#">إيداع</a>
-        <a href="#">سحب</a>
-        <a href="#">لعبة</a>
-        <a href="#">سجلات الإيداع</a>
-        <a href="#">سجلات السحب</a>
-        <a href="#">الهدايا</a>
+        <a href="#" onclick="alert('فتح صفحة الإيداع')">إيداع</a>
+        <a href="#" onclick="alert('فتح صفحة السحب')">سحب</a>
+        <a href="#" onclick="alert('فتح صفحة اللعبة')">لعبة</a>
+        <a href="#" onclick="alert('فتح صفحة سجلات الإيداع')">سجلات الإيداع</a>
+        <a href="#" onclick="alert('فتح صفحة سجلات السحب')">سجلات السحب</a>
+        <a href="#" onclick="alert('فتح صفحة الهدايا')">الهدايا</a>
     </div>
 
     <div class="sidebar-icon" onclick="toggleSidebar()">
@@ -219,13 +214,14 @@
 
     <script>
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
         }
 
         function purchaseVIP(price) {
-            alert(`تم شراء VIP بقيمة: ${price} جنيه`);
+            alert(`عملية الشراء: ${price}`);
         }
     </script>
 </body>
 
-</html>
+        </html> 
