@@ -34,7 +34,7 @@
 
         .content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             padding: 20px;
             width: 100%;
@@ -152,16 +152,51 @@
         <div class="box" data-price="100">
             <h3>VIP1</h3>
             <p>القيمة: 100 جنيه</p>
-            <p>الأرباح: 5٪</p>
+            <p>الأرباح: 5%</p>
             <button onclick="purchaseVIP(100)">شراء</button>
         </div>
         <div class="box" data-price="300">
             <h3>VIP2</h3>
             <p>القيمة: 300 جنيه</p>
-            <p>الأرباح: 7٪</p>
+            <p>الأرباح: 7%</p>
             <button onclick="purchaseVIP(300)">شراء</button>
         </div>
-        <!-- Add more boxes as needed -->
+        <div class="box" data-price="500">
+            <h3>VIP3</h3>
+            <p>القيمة: 500 جنيه</p>
+            <p>الأرباح: 10%</p>
+            <button onclick="purchaseVIP(500)">شراء</button>
+        </div>
+        <div class="box" data-price="800">
+            <h3>VIP4</h3>
+            <p>القيمة: 800 جنيه</p>
+            <p>الأرباح: 12%</p>
+            <button onclick="purchaseVIP(800)">شراء</button>
+        </div>
+        <div class="box" data-price="1200">
+            <h3>VIP5</h3>
+            <p>القيمة: 1200 جنيه</p>
+            <p>الأرباح: 14%</p>
+            <button onclick="purchaseVIP(1200)">شراء</button>
+        </div>
+        <div class="box" data-price="1500">
+            <h3>VIP6</h3>
+            <p>القيمة: 1500 جنيه</p>
+            <p>الأرباح: 16%</p>
+            <button onclick="purchaseVIP(1500)">شراء</button>
+        </div>
+        <div class="box" data-price="2500">
+            <h3>VIP7</h3>
+            <p>القيمة: 2500 جنيه</p>
+            <p>الأرباح: 18%</p>
+            <button onclick="purchaseVIP(2500)">شراء</button>
+        </div>
+        <div class="box" data-price="5000">
+            <h3>VIP8</h3>
+            <p>القيمة: 5000 جنيه</p>
+            <p>الأرباح: 22%</p>
+            <button onclick="purchaseVIP(5000)">شراء</button>
+        </div>
     </div>
 
     <div class="sidebar" id="sidebar">
@@ -184,8 +219,7 @@
         }
 
         function purchaseVIP(price) {
-            // هنا يتم استدعاء API للتحقق من الرصيد
-            alert(`تم التحقق من الرصيد والعملية قيد التفعيل (${price} جنيه)`);
+            alert(`عملية الشراء: ${price}`);
         }
     </script>
 </body>
