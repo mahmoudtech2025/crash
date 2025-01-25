@@ -28,8 +28,14 @@
             color: #fff;
             display: flex;
             justify-content: space-between;
-            font-size: 18px;
+            font-size: 16px; /* تصغير حجم النص */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        header span {
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
         .content {
@@ -139,6 +145,11 @@
         .sidebar.open {
             right: 0;
         }
+
+        .sidebar a:nth-child(1) {
+            margin-top: 80px; /* تحريك "إيداع" لأسفل */
+        }
+
     </style>
 </head>
 
