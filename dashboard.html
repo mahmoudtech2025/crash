@@ -21,12 +21,15 @@
             background-size: cover;
             color: #fff;
             text-align: center;
+            overflow-x: hidden;
         }
 
         header {
-            width: 100%;
-            padding: 15px 20px;
+            width: 90%;
+            margin: 20px auto 0;
+            padding: 10px 20px;
             background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -35,7 +38,8 @@
 
         header .info {
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
+            width: 100%;
         }
 
         header span {
@@ -49,7 +53,7 @@
             justify-content: center;
             gap: 15px;
             margin: 20px 10px;
-            width: 100%;
+            width: 90%;
         }
 
         .buttons button {
@@ -100,7 +104,7 @@
     <header>
         <div class="info">
             <div>Username: <span id="username"></span></div>
-            <div>Balance:</div>
+            <div>Balance: <span id="balance"></span></div>
         </div>
     </header>
 
@@ -127,9 +131,12 @@
     </a>
 
     <script>
-        // بيانات المستخدم (مثال توضيحي)
-        const username = "User123"; // يتم جلبه من قاعدة البيانات
+        // يتم ملء القيم من قاعدة البيانات
+        const username = ""; // اسم المستخدم من قاعدة البيانات
+        const balance = ""; // الرصيد من قاعدة البيانات
+
         document.getElementById('username').textContent = username;
+        document.getElementById('balance').textContent = balance;
     </script>
 </body>
 
