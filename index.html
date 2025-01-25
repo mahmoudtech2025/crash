@@ -38,16 +38,28 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
+        /* أيقونة الشريط الجانبي */
+        .sidebar-icon {
+            font-size: 30px;
+            color: #00c6ff;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
         /* الشريط الجانبي */
         .sidebar {
             position: fixed;
             top: 0;
-            left: 0;
+            left: -250px; /* إخفاء الشريط الجانبي خارج الشاشة */
             width: 250px;
             height: 100%;
             background: #141e30;
             padding-top: 30px;
             padding-left: 20px;
+            transition: left 0.3s ease; /* تأثير الانزلاق */
             z-index: 1000;
         }
 
@@ -73,7 +85,7 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin-left: 270px; /* هذا لكي يكون النموذج بجانب الشريط الجانبي */
+            margin-left: 270px; /* لتكون المسافة بين الشريط الجانبي والنموذج */
             margin-bottom: 20px;
         }
 
@@ -209,6 +221,11 @@
 </head>
 
 <body>
+    <!-- أيقونة الشريط الجانبي -->
+    <div class="sidebar-icon" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
+
     <!-- الشريط الجانبي -->
     <div class="sidebar">
         <a href="#">الرئيسية</a>
@@ -260,6 +277,17 @@
     <script>
         AOS.init();
 
+        // فتح وإغلاق الشريط الجانبي
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar.style.left === '0px') {
+                sidebar.style.left = '-250px';
+            } else {
+                sidebar.style.left = '0';
+            }
+        }
+
+        // تغيير محتوى النموذج بين تسجيل الدخول وإنشاء حساب
         function toggleForm(form) {
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
@@ -269,4 +297,4 @@
     </script>
 </body>
 
-</html>
+    </html>
