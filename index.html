@@ -134,11 +134,12 @@
             background: #f1f1f1;
             font-size: 16px;
             outline: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .textbox input:focus {
             background: #e1f5fe;
+            box-shadow: 0 0 8px #0072ff;
         }
 
         .btn {
@@ -150,21 +151,44 @@
             border-radius: 10px;
             font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .btn:hover {
             background-color: #005bb5;
+            transform: scale(1.05);
         }
 
+        /* التنبيه */
+        .alert {
+            display: none;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* التأثيرات */
         @keyframes fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* تعديلات التوافق مع الأجهزة */
+        @media (max-width: 600px) {
+            .tabs {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -192,25 +216,26 @@
         </div>
         <form id="loginForm" class="form active" onsubmit="return handleSubmit('login')">
             <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" placeholder="البريد الإلكتروني" required id="loginEmail">
             </div>
             <div class="textbox">
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" placeholder="كلمة السر" required id="loginPassword">
             </div>
             <button class="btn" type="submit">تسجيل الدخول</button>
         </form>
         <form id="registerForm" class="form" onsubmit="return handleSubmit('register')">
             <div class="textbox">
-                <input type="text" placeholder="اسم المستخدم" required>
+                <input type="text" placeholder="اسم المستخدم" required id="registerUsername">
             </div>
             <div class="textbox">
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" placeholder="البريد الإلكتروني" required id="registerEmail">
             </div>
             <div class="textbox">
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" placeholder="كلمة السر" required id="registerPassword">
             </div>
             <button class="btn" type="submit">إنشاء حساب</button>
         </form>
+        <div class="alert" id="alertMessage"></div>
     </div>
 
     <script>
@@ -237,7 +262,34 @@
         }
 
         function handleSubmit(type) {
-            alert(`${type === 'login' ? 'تسجيل الدخول' : 'إنشاء الحساب'} ناجح!`);
+            const alertMessage = document.getElementById('alertMessage');
+            if (type === 'login') {
+                // تحقق بسيط من المدخلات
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                if (!email || !password) {
+                    alertMessage.style.backgroundColor = '#dc3545';
+                    alertMessage.innerText = 'برجاء إدخال جميع البيانات';
+                    alertMessage.style.display = 'block';
+                    return false;
+                }
+                alertMessage.style.backgroundColor = '#28a745';
+                alertMessage.innerText = 'تسجيل الدخول ناجح!';
+                alertMessage.style.display = 'block';
+            } else {
+                const username = document.getElementById('registerUsername').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                if (!username || !email || !password) {
+                    alertMessage.style.backgroundColor = '#dc3545';
+                    alertMessage.innerText = 'برجاء إدخال جميع البيانات';
+                    alertMessage.style.display = 'block';
+                    return false;
+                }
+                alertMessage.style.backgroundColor = '#28a745';
+                alertMessage.innerText = 'تم إنشاء الحساب بنجاح!';
+                alertMessage.style.display = 'block';
+            }
             return false;
         }
     </script>
