@@ -36,24 +36,7 @@
             text-align: center;
             letter-spacing: 2px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #0072ff;
-            color: #fff;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background: #005bb5;
-            transform: scale(1.1);
+            animation: fadeIn 1s ease-out;
         }
 
         .form-container {
@@ -64,6 +47,7 @@
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             margin-bottom: 20px;
+            animation: fadeIn 1s ease-out;
         }
 
         .form-header {
@@ -115,6 +99,7 @@
 
         .textbox input:focus {
             background: #e1f5fe;
+            box-shadow: 0 0 5px rgba(0, 204, 255, 0.7);
         }
 
         .btn {
@@ -134,22 +119,6 @@
         .btn:hover {
             background-color: #005bb5;
             transform: scale(1.05);
-        }
-
-        .progress-container {
-            position: relative;
-            margin: 20px 0;
-            height: 8px;
-            background: #f1f1f1;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background: #0072ff;
-            transition: width 0.4s ease;
         }
 
         .social-icons {
@@ -202,12 +171,21 @@
                 font-size: 20px;
             }
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
 <body>
     <header data-aos="fade-down">مرحباً بك</header>
-    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
     <div class="form-container" data-aos="fade-up">
         <div class="form-header">
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
@@ -221,9 +199,6 @@
             <div class="textbox">
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="كلمة السر" required>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressLogin"></div>
             </div>
             <button class="btn">تسجيل الدخول</button>
         </div>
@@ -240,12 +215,10 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="كلمة السر" required>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressSignup"></div>
-            </div>
             <button class="btn">إنشاء حساب</button>
         </div>
     </div>
+
     <div class="social-icons" data-aos="fade-up">
         <a href="https://facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
         <a href="https://telegram.org" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>
@@ -259,12 +232,6 @@
             document.getElementById(`${form}Form`).classList.add('active');
             document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Tab`).classList.add('active');
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            document.querySelector('.theme-toggle').textContent =
-                document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
         }
     </script>
 </body>
