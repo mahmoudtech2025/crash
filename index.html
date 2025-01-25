@@ -5,8 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Earn Money</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
+        /* Reset */
         * {
             margin: 0;
             padding: 0;
@@ -17,48 +24,59 @@
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             min-height: 100vh;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
         }
 
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00c6ff;
+            cursor: pointer;
+        }
+
+        .navbar .links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .navbar .links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .links a:hover {
+            color: #ff5722;
+        }
+
+        /* Main Container */
         .container {
             width: 90%;
             max-width: 400px;
+            margin: 60px auto;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             text-align: center;
             animation: fadeIn 1s ease-in-out;
-        }
-
-        .logo {
-            font-size: 40px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #00c6ff;
-            font-family: 'Amiri', serif;
-            cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.1);
-            color: #ff5722;
-        }
-
-        .welcome-message {
-            font-size: 18px;
-            font-family: 'Tajawal', sans-serif;
-            margin-bottom: 20px;
-            color: #ffeb3b;
-            animation: slideIn 1s ease-in-out;
         }
 
         .tabs {
@@ -84,13 +102,9 @@
             background: #0072ff;
         }
 
-        .tab:hover {
-            background: #005bb5;
-        }
-
         .form {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: slideIn 0.5s ease-in-out;
         }
 
         .form.active {
@@ -126,8 +140,6 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn:hover {
@@ -136,84 +148,27 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .btn:active::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            animation: ripple 0.6s linear;
-        }
-
-        .social-icons {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-        }
-
-        .social-icons a {
-            width: 50px;
-            height: 50px;
-            background: #0072ff;
+        /* Footer */
+        footer {
+            background: #111;
+            padding: 20px;
+            text-align: center;
             color: #fff;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #00c6ff;
             text-decoration: none;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin: 0 5px;
+            transition: color 0.3s ease;
         }
 
-        .social-icons a:hover {
-            background: #ff5722;
-            transform: scale(1.2);
+        footer a:hover {
+            color: #ff5722;
         }
 
-        .social-icons a.disabled {
-            pointer-events: none;
-            cursor: default;
-            background: #444;
-        }
-
-        .dark-mode {
-            background: #121212;
-        }
-
-        .dark-mode .container {
-            background-color: #1e1e1e;
-        }
-
-        .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: #0072ff;
-            color: #fff;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .dark-mode-toggle:hover {
-            background: #005bb5;
-            transform: scale(1.1);
-        }
-
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -234,74 +189,79 @@
             }
         }
 
-        @keyframes ripple {
-            from {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
+        /* Responsive */
+        @media (max-width: 480px) {
+            .navbar .logo {
+                font-size: 20px;
             }
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0;
+
+            .navbar .links a {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
-    <div class="container">
-        <div class="logo" onclick="animateLogo()">Earn Money</div>
-        <div class="welcome-message">مرحبًا بك! اختر تسجيل الدخول أو إنشاء حساب جديد</div>
-        <div class="tabs">
-            <div class="tab active" id="loginTab" onclick="showForm('login')">تسجيل الدخول</div>
-            <div class="tab" id="registerTab" onclick="showForm('register')">إنشاء حساب</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Earn Money</div>
+        <div class="links">
+            <a href="#">الرئيسية</a>
+            <a href="#">من نحن</a>
+            <a href="#">تواصل معنا</a>
         </div>
-        <form id="loginForm" class="form active" onsubmit="return validateLoginForm()">
-            <div class="textbox">
-                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
-            </div>
-            <div class="textbox">
-                <input type="password" id="loginPassword" placeholder="كلمة السر" required>
-            </div>
-            <button type="submit" class="btn">تسجيل الدخول</button>
-        </form>
-        <form id="registerForm" class="form" onsubmit="return validateRegisterForm()">
-            <div class="textbox">
-                <input type="text" id="username" placeholder="اسم المستخدم" required>
-            </div>
-            <div class="textbox">
-                <input type="email" id="registerEmail" placeholder="البريد الإلكتروني" required>
-            </div>
-            <div class="textbox">
-                <input type="password" id="registerPassword" placeholder="كلمة السر" required>
-            </div>
-            <button type="submit" class="btn">إنشاء حساب</button>
-        </form>
-    </div>
-    <div class="social-icons">
-        <a href="#" class="disabled" onclick="alert('تحت الإنشاء')">📱</a>
-        <a href="#" class="disabled" onclick="alert('تحت الإنشاء')">🐦</a>
-    </div>
-    <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
+    </nav>
 
+    <!-- Main Container -->
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showForm('login')">تسجيل الدخول</div>
+            <div class="tab" onclick="showForm('register')">إنشاء حساب</div>
+        </div>
+        <form id="loginForm" class="form active" onsubmit="return false;">
+            <div class="textbox">
+                <input type="email" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="textbox">
+                <input type="password" placeholder="كلمة المرور">
+            </div>
+            <button class="btn">تسجيل الدخول</button>
+        </form>
+        <form id="registerForm" class="form" onsubmit="return false;">
+            <div class="textbox">
+                <input type="text" placeholder="اسم المستخدم">
+            </div>
+            <div class="textbox">
+                <input type="email" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="textbox">
+                <input type="password" placeholder="كلمة المرور">
+            </div>
+            <button class="btn">إنشاء حساب</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Earn Money | <a href="#">سياسة الخصوصية</a> | <a href="#">الشروط والأحكام</a></p>
+    </footer>
+
+    <script>
         function showForm(formType) {
             const loginForm = document.getElementById('loginForm');
             const registerForm = document.getElementById('registerForm');
-            const loginTab = document.getElementById('loginTab');
-            const registerTab = document.getElementById('registerTab');
+            const tabs = document.querySelectorAll('.tab');
             if (formType === 'login') {
                 loginForm.classList.add('active');
                 registerForm.classList.remove('active');
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
             } else {
                 registerForm.classList.add('active');
                 loginForm.classList.remove('active');
-                loginTab.classList.remove('active');
-                registerTab.classList.add('active');
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
             }
         }
     </script>
