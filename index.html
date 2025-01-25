@@ -21,8 +21,7 @@
             align-items: center;
             flex-direction: column;
             min-height: 100vh;
-            padding-top: 80px;
-            position: relative;
+            padding: 20px;
             overflow: hidden;
         }
 
@@ -34,6 +33,7 @@
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             text-align: center;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .logo {
@@ -50,6 +50,7 @@
             margin-bottom: 20px;
             background: #00c6ff;
             border-radius: 10px;
+            overflow: hidden;
         }
 
         .tab {
@@ -72,6 +73,7 @@
 
         .form {
             display: none;
+            animation: slideIn 0.5s ease-in-out;
         }
 
         .form.active {
@@ -80,11 +82,11 @@
 
         .textbox input {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 15px;
+            margin: 10px 0;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 18px;
             outline: none;
             background: #f1f1f1;
             color: #333;
@@ -104,12 +106,14 @@
             border-radius: 10px;
             font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .btn:hover {
             background-color: #005bb5;
             transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
         }
 
         /* الوضع الليلي */
@@ -128,7 +132,7 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
 
         .social-icons a {
@@ -147,8 +151,8 @@
         }
 
         .social-icons a:hover {
-            background: #005bb5;
-            transform: scale(1.1);
+            background: #ff5722;
+            transform: scale(1.2);
         }
 
         .dark-mode .social-icons a {
@@ -179,6 +183,11 @@
         }
 
         @media (max-width: 480px) {
+            .textbox input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
             .social-icons {
                 bottom: 10px;
             }
@@ -193,6 +202,26 @@
                 width: 45px;
                 height: 45px;
                 font-size: 20px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
     </style>
