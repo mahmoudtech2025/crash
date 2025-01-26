@@ -149,33 +149,23 @@
             font-size: 14px;
             color: #ccc;
             text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            padding: 0 30px;
         }
 
         .footer-text {
+            display: inline-block;
+            margin-top: 10px;
             font-size: 16px;
+            color: #ccc;
             text-align: center;
         }
 
-        .footer-item {
-            text-align: center;
-        }
-
-        .footer-item p {
-            margin: 5px 0;
-            font-size: 14px;
+        select {
+            background: #333;
+            border: 2px solid #00c6ff;
+            padding: 5px;
             color: #fff;
-        }
-
-        .footer-item i {
-            font-size: 24px;
-            color: #00c6ff;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .theme-toggle {
@@ -230,6 +220,7 @@
             </div>
             <button class="btn">إنشاء حساب</button>
         </div>
+
     </div>
 
     <div class="social-icons">
@@ -238,14 +229,7 @@
     </div>
 
     <footer>
-        <div class="footer-item">
-            <p>Eng | Mahmoud</p>
-            <i class="fas fa-laptop-code"></i>
-        </div>
-        <div class="footer-item">
-            <p>Eng | Mohammed</p>
-            <i class="fas fa-laptop-code"></i>
-        </div>
+        <p>جميع الحقوق محفوظة. احصل على المال</p>
     </footer>
 
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
@@ -253,12 +237,83 @@
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
+        function showLoader(show) {
+            document.getElementById("loader").style.display = show ? "block" : "none";
+        }
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
+            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
+            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
+
+            if (!username || !email || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ورقم وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) toggleForm('login');
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء إنشاء الحساب:", error);
+            }
+        }
+
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
+            const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
+            const rememberMe = document.getElementById("rememberMe").checked;
+
+            if (!username || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) {
+                    if (rememberMe) localStorage.setItem("authToken", data.token);
+                    window.location.href = "dashboard.html";
+                }
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء تسجيل الدخول:", error);
+            }
+        }
+
         function toggleForm(form) {
-            document.querySelectorAll('.form-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
-            document.querySelectorAll('.form-header button').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Tab`).classList.add('active');
         }
+
+        document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
+        document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
 
         function toggleTheme() {
             document.body.classList.toggle("dark-mode");
