@@ -6,16 +6,16 @@
     <title>الصفحة الرئيسية</title>
     <style>
         body {
-            background-color: white;
-            color: black;
+            background: linear-gradient(to bottom, #4CAF50, #1E90FF);
+            color: white;
             font-family: Arial, sans-serif;
-            transition: all 0.3s ease;
             margin: 0;
             padding: 0;
+            transition: all 0.3s ease;
         }
 
         body.dark-mode {
-            background-color: black;
+            background: linear-gradient(to bottom, #000, #333);
             color: white;
         }
 
@@ -43,49 +43,60 @@
             margin-top: 100px;
         }
 
-        /* مربع تسجيل الدخول */
-        .login-box, .signup-box {
+        /* مربعات تسجيل الدخول وإنشاء الحساب */
+        .box {
             width: 300px;
             margin: 50px auto;
             padding: 20px;
-            border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: none; /* إخفاء المربعات في البداية */
         }
 
-        .login-box input, .signup-box input {
+        .box.active {
+            display: block; /* إظهار المربع النشط */
+        }
+
+        .box input {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: none;
         }
 
-        .login-box button, .signup-box button {
+        .box button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #FFD700;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .login-box p, .signup-box p {
+        .box p {
             text-align: center;
+            margin-top: 10px;
         }
 
-        .login-box a {
-            color: #4CAF50;
+        .box a {
+            color: #FFD700;
             text-decoration: none;
         }
 
-        /* خدمة العملاء */
+        /* أيقونة خدمة العملاء */
         .customer-service {
             position: fixed;
             bottom: 10px;
             right: 10px;
-            font-size: 18px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .customer-service a {
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -97,30 +108,31 @@
     <!-- أيقونة تغيير اللغة -->
     <div class="language-toggle" onclick="changeLanguage()">🌍</div>
 
-    <!-- لوجو -->
+    <!-- اللوجو -->
     <div class="logo">
         <h1>BEST</h1>
     </div>
 
     <!-- مربع تسجيل الدخول -->
-    <div class="login-box">
+    <div id="login-box" class="box active">
         <input type="tel" placeholder="أدخل رقم الهاتف">
         <input type="password" placeholder="أدخل كلمة السر">
         <button>تسجيل الدخول</button>
-        <p><a href="#signup">ليس لديك حساب؟ سجل الأن</a></p>
+        <p><a href="#" onclick="showSignup()">ليس لديك حساب؟ سجل الأن</a></p>
     </div>
 
-    <!-- مربع إنشاء حساب -->
-    <div id="signup" class="signup-box">
+    <!-- مربع إنشاء الحساب -->
+    <div id="signup-box" class="box">
         <input type="tel" placeholder="أدخل رقم الهاتف">
         <input type="password" placeholder="أدخل كلمة السر">
         <input type="password" placeholder="إعادة إدخال كلمة السر">
         <button>إنشاء حساب</button>
+        <p><a href="#" onclick="showLogin()">لديك حساب؟ تسجيل الدخول</a></p>
     </div>
 
     <!-- خدمة العملاء -->
     <div class="customer-service">
-        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank">📞 خدمة العملاء</a>
+        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank">📞</a>
     </div>
 
     <script>
@@ -133,7 +145,19 @@
         let language = 'ar'; // default language
         function changeLanguage() {
             language = language === 'ar' ? 'en' : 'ar';
-            // هنا تقدر تضيف منطق لتغيير النصوص بناءً على اللغة
+            alert("تم تغيير اللغة إلى " + (language === 'ar' ? "العربية" : "الإنجليزية"));
+        }
+
+        // إظهار مربع تسجيل الدخول
+        function showLogin() {
+            document.getElementById('signup-box').classList.remove('active');
+            document.getElementById('login-box').classList.add('active');
+        }
+
+        // إظهار مربع إنشاء الحساب
+        function showSignup() {
+            document.getElementById('login-box').classList.remove('active');
+            document.getElementById('signup-box').classList.add('active');
         }
     </script>
 
