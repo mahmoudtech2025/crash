@@ -2463,6 +2463,74 @@
 
 
     </script>
+    // رابط السيرفر
+const API_URL = "https://backend-theta-tawny-74.vercel.app";
+
+// إنشاء حساب
+async function registerUser(event) {
+  event.preventDefault(); // منع إعادة تحميل الصفحة
+
+  const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
+  const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
+  const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
+
+  try {
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message); // عرض رسالة النجاح
+      toggleForm('login'); // الانتقال إلى نموذج تسجيل الدخول
+    } else {
+      alert(data.message); // عرض رسالة الخطأ
+    }
+  } catch (error) {
+    console.error("خطأ أثناء إنشاء الحساب:", error);
+    alert("حدث خطأ أثناء الاتصال بالسيرفر.");
+  }
+}
+
+// تسجيل الدخول
+async function loginUser(event) {
+  event.preventDefault(); // منع إعادة تحميل الصفحة
+
+  const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
+  const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
+
+  try {
+    const response = await fetch(`${API_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message); // عرض رسالة النجاح
+      window.location.href = "dashboard.html"; // التوجيه إلى لوحة التحكم
+    } else {
+      alert(data.message); // عرض رسالة الخطأ
+    }
+  } catch (error) {
+    console.error("خطأ أثناء تسجيل الدخول:", error);
+    alert("حدث خطأ أثناء الاتصال بالسيرفر.");
+  }
+}
+
+// ربط الأزرار بالنماذج
+document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
+document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
+</script>
 
 
 
