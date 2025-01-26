@@ -22,6 +22,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
         }
 
         .form-container {
@@ -31,6 +32,7 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease-in-out;
         }
 
         .form-header button {
@@ -56,11 +58,12 @@
         .textbox input {
             width: calc(100% - 30px);
             padding: 10px 40px;
-            border: none;
+            border: 2px solid #00c6ff;
             border-radius: 10px;
             font-size: 14px;
             background: #f1f1f1;
             color: #333;
+            transition: border 0.3s ease-in-out;
         }
 
         .textbox input:focus {
@@ -85,12 +88,12 @@
             border-radius: 10px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .btn:hover {
             background-color: #004080;
             transform: scale(1.05);
-            transition: 0.3s ease-in-out;
         }
 
         .form-content {
@@ -140,11 +143,34 @@
             color: #ccc;
             text-align: center;
         }
+
+        /* Dark Mode */
+        .dark-mode {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .form-container {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0072ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
     <header>مرحباً بك</header>
+    <button class="language-selector" onclick="toggleLanguage()">العربية</button>
     <div id="loader">جارٍ التحميل...</div>
     <div class="form-container">
         <div class="form-header">
@@ -192,7 +218,7 @@
     </div>
 
     <footer>
-        <p>All rights reserved. Earn Money</p>
+        <p>&copy; 2025 All Rights Reserved. Earn Money</p>
     </footer>
 
     <script>
@@ -202,75 +228,33 @@
             document.getElementById("loader").style.display = show ? "block" : "none";
         }
 
-        async function registerUser(event) {
-            event.preventDefault();
-            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
-
-            if (!username || !email || !password) {
-                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
-                return;
-            }
-
-            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ورقم وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
-                return;
-            }
-
-            showLoader(true);
-            try {
-                const response = await fetch(`${API_URL}/register`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
-                });
-                const data = await response.json();
-                showLoader(false);
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) toggleForm('login');
-            } catch (error) {
-                showLoader(false);
-                console.error("خطأ أثناء إنشاء الحساب:", error);
-            }
-        }
-
-        async function loginUser(event) {
-            event.preventDefault();
-            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
-            const rememberMe = document.getElementById("rememberMe").checked;
-
-            if (!username || !password) {
-                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
-                return;
-            }
-
-            showLoader(true);
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password }),
-                });
-                const data = await response.json();
-                showLoader(false);
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) {
-                    if (rememberMe) localStorage.setItem("authToken", data.token);
-                    window.location.href = "dashboard.html";
-                }
-            } catch (error) {
-                showLoader(false);
-                console.error("خطأ أثناء تسجيل الدخول:", error);
-            }
-        }
-
         function toggleForm(form) {
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Form`).classList.add('active');
             document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
             document.getElementById(`${form}Tab`).classList.add('active');
+        }
+
+        function toggleLanguage() {
+            const currentLanguage = document.querySelector('.language-selector').innerText;
+            if (currentLanguage === "العربية") {
+                document.querySelector('.language-selector').innerText = "English";
+                document.body.setAttribute('lang', 'en');
+                document.getElementById('loginTab').innerText = "Login";
+                document.getElementById('signupTab').innerText = "Sign Up";
+                document.querySelector("footer p").innerText = "All Rights Reserved. Earn Money";
+            } else {
+                document.querySelector('.language-selector').innerText = "العربية";
+                document.body.setAttribute('lang', 'ar');
+                document.getElementById('loginTab').innerText = "تسجيل الدخول";
+                document.getElementById('signupTab').innerText = "إنشاء حساب";
+                document.querySelector("footer p").innerText = "جميع الحقوق محفوظة. ابدأ في كسب المال";
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.form-container').classList.toggle('dark-mode');
         }
 
         document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
