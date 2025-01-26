@@ -150,18 +150,17 @@
             color: #ccc;
             text-align: center;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             position: absolute;
             bottom: 20px;
             width: 100%;
         }
 
         .footer-text {
-            display: inline-block;
-            margin-top: 10px;
             font-size: 16px;
             color: #ccc;
             text-align: center;
+            margin-top: 10px;
         }
 
         select {
@@ -177,15 +176,6 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #00c6ff;
-        }
-
-        .language-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             cursor: pointer;
             font-size: 20px;
             color: #00c6ff;
@@ -243,16 +233,16 @@
     </div>
 
     <footer>
-        <div>Eng: Mahmoud</div>
-        <div>Eng: Mohammed</div>
+        <div class="footer-text">
+            <p>© 2025 جميع الحقوق محفوظة.</p>
+            <p>تم تطوير الموقع بواسطة فريق الدعم الفني.</p>
+        </div>
     </footer>
 
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
-    <div class="language-toggle" onclick="toggleLanguage()">🌍</div>
 
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
-        let currentLanguage = 'ar'; // تحديد اللغة الافتراضية
 
         function showLoader(show) {
             document.getElementById("loader").style.display = show ? "block" : "none";
@@ -334,18 +324,6 @@
 
         function toggleTheme() {
             document.body.classList.toggle("dark-mode");
-        }
-
-        function toggleLanguage() {
-            if (currentLanguage === 'ar') {
-                currentLanguage = 'en';
-                document.documentElement.lang = 'en';
-                alert('Language changed to English');
-            } else {
-                currentLanguage = 'ar';
-                document.documentElement.lang = 'ar';
-                alert('تم تغيير اللغة إلى العربية');
-            }
         }
     </script>
 </body>
