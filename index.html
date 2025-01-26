@@ -181,10 +181,6 @@
                     <input type="text" placeholder="اسم المستخدم" required>
                 </div>
                 <div class="textbox">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="البريد الإلكتروني" required>
-                </div>
-                <div class="textbox">
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="أدخل كلمة السر" required>
                 </div>
@@ -209,11 +205,10 @@
         async function registerUser(event) {
             event.preventDefault();
             const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
             const password = document.querySelector("#signupForm input[placeholder='أدخل كلمة السر']").value;
             const confirmPassword = document.querySelector("#signupForm input[placeholder='تأكيد كلمة السر']").value;
 
-            if (!username || !email || !password || !confirmPassword) {
+            if (!username || !password || !confirmPassword) {
                 Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
                 return;
             }
@@ -227,7 +222,7 @@
                 const response = await fetch(`${API_URL}/register`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
+                    body: JSON.stringify({ username, password }),
                 });
                 const data = await response.json();
                 Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
@@ -246,3 +241,40 @@
             if (!username || !password) {
                 Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
                 return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password, rememberMe }),
+                });
+                const data = await response.json();
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+            } catch (error) {
+                console.error("خطأ أثناء تسجيل الدخول:", error);
+            }
+        }
+
+        function toggleForm(formType) {
+            if (formType === 'login') {
+                document.getElementById('loginTab').classList.add('active');
+                document.getElementById('signupTab').classList.remove('active');
+                document.getElementById('loginForm').classList.add('active');
+                document.getElementById('signupForm').classList.remove('active');
+            } else if (formType === 'signup') {
+                document.getElementById('loginTab').classList.remove('active');
+                document.getElementById('signupTab').classList.add('active');
+                document.getElementById('loginForm').classList.remove('active');
+                document.getElementById('signupForm').classList.add('active');
+            }
+        }
+
+        function openNav() {
+            document.getElementById("mySidebar").style.left = "0";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.left = "-250px";
+        }
+    </
