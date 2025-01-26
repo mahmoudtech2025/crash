@@ -1,31 +1,17 @@
- <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="ar">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>مرحباً بك</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
     <style>
-
-        /* التصميم الخاص بك */
-
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #141e30, #243b55);
@@ -68,11 +54,11 @@
         }
 
         .textbox input {
-            width: 100%;
-            padding: 15px 40px;
+            width: calc(100% - 30px);
+            padding: 10px 40px;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             background: #f1f1f1;
             color: #333;
         }
@@ -92,12 +78,12 @@
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background-color: #0072ff;
             color: #fff;
             border: none;
             border-radius: 10px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
         }
 
@@ -132,84 +118,82 @@
             text-align: center;
         }
 
-    </style>
+        .social-icons {
+            margin-top: 20px;
+            text-align: center;
+        }
 
+        .social-icons a {
+            margin: 0 10px;
+            color: #00c6ff;
+            font-size: 24px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .social-icons a:hover {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-
     <header>مرحباً بك</header>
-
     <div id="loader">جارٍ التحميل...</div>
-
     <div class="form-container">
-
         <div class="form-header">
-
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
-
             <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
-
         </div>
 
         <div id="loginForm" class="form-content active">
-
             <div class="textbox">
-
                 <i class="fas fa-envelope"></i>
-
                 <input type="email" placeholder="البريد الإلكتروني" required>
-
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-lock"></i>
-
                 <input type="password" placeholder="كلمة السر" required>
-
             </div>
-
             <div class="checkbox">
                 <input type="checkbox" id="rememberMe">
                 <label for="rememberMe">تذكرني</label>
             </div>
-
             <button class="btn">تسجيل الدخول</button>
-
         </div>
 
         <div id="signupForm" class="form-content">
-
             <div class="textbox">
-
                 <i class="fas fa-user"></i>
-
                 <input type="text" placeholder="اسم المستخدم" required>
-
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-envelope"></i>
-
                 <input type="email" placeholder="البريد الإلكتروني" required>
-
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-lock"></i>
-
                 <input type="password" placeholder="كلمة السر" required>
-
             </div>
-
             <button class="btn">إنشاء حساب</button>
-
         </div>
 
     </div>
+
+    <div class="social-icons">
+        <a href="https://t.me/" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+    </div>
+
+    <footer>
+        <p>All rights reserved. Earn Money</p>
+    </footer>
 
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
@@ -292,7 +276,6 @@
         document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
         document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
     </script>
-
 </body>
 
-        </html>
+</html>
