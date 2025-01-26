@@ -1,40 +1,23 @@
 <!DOCTYPE html>
-
 <html lang="ar">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>مرحباً بك</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
     <style>
-
-        /* التصميم الخاص بك */
-
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to right, #141e30, #243b55);
             color: #fff;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
             padding: 20px;
         }
 
@@ -52,7 +35,6 @@
             border: none;
             color: #00c6ff;
             font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
             padding: 10px;
         }
@@ -64,22 +46,22 @@
 
         .textbox {
             position: relative;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .textbox input {
             width: 100%;
-            padding: 15px 40px;
+            padding: 15px 50px;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
             background: #f1f1f1;
+            font-size: 16px;
             color: #333;
         }
 
         .textbox input:focus {
-            outline: none;
             border: 2px solid #00c6ff;
+            outline: none;
         }
 
         .textbox i {
@@ -87,6 +69,15 @@
             top: 50%;
             left: 15px;
             transform: translateY(-50%);
+            color: #888;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
             color: #888;
         }
 
@@ -104,21 +95,12 @@
         .btn:hover {
             background-color: #004080;
             transform: scale(1.05);
-            transition: 0.3s ease-in-out;
-        }
-
-        .form-content {
-            display: none;
-        }
-
-        .form-content.active {
-            display: block;
+            transition: 0.3s;
         }
 
         .checkbox {
             display: flex;
             align-items: center;
-            margin-top: 10px;
         }
 
         .checkbox input {
@@ -127,172 +109,99 @@
 
         #loader {
             display: none;
-            color: #00c6ff;
-            font-size: 20px;
             text-align: center;
+            font-size: 20px;
+            color: #00c6ff;
         }
-
     </style>
-
 </head>
-
 <body>
-
     <header>مرحباً بك</header>
-
     <div id="loader">جارٍ التحميل...</div>
-
     <div class="form-container">
-
         <div class="form-header">
-
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
-
             <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
-
         </div>
-
         <div id="loginForm" class="form-content active">
-
             <div class="textbox">
-
                 <i class="fas fa-envelope"></i>
-
-                <input type="email" placeholder="البريد الإلكتروني" required>
-
+                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-lock"></i>
-
-                <input type="password" placeholder="كلمة السر" required>
-
+                <input type="password" id="loginPassword" placeholder="كلمة السر" required>
+                <i class="toggle-password fas fa-eye-slash" onclick="togglePassword('loginPassword')"></i>
             </div>
-
             <div class="checkbox">
                 <input type="checkbox" id="rememberMe">
                 <label for="rememberMe">تذكرني</label>
             </div>
-
-            <button class="btn">تسجيل الدخول</button>
-
+            <button class="btn" onclick="loginUser()">تسجيل الدخول</button>
         </div>
-
         <div id="signupForm" class="form-content">
-
             <div class="textbox">
-
                 <i class="fas fa-user"></i>
-
-                <input type="text" placeholder="اسم المستخدم" required>
-
+                <input type="text" id="signupUsername" placeholder="اسم المستخدم" required>
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-envelope"></i>
-
-                <input type="email" placeholder="البريد الإلكتروني" required>
-
+                <input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required>
             </div>
-
             <div class="textbox">
-
                 <i class="fas fa-lock"></i>
-
-                <input type="password" placeholder="كلمة السر" required>
-
+                <input type="password" id="signupPassword" placeholder="كلمة السر" required>
+                <i class="toggle-password fas fa-eye-slash" onclick="togglePassword('signupPassword')"></i>
             </div>
-
-            <button class="btn">إنشاء حساب</button>
-
+            <button class="btn" onclick="registerUser()">إنشاء حساب</button>
         </div>
-
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
-        function showLoader(show) {
-            document.getElementById("loader").style.display = show ? "block" : "none";
+        function toggleForm(form) {
+            document.querySelectorAll('.form-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`${form}Form`).classList.add('active');
+            document.querySelectorAll('.form-header button').forEach(el => el.classList.remove('active'));
+            document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        async function registerUser(event) {
-            event.preventDefault();
-            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = input.nextElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            }
+        }
+
+        async function registerUser() {
+            const username = document.getElementById("signupUsername").value.trim();
+            const email = document.getElementById("signupEmail").value.trim();
+            const password = document.getElementById("signupPassword").value.trim();
 
             if (!username || !email || !password) {
                 Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
                 return;
             }
 
+            if (!/\S+@\S+\.\S+/.test(email)) {
+                Toastify({ text: "صيغة البريد الإلكتروني غير صحيحة.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
             if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ورقم وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
                 return;
             }
 
-            showLoader(true);
-            try {
-                const response = await fetch(`${API_URL}/register`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
-                });
-                const data = await response.json();
-                showLoader(false);
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) toggleForm('login');
-            } catch (error) {
-                showLoader(false);
-                console.error("خطأ أثناء إنشاء الحساب:", error);
-            }
+            // إرسال البيانات
         }
-
-        async function loginUser(event) {
-            event.preventDefault();
-            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
-            const rememberMe = document.getElementById("rememberMe").checked;
-
-            if (!username || !password) {
-                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
-                return;
-            }
-
-            showLoader(true);
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password }),
-                });
-                const data = await response.json();
-                showLoader(false);
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) {
-                    if (rememberMe) localStorage.setItem("authToken", data.token);
-                    window.location.href = "dashboard.html";
-                }
-            } catch (error) {
-                showLoader(false);
-                console.error("خطأ أثناء تسجيل الدخول:", error);
-            }
-        }
-
-        function toggleForm(form) {
-            document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
-            document.getElementById(`${form}Form`).classList.add('active');
-            document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
-            document.getElementById(`${form}Tab`).classList.add('active');
-        }
-
-        document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
-        document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
     </script>
-
 </body>
-
 </html>
