@@ -6,7 +6,8 @@
     <title>الصفحة الرئيسية</title>
     <style>
         body {
-            background: linear-gradient(to bottom, #4CAF50, #1E90FF);
+            background: url('https://cdn.pixabay.com/photo/2017/03/27/14/56/sunset-2178301_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: white;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -33,11 +34,12 @@
 
         .language-toggle {
             left: 10px;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: bold;
+        }
+
+        .language-toggle img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
         }
 
         /* اللوجو */
@@ -46,13 +48,9 @@
             margin-top: 100px;
         }
 
-        .logo h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #FFD700;
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), -4px -4px 10px rgba(255, 255, 255, 0.5);
-            letter-spacing: 3px;
-            font-family: 'Trebuchet MS', sans-serif;
+        .logo img {
+            width: 200px;
+            height: auto;
         }
 
         /* مربعات تسجيل الدخول وإنشاء الحساب */
@@ -61,7 +59,7 @@
             margin: 50px auto;
             padding: 20px;
             border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.7);
             display: none;
         }
 
@@ -123,11 +121,13 @@
     <div class="icon color-toggle" onclick="toggleDarkMode()">🌙</div>
 
     <!-- أيقونة تغيير اللغة -->
-    <div class="icon language-toggle" onclick="changeLanguage()">لغة</div>
+    <div class="icon language-toggle" onclick="changeLanguage()">
+        <img src="https://cdn-icons-png.flaticon.com/512/545/545682.png" alt="تغيير اللغة">
+    </div>
 
     <!-- اللوجو -->
     <div class="logo">
-        <h1 style="font-family: 'Arial Black', sans-serif; font-style: italic;">BEST</h1>
+        <img src="https://cdn.pixabay.com/photo/2017/01/11/09/05/logo-1975803_1280.png" alt="لوجو">
     </div>
 
     <!-- مربع تسجيل الدخول -->
