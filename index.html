@@ -149,6 +149,8 @@
             font-size: 14px;
             color: #ccc;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
         }
 
         .footer-text {
@@ -172,6 +174,15 @@
             position: absolute;
             top: 20px;
             right: 20px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #00c6ff;
+        }
+
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             cursor: pointer;
             font-size: 20px;
             color: #00c6ff;
@@ -229,10 +240,12 @@
     </div>
 
     <footer>
-        <p>Eng: Mahmoud Eng: Mohammed</p>
+        <div>Eng: Mahmoud</div>
+        <div>Eng: Mohammed</div>
     </footer>
 
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+    <div class="language-toggle" onclick="toggleLanguage()">🌍</div>
 
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
@@ -318,7 +331,12 @@
         function toggleTheme() {
             document.body.classList.toggle("dark-mode");
         }
+
+        function toggleLanguage() {
+            // يمكنك إضافة منطق لتبديل اللغة هنا (من العربي إلى الإنجليزي والعكس)
+            alert('تم تغيير اللغة');
+        }
     </script>
 </body>
 
-</html>
+    </html>
