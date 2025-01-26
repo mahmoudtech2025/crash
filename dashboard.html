@@ -221,10 +221,10 @@
     <!-- الشريط الجانبي -->
     <div class="sidebar" id="sidebar">
         <a href="deposit.html" style="text-decoration: none; color: inherit;">
-    <i class="fas fa-wallet"></i> إيداع
+            <i class="fas fa-wallet"></i> إيداع
         </a>
         <a href="withdraw.html" style="text-decoration: none; color: inherit;">
-    <i class="fas fa-hand-holding-usd"></i> سحب
+            <i class="fas fa-hand-holding-usd"></i> سحب
         </a>
         <a href="#" onclick="alert('فتح صفحة اللعبة')">
             <i class="fas fa-gamepad"></i> لعبة
@@ -250,13 +250,56 @@
 
         // جلب بيانات المستخدم
         async function fetchUserData() {
-            // الكود تم تعليقه لأنك لم تضع الـ API
+            try {
+                const response = await fetch('https://backend-theta-tawny-74.vercel.app/getUserData', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`, // إرسال توكن المستخدم إذا كان موجود
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('فشل في جلب البيانات');
+                }
+
+                const data = await response.json();
+
+                // تحديث النصوص في الصفحة
+                document.getElementById('username').textContent = data.username;
+                document.getElementById('balance').textContent = `الرصيد: ${data.balance} جنيه`;
+
+            } catch (error) {
+                console.error(error);
+                alert('حدث خطأ أثناء جلب البيانات.');
+            }
         }
 
+        // دالة لشراء VIP
         async function purchaseVIP(price) {
-            alert('جاري تفعيل الباقة...');
+            try {
+                const response = await fetch('https://backend-theta-tawny-74.vercel.app/purchaseVIP', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`, // إرسال توكن المستخدم
+                    },
+                    body: JSON.stringify({ price: price })
+                });
+
+                if (!response.ok) {
+                    throw new Error('فشل في شراء VIP');
+                }
+
+                const data = await response.json();
+                alert(data.message); // عرض رسالة من الـ API مثل نجاح العملية أو الفشل
+
+            } catch (error) {
+                console.error(error);
+                alert('حدث خطأ أثناء الشراء.');
+            }
         }
 
+        // تشغيل الدالة عند تحميل الصفحة
         window.onload = fetchUserData;
     </script>
 </body>
