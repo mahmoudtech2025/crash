@@ -224,15 +224,15 @@
       <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
     </div>
     <div id="loginForm" class="form-content active">
-      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" placeholder="البريد الإلكتروني" required></div>
-      <div class="textbox"><i class="fas fa-lock"></i><input type="password" placeholder="كلمة السر" required></div>
-      <button class="btn" onclick="redirectToDashboard()">تسجيل الدخول</button>
+      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required></div>
+      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="كلمة السر" required></div>
+      <button class="btn" onclick="loginUser()">تسجيل الدخول</button>
     </div>
     <div id="signupForm" class="form-content">
-      <div class="textbox"><i class="fas fa-user"></i><input type="text" placeholder="اسم المستخدم" required></div>
-      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" placeholder="البريد الإلكتروني" required></div>
-      <div class="textbox"><i class="fas fa-lock"></i><input type="password" placeholder="كلمة السر" required></div>
-      <button class="btn" onclick="redirectToDashboard()">إنشاء حساب</button>
+      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="signupUsername" placeholder="اسم المستخدم" required></div>
+      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required></div>
+      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="signupPassword" placeholder="كلمة السر" required></div>
+      <button class="btn" onclick="signupUser()">إنشاء حساب</button>
     </div>
   </div>
   <div class="social-icons" data-aos="fade-up">
@@ -244,6 +244,7 @@
   </div>
   <script>
     AOS.init();
+
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const closeButton = document.createElement('div');
@@ -259,15 +260,69 @@
         sidebar.appendChild(closeButton);
       }
     }
+
     function toggleForm(form) {
       document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
       document.getElementById(`${form}Form`).classList.add('active');
       document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
       document.getElementById(`${form}Tab`).classList.add('active');
     }
+
+    async function loginUser() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const response = await fetch("https://backend-theta-tawny-74.vercel.app/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("تم تسجيل الدخول بنجاح!");
+        window.location.href = "dashboard.html";  // توجيه المستخدم إلى لوحة التحكم
+      } else {
+        alert(data.message);
+      }
+    }
+
+    async function signupUser() {
+      const username = document.getElementById('signupUsername').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      const response = await fetch("https://backend-theta-tawny-74.vercel.app/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("تم التسجيل بنجاح!");
+        window.location.href = "dashboard.html";  // توجيه المستخدم إلى لوحة التحكم
+      } else {
+        alert(data.message);
+      }
+    }
+
     function redirectToDashboard() {
       window.location.href = "dashboard.html";
     }
   </script>
 </body>
-      </html>
+  </html>
