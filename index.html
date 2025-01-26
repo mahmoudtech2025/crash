@@ -207,6 +207,15 @@
       background-color: #243b55;
       transform: scale(1.1);
     }
+    .message {
+      background-color: #00c6ff;
+      color: #fff;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      display: none;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -234,6 +243,7 @@
       <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="signupPassword" placeholder="كلمة السر" required></div>
       <button class="btn" onclick="signupUser()">إنشاء حساب</button>
     </div>
+    <div class="message" id="messageBox"></div>
   </div>
   <div class="social-icons" data-aos="fade-up">
     <a href="https://facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
@@ -269,28 +279,33 @@
     }
 
     async function loginUser() {
-  const username = document.getElementById('loginEmail').value; // استخدم الـ username هنا
-  const password = document.getElementById('loginPassword').value;
+      const username = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
-  const response = await fetch("https://backend-theta-tawny-74.vercel.app/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username,  // تأكد من إرسال الـ username
-      password,
-    }),
-  });
+      const response = await fetch("https://backend-theta-tawny-74.vercel.app/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (data.success) {
-    alert("تم تسجيل الدخول بنجاح!");
-    window.location.href = "dashboard.html";  // توجيه المستخدم إلى لوحة التحكم
-  } else {
-    alert(data.message);
-  }
+      const messageBox = document.getElementById('messageBox');
+      if (data.success) {
+        messageBox.textContent = "تم تسجيل الدخول بنجاح!";
+        messageBox.style.backgroundColor = "#00c6ff";
+        messageBox.style.display = "block";
+        setTimeout(() => window.location.href = "dashboard.html", 2000);
+      } else {
+        messageBox.textContent = data.message;
+        messageBox.style.backgroundColor = "#f44336";
+        messageBox.style.display = "block";
+      }
     }
 
     async function signupUser() {
@@ -312,17 +327,18 @@
 
       const data = await response.json();
 
+      const messageBox = document.getElementById('messageBox');
       if (data.success) {
-        alert("تم التسجيل بنجاح!");
-        window.location.href = "dashboard.html";  // توجيه المستخدم إلى لوحة التحكم
+        messageBox.textContent = "تم التسجيل بنجاح!";
+        messageBox.style.backgroundColor = "#00c6ff";
+        messageBox.style.display = "block";
+        setTimeout(() => window.location.href = "dashboard.html", 2000);
       } else {
-        alert(data.message);
+        messageBox.textContent = data.message;
+        messageBox.style.backgroundColor = "#f44336";
+        messageBox.style.display = "block";
       }
-    }
-
-    function redirectToDashboard() {
-      window.location.href = "dashboard.html";
     }
   </script>
 </body>
-  </html>
+                                                        </html>
