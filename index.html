@@ -20,11 +20,11 @@
         }
 
         /* الأيقونات */
-        .color-toggle, .language-toggle {
+        .icon {
             position: fixed;
             top: 10px;
-            cursor: pointer;
             font-size: 24px;
+            cursor: pointer;
         }
 
         .color-toggle {
@@ -45,11 +45,8 @@
             font-size: 4rem;
             font-weight: bold;
             color: #FFD700;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-
-        .logo h1 span {
-            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+            letter-spacing: 2px;
         }
 
         /* مربعات تسجيل الدخول وإنشاء الحساب */
@@ -59,11 +56,11 @@
             padding: 20px;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.1);
-            display: none; /* إخفاء المربعات في البداية */
+            display: none;
         }
 
         .box.active {
-            display: block; /* إظهار المربع النشط */
+            display: block;
         }
 
         .box input {
@@ -99,32 +96,27 @@
             position: fixed;
             bottom: 10px;
             right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .customer-service a {
-            color: white;
-            text-decoration: none;
         }
 
         .customer-service img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
 
     <!-- أيقونة تغيير اللون -->
-    <div class="color-toggle" onclick="toggleDarkMode()">🌙</div>
+    <div class="icon color-toggle" onclick="toggleDarkMode()">🌙</div>
 
     <!-- أيقونة تغيير اللغة -->
-    <div class="language-toggle" onclick="changeLanguage()">🌍</div>
+    <div class="icon language-toggle" onclick="changeLanguage()">🌍</div>
 
     <!-- اللوجو -->
     <div class="logo">
-        <h1><span>B</span>EST</h1>
+        <h1>BEST</h1>
     </div>
 
     <!-- مربع تسجيل الدخول -->
@@ -147,7 +139,7 @@
     <!-- خدمة العملاء -->
     <div class="customer-service">
         <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Phone_icon_white.png" alt="خدمة العملاء">
+            <img src="https://cdn-icons-png.flaticon.com/512/167/167707.png" alt="خدمة العملاء">
         </a>
     </div>
 
@@ -158,10 +150,22 @@
         }
 
         // تغيير اللغة
-        let language = 'ar'; // default language
+        let language = 'ar'; // اللغة الافتراضية
         function changeLanguage() {
             language = language === 'ar' ? 'en' : 'ar';
-            alert("تم تغيير اللغة إلى " + (language === 'ar' ? "العربية" : "الإنجليزية"));
+            const elements = document.querySelectorAll('[placeholder], button, p a');
+            elements.forEach(el => {
+                if (el.tagName === 'INPUT') {
+                    el.placeholder = language === 'ar' 
+                        ? (el.placeholder.includes('الهاتف') ? 'أدخل رقم الهاتف' : 'أدخل كلمة السر') 
+                        : (el.placeholder.includes('Phone') ? 'Enter Phone Number' : 'Enter Password');
+                } else if (el.tagName === 'BUTTON') {
+                    el.textContent = language === 'ar' ? 'تسجيل الدخول' : 'Login';
+                } else if (el.tagName === 'A') {
+                    el.textContent = language === 'ar' ? 'ليس لديك حساب؟ سجل الأن' : "Don't have an account? Sign up now";
+                }
+            });
+            alert("Language changed to " + (language === 'ar' ? 'Arabic' : 'English'));
         }
 
         // إظهار مربع تسجيل الدخول
