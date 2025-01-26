@@ -143,7 +143,6 @@
 <body>
     <div id="openSidebarBtn" onclick="openNav()">☰</div>
 
-    <!-- قائمة جانبية -->
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="support.html">الدعم</a>
@@ -158,35 +157,39 @@
         </div>
 
         <div id="loginForm" class="form-content active">
-            <div class="textbox">
-                <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="البريد الإلكتروني" required>
-            </div>
-            <div class="textbox">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required>
-            </div>
-            <div class="checkbox">
-                <input type="checkbox" id="rememberMe">
-                <label for="rememberMe">تذكرني</label>
-            </div>
-            <button class="btn">تسجيل الدخول</button>
+            <form onsubmit="loginUser(event)">
+                <div class="textbox">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="كلمة السر" required>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">تذكرني</label>
+                </div>
+                <button type="submit" class="btn">تسجيل الدخول</button>
+            </form>
         </div>
 
         <div id="signupForm" class="form-content">
-            <div class="textbox">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="اسم المستخدم" required>
-            </div>
-            <div class="textbox">
-                <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="البريد الإلكتروني" required>
-            </div>
-            <div class="textbox">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required>
-            </div>
-            <button class="btn">إنشاء حساب</button>
+            <form onsubmit="registerUser(event)">
+                <div class="textbox">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="اسم المستخدم" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="كلمة السر" required>
+                </div>
+                <button type="submit" class="btn">إنشاء حساب</button>
+            </form>
         </div>
     </div>
 
