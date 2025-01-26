@@ -22,7 +22,12 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: #121212;
+            color: #eaeaea;
         }
 
         .form-container {
@@ -32,7 +37,6 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            transition: background 0.3s ease-in-out;
         }
 
         .form-header button {
@@ -43,6 +47,7 @@
             font-weight: bold;
             cursor: pointer;
             padding: 10px;
+            transition: color 0.3s ease;
         }
 
         .form-header button.active {
@@ -58,17 +63,19 @@
         .textbox input {
             width: calc(100% - 30px);
             padding: 10px 40px;
-            border: 2px solid #00c6ff;
+            border: none;
             border-radius: 10px;
             font-size: 14px;
             background: #f1f1f1;
             color: #333;
-            transition: border 0.3s ease-in-out;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .textbox input:focus {
             outline: none;
             border: 2px solid #00c6ff;
+            background-color: #fff;
+            color: #333;
         }
 
         .textbox i {
@@ -130,7 +137,7 @@
             margin: 0 10px;
             color: #00c6ff;
             font-size: 24px;
-            transition: color 0.3s ease-in-out;
+            transition: color 0.3s ease;
         }
 
         .social-icons a:hover {
@@ -144,33 +151,37 @@
             text-align: center;
         }
 
-        /* Dark Mode */
-        .dark-mode {
-            background: #121212;
-            color: #e0e0e0;
+        .footer-text {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ccc;
+            text-align: center;
         }
 
-        .dark-mode .form-container {
-            background: rgba(255, 255, 255, 0.1);
+        select {
+            background: #333;
+            border: 2px solid #00c6ff;
+            padding: 5px;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .language-selector {
+        .theme-toggle {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #0072ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
             cursor: pointer;
+            font-size: 20px;
+            color: #00c6ff;
         }
+
     </style>
 </head>
 
 <body>
     <header>مرحباً بك</header>
-    <button class="language-selector" onclick="toggleLanguage()">العربية</button>
     <div id="loader">جارٍ التحميل...</div>
     <div class="form-container">
         <div class="form-header">
@@ -218,14 +229,80 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 All Rights Reserved. Earn Money</p>
+        <p>جميع الحقوق محفوظة. احصل على المال</p>
     </footer>
+
+    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
 
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
         function showLoader(show) {
             document.getElementById("loader").style.display = show ? "block" : "none";
+        }
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
+            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
+            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
+
+            if (!username || !email || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ورقم وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) toggleForm('login');
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء إنشاء الحساب:", error);
+            }
+        }
+
+        async function loginUser(event) {
+            event.preventDefault();
+            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
+            const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
+            const rememberMe = document.getElementById("rememberMe").checked;
+
+            if (!username || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) {
+                    if (rememberMe) localStorage.setItem("authToken", data.token);
+                    window.location.href = "dashboard.html";
+                }
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء تسجيل الدخول:", error);
+            }
         }
 
         function toggleForm(form) {
@@ -235,30 +312,12 @@
             document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        function toggleLanguage() {
-            const currentLanguage = document.querySelector('.language-selector').innerText;
-            if (currentLanguage === "العربية") {
-                document.querySelector('.language-selector').innerText = "English";
-                document.body.setAttribute('lang', 'en');
-                document.getElementById('loginTab').innerText = "Login";
-                document.getElementById('signupTab').innerText = "Sign Up";
-                document.querySelector("footer p").innerText = "All Rights Reserved. Earn Money";
-            } else {
-                document.querySelector('.language-selector').innerText = "العربية";
-                document.body.setAttribute('lang', 'ar');
-                document.getElementById('loginTab').innerText = "تسجيل الدخول";
-                document.getElementById('signupTab').innerText = "إنشاء حساب";
-                document.querySelector("footer p").innerText = "جميع الحقوق محفوظة. ابدأ في كسب المال";
-            }
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.querySelector('.form-container').classList.toggle('dark-mode');
-        }
-
         document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
         document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
     </script>
 </body>
 
