@@ -159,8 +159,8 @@
         <div id="loginForm" class="form-content active">
             <form onsubmit="loginUser(event)">
                 <div class="textbox">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="البريد الإلكتروني" required>
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="اسم المستخدم" required>
                 </div>
                 <div class="textbox">
                     <i class="fas fa-lock"></i>
@@ -239,47 +239,10 @@
 
         async function loginUser(event) {
             event.preventDefault();
-            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
+            const username = document.querySelector("#loginForm input[placeholder='اسم المستخدم']").value;
             const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
             const rememberMe = document.getElementById("rememberMe").checked;
 
             if (!username || !password) {
                 Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
                 return;
-            }
-
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password }),
-                });
-                const data = await response.json();
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) {
-                    if (rememberMe) localStorage.setItem("authToken", data.token);
-                    window.location.href = "dashboard.html";
-                }
-            } catch (error) {
-                console.error("خطأ أثناء تسجيل الدخول:", error);
-            }
-        }
-
-        function toggleForm(form) {
-            document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
-            document.getElementById(`${form}Form`).classList.add('active');
-            document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
-            document.getElementById(`${form}Tab`).classList.add('active');
-        }
-
-        function openNav() {
-            document.getElementById("mySidebar").style.left = "0";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.left = "-250px";
-        }
-    </script>
-</body>
-
-    </html>
