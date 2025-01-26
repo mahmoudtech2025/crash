@@ -81,12 +81,27 @@
         .form-content.active {
             display: block;
         }
+        /* رسالة الإشعار */
+        .alert {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .alert.success {
+            background-color: #4CAF50;
+        }
     </style>
 </head>
 <body>
     <header>مرحباً بك</header>
 
     <div class="form-container">
+        <!-- رسالة الإشعار -->
+        <div class="alert" id="alertBox"></div>
+        
         <div class="form-header">
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
             <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
@@ -94,40 +109,53 @@
         <div id="loginForm" class="form-content active">
             <div class="textbox">
                 <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" id="loginPassword" placeholder="كلمة السر" required>
             </div>
-            <button class="btn">تسجيل الدخول</button>
+            <button class="btn" onclick="loginUser(event)">تسجيل الدخول</button>
         </div>
         <div id="signupForm" class="form-content">
             <div class="textbox">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="اسم المستخدم" required>
+                <input type="text" id="signupUsername" placeholder="اسم المستخدم" required>
             </div>
             <div class="textbox">
                 <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="البريد الإلكتروني" required>
+                <input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required>
             </div>
             <div class="textbox">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="كلمة السر" required>
+                <input type="password" id="signupPassword" placeholder="كلمة السر" required>
             </div>
-            <button class="btn">إنشاء حساب</button>
+            <button class="btn" onclick="registerUser(event)">إنشاء حساب</button>
         </div>
     </div>
 
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
+        // عرض رسالة إشعار للمستخدم
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById("alertBox");
+            alertBox.textContent = message;
+            alertBox.className = `alert ${type === 'success' ? 'success' : ''}`;
+            alertBox.style.display = 'block';
+        }
+
         // إنشاء حساب
         async function registerUser(event) {
             event.preventDefault();
-            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
+            const username = document.getElementById("signupUsername").value;
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+
+            if (!username || !email || !password) {
+                showAlert("الرجاء ملء جميع الحقول.", "error");
+                return;
+            }
 
             try {
                 const response = await fetch(`${API_URL}/register`, {
@@ -137,39 +165,44 @@
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    alert(data.message);
+                    showAlert(data.message, "success");
                     toggleForm('login');
                 } else {
-                    alert(data.message);
+                    showAlert(data.message);
                 }
             } catch (error) {
                 console.error("خطأ أثناء إنشاء الحساب:", error);
-                alert("حدث خطأ أثناء الاتصال بالسيرفر.");
+                showAlert("حدث خطأ أثناء الاتصال بالسيرفر.");
             }
         }
 
         // تسجيل الدخول
         async function loginUser(event) {
             event.preventDefault();
-            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            if (!email || !password) {
+                showAlert("الرجاء ملء جميع الحقول.", "error");
+                return;
+            }
 
             try {
                 const response = await fetch(`${API_URL}/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ email, password }),
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    alert(data.message);
+                    showAlert(data.message, "success");
                     window.location.href = "dashboard.html";
                 } else {
-                    alert(data.message);
+                    showAlert(data.message);
                 }
             } catch (error) {
                 console.error("خطأ أثناء تسجيل الدخول:", error);
-                alert("حدث خطأ أثناء الاتصال بالسيرفر.");
+                showAlert("حدث خطأ أثناء الاتصال بالسيرفر.");
             }
         }
 
