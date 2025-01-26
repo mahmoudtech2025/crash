@@ -6,7 +6,7 @@
     <title>الصفحة الرئيسية</title>
     <style>
         body {
-            background: url('https://cdn.pixabay.com/photo/2019/06/20/20/03/background-4286517_1280.jpg') no-repeat center center fixed;
+            background: url('https://cdn.pixabay.com/photo/2021/04/28/16/00/abstract-6214723_1280.jpg') no-repeat center center fixed;
             background-size: cover;
             color: white;
             font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
         }
 
         body.dark-mode {
-            background: linear-gradient(to bottom, #000, #333);
+            background: linear-gradient(to bottom, #000, #222);
             color: white;
         }
 
@@ -41,6 +41,11 @@
             height: 35px;
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .language-toggle img:hover {
+            transform: scale(1.1);
         }
 
         /* اللوجو */
@@ -123,11 +128,13 @@
 <body>
 
     <!-- أيقونة تغيير اللون -->
-    <div class="icon color-toggle" onclick="toggleDarkMode()">🌙</div>
+    <div class="icon color-toggle" onclick="toggleDarkMode()">
+        <img src="https://cdn-icons-png.flaticon.com/512/1690/1690163.png" alt="الوضع الليلي" width="35">
+    </div>
 
     <!-- أيقونة تغيير اللغة -->
     <div class="icon language-toggle" onclick="changeLanguage()">
-        <img src="https://cdn-icons-png.flaticon.com/512/545/545680.png" alt="تغيير اللغة">
+        <img src="https://cdn-icons-png.flaticon.com/512/3241/3241127.png" alt="تغيير اللغة">
     </div>
 
     <!-- اللوجو -->
@@ -155,7 +162,7 @@
     <!-- خدمة العملاء -->
     <div class="customer-service">
         <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/4001/4001931.png" alt="خدمة العملاء">
+            <img src="https://cdn-icons-png.flaticon.com/512/3874/3874097.png" alt="خدمة العملاء">
         </a>
     </div>
 
