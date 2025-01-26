@@ -18,150 +18,118 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <style>
 
         /* التصميم الخاص بك */
 
         body {
-
             font-family: 'Cairo', sans-serif;
-
             background: linear-gradient(to right, #141e30, #243b55);
-
             color: #fff;
-
             min-height: 100vh;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
-
             padding: 20px;
-
         }
 
         .form-container {
-
             width: 90%;
-
             max-width: 400px;
-
             background: rgba(0, 0, 0, 0.8);
-
             border-radius: 15px;
-
             padding: 20px;
-
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-
         }
 
         .form-header button {
-
             background: none;
-
             border: none;
-
             color: #00c6ff;
-
             font-size: 18px;
-
             font-weight: bold;
-
             cursor: pointer;
-
             padding: 10px;
-
         }
 
         .form-header button.active {
-
             color: #fff;
-
             border-bottom: 2px solid #00c6ff;
-
         }
 
         .textbox {
-
             position: relative;
-
             margin-bottom: 15px;
-
         }
 
         .textbox input {
-
             width: 100%;
-
             padding: 15px 40px;
-
             border: none;
-
             border-radius: 10px;
-
             font-size: 16px;
-
             background: #f1f1f1;
-
             color: #333;
+        }
 
+        .textbox input:focus {
+            outline: none;
+            border: 2px solid #00c6ff;
         }
 
         .textbox i {
-
             position: absolute;
-
             top: 50%;
-
             left: 15px;
-
             transform: translateY(-50%);
-
             color: #888;
-
         }
 
         .btn {
-
             width: 100%;
-
             padding: 15px;
-
             background-color: #0072ff;
-
             color: #fff;
-
             border: none;
-
             border-radius: 10px;
-
             font-size: 18px;
-
             cursor: pointer;
-
         }
 
         .btn:hover {
-
-            background-color: #005bb5;
-
+            background-color: #004080;
+            transform: scale(1.05);
+            transition: 0.3s ease-in-out;
         }
 
         .form-content {
-
             display: none;
-
         }
 
         .form-content.active {
-
             display: block;
+        }
 
+        .checkbox {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .checkbox input {
+            margin-right: 5px;
+        }
+
+        #loader {
+            display: none;
+            color: #00c6ff;
+            font-size: 20px;
+            text-align: center;
         }
 
     </style>
@@ -172,7 +140,7 @@
 
     <header>مرحباً بك</header>
 
-
+    <div id="loader">جارٍ التحميل...</div>
 
     <div class="form-container">
 
@@ -200,6 +168,11 @@
 
                 <input type="password" placeholder="كلمة السر" required>
 
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">تذكرني</label>
             </div>
 
             <button class="btn">تسجيل الدخول</button>
@@ -238,138 +211,86 @@
 
     </div>
 
-
-
     <script>
-
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
-
-
-        // إنشاء حساب
+        function showLoader(show) {
+            document.getElementById("loader").style.display = show ? "block" : "none";
+        }
 
         async function registerUser(event) {
-
             event.preventDefault();
-
             const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-
             const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
-
             const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
 
-
-
-            try {
-
-                const response = await fetch(`${API_URL}/register`, {
-
-                    method: "POST",
-
-                    headers: { "Content-Type": "application/json" },
-
-                    body: JSON.stringify({ username, email, password }),
-
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-
-                    alert(data.message);
-
-                    toggleForm('login');
-
-                } else {
-
-                    alert(data.message);
-
-                }
-
-            } catch (error) {
-
-                console.error("خطأ أثناء إنشاء الحساب:", error);
-
-                alert("حدث خطأ أثناء الاتصال بالسيرفر.");
-
+            if (!username || !email || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
             }
 
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+                Toastify({ text: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ورقم وحرف خاص.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) toggleForm('login');
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء إنشاء الحساب:", error);
+            }
         }
-
-
-
-        // تسجيل الدخول
 
         async function loginUser(event) {
-
             event.preventDefault();
-
             const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
-
             const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
+            const rememberMe = document.getElementById("rememberMe").checked;
 
-
-
-            try {
-
-                const response = await fetch(`${API_URL}/login`, {
-
-                    method: "POST",
-
-                    headers: { "Content-Type": "application/json" },
-
-                    body: JSON.stringify({ username, password }),
-
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-
-                    alert(data.message);
-
-                    window.location.href = "dashboard.html";
-
-                } else {
-
-                    alert(data.message);
-
-                }
-
-            } catch (error) {
-
-                console.error("خطأ أثناء تسجيل الدخول:", error);
-
-                alert("حدث خطأ أثناء الاتصال بالسيرفر.");
-
+            if (!username || !password) {
+                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
+                return;
             }
 
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = await response.json();
+                showLoader(false);
+                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
+                if (response.ok) {
+                    if (rememberMe) localStorage.setItem("authToken", data.token);
+                    window.location.href = "dashboard.html";
+                }
+            } catch (error) {
+                showLoader(false);
+                console.error("خطأ أثناء تسجيل الدخول:", error);
+            }
         }
-
-
-
-        // تغيير النماذج
 
         function toggleForm(form) {
-
             document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
-
             document.getElementById(`${form}Form`).classList.add('active');
-
             document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
-
             document.getElementById(`${form}Tab`).classList.add('active');
-
         }
 
-
-
-        // ربط الأزرار بالنماذج
-
         document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
-
         document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
-
     </script>
 
 </body>
