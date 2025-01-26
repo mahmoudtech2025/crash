@@ -506,7 +506,7 @@
 
             </div>
 
-            <button class="btn" onclick="redirectToDashboard()">تسجيل الدخول</button>
+            <button class="btn" onclick="loginUser()">تسجيل الدخول</button>
 
         </div>
 
@@ -536,8 +536,7 @@
 
             </div>
 
-            <button class="btn">إنشاء حساب</button>
-
+            <button class="btn" onclick="signupUser()">إنشاء حساب</button>
         </div>
 
     </div>
@@ -615,6 +614,70 @@
                     }
 
     </script>
+    // التوجيه إلى لوحة التحكم عند التسجيل بنجاح
+function signupUser() {
+    const username = document.querySelector('#signupForm input[type="text"]').value;
+    const email = document.querySelector('#signupForm input[type="email"]').value;
+    const password = document.querySelector('#signupForm input[type="password"]').value;
+
+    // إرسال البيانات إلى السيرفر
+    fetch('https://backend-theta-tawny-74.vercel.app/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // هنا يمكنك التعامل مع الاستجابة من السيرفر
+        if (data.success) {
+            alert('تم إنشاء الحساب بنجاح!');
+            window.location.href = "dashboard.html"; // التوجيه إلى لوحة التحكم
+        } else {
+            alert('حدث خطأ في إنشاء الحساب: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('حدث خطأ في الاتصال بالسيرفر.');
+        console.error(error);
+    });
+}
+    // التوجيه إلى لوحة التحكم عند تسجيل الدخول بنجاح
+function loginUser() {
+    const email = document.querySelector('#loginForm input[type="email"]').value;
+    const password = document.querySelector('#loginForm input[type="password"]').value;
+
+    // إرسال البيانات إلى السيرفر
+    fetch('https://backend-theta-tawny-74.vercel.app/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // هنا يمكنك التعامل مع الاستجابة من السيرفر
+        if (data.success) {
+            alert('تم تسجيل الدخول بنجاح!');
+            window.location.href = "dashboard.html"; // التوجيه إلى لوحة التحكم
+        } else {
+            alert('فشل في تسجيل الدخول: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('حدث خطأ في الاتصال بالسيرفر.');
+        console.error(error);
+    });
+}
 
 </body>
 
