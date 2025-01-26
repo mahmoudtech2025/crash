@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مرحباً بك</title>
+    <title>تسجيل الدخول</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
@@ -83,19 +83,10 @@
             display: block;
         }
 
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #00c6ff;
-        }
-
         .customer-support {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             background-color: #0072ff;
             color: #fff;
             font-size: 20px;
@@ -139,35 +130,27 @@
         }
 
         #openSidebarBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
             font-size: 30px;
             cursor: pointer;
             color: #00c6ff;
         }
-
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #ccc;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-        }
-
-        .footer-text {
-            font-size: 16px;
-            color: #ccc;
-            text-align: center;
-        }
-
     </style>
 </head>
 
 <body>
-    <header>مرحباً بك</header>
-    <div id="loader">جارٍ التحميل...</div>
+    <div id="openSidebarBtn" onclick="openNav()">☰</div>
+
+    <!-- قائمة جانبية -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="support.html">الدعم</a>
+        <a href="about.html">من نحن</a>
+        <a href="terms.html">الشروط والأحكام</a>
+    </div>
+
     <div class="form-container">
         <div class="form-header">
             <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
@@ -205,41 +188,16 @@
             </div>
             <button class="btn">إنشاء حساب</button>
         </div>
-
     </div>
 
-    <!-- قائمة جانبية -->
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="support.html">الدعم</a>
-        <a href="about.html">من نحن</a>
-        <a href="terms.html">الشروط والأحكام</a>
-    </div>
-
-    <!-- زر فتح القائمة الجانبية -->
-    <span id="openSidebarBtn" onclick="openNav()">☰ قائمة</span>
-
-    <!-- أيقونة خدمة العملاء -->
     <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank">
         <div class="customer-support">
-            <i class="fab fa-telegram"></i>
+            <i class="fas fa-headset"></i>
         </div>
     </a>
 
-    <footer>
-        <div class="footer-text">
-            <p>جرب موقعنا الآن!</p>
-        </div>
-    </footer>
-
-    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
-
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
-
-        function showLoader(show) {
-            document.getElementById("loader").style.display = show ? "block" : "none";
-        }
 
         async function registerUser(event) {
             event.preventDefault();
@@ -252,7 +210,6 @@
                 return;
             }
 
-            showLoader(true);
             try {
                 const response = await fetch(`${API_URL}/register`, {
                     method: "POST",
@@ -260,11 +217,9 @@
                     body: JSON.stringify({ username, email, password }),
                 });
                 const data = await response.json();
-                showLoader(false);
                 Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
                 if (response.ok) toggleForm('login');
             } catch (error) {
-                showLoader(false);
                 console.error("خطأ أثناء إنشاء الحساب:", error);
             }
         }
@@ -280,7 +235,6 @@
                 return;
             }
 
-            showLoader(true);
             try {
                 const response = await fetch(`${API_URL}/login`, {
                     method: "POST",
@@ -288,14 +242,12 @@
                     body: JSON.stringify({ username, password }),
                 });
                 const data = await response.json();
-                showLoader(false);
                 Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
                 if (response.ok) {
                     if (rememberMe) localStorage.setItem("authToken", data.token);
                     window.location.href = "dashboard.html";
                 }
             } catch (error) {
-                showLoader(false);
                 console.error("خطأ أثناء تسجيل الدخول:", error);
             }
         }
@@ -307,14 +259,6 @@
             document.getElementById(`${form}Tab`).classList.add('active');
         }
 
-        document.querySelector("#signupForm .btn").addEventListener("click", registerUser);
-        document.querySelector("#loginForm .btn").addEventListener("click", loginUser);
-
-        function toggleTheme() {
-            document.body.classList.toggle("dark-mode");
-        }
-
-        // القوائم الجانبية
         function openNav() {
             document.getElementById("mySidebar").style.left = "0";
         }
@@ -325,4 +269,4 @@
     </script>
 </body>
 
-    </html>
+</html>
