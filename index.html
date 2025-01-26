@@ -159,36 +159,14 @@
         <div id="loginForm" class="form-content active">
             <form onsubmit="loginUser(event)">
                 <div class="textbox">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="البريد الإلكتروني" required>
-                </div>
-                <div class="textbox">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="كلمة السر" required>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">تذكرني</label>
-                </div>
-                <button type="submit" class="btn">تسجيل الدخول</button>
-            </form>
-        </div>
-
-        <div id="signupForm" class="form-content">
-            <form onsubmit="registerUser(event)">
-                <div class="textbox">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="اسم المستخدم" required>
                 </div>
                 <div class="textbox">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="البريد الإلكتروني" required>
-                </div>
-                <div class="textbox">
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="كلمة السر" required>
                 </div>
-                <button type="submit" class="btn">إنشاء حساب</button>
+                <button type="submit" class="btn">تسجيل الدخول</button>
             </form>
         </div>
     </div>
@@ -202,36 +180,10 @@
     <script>
         const API_URL = "https://backend-theta-tawny-74.vercel.app";
 
-        async function registerUser(event) {
-            event.preventDefault();
-            const username = document.querySelector("#signupForm input[placeholder='اسم المستخدم']").value;
-            const email = document.querySelector("#signupForm input[placeholder='البريد الإلكتروني']").value;
-            const password = document.querySelector("#signupForm input[placeholder='كلمة السر']").value;
-
-            if (!username || !email || !password) {
-                Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_URL}/register`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
-                });
-                const data = await response.json();
-                Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
-                if (response.ok) toggleForm('login');
-            } catch (error) {
-                console.error("خطأ أثناء إنشاء الحساب:", error);
-            }
-        }
-
         async function loginUser(event) {
             event.preventDefault();
-            const username = document.querySelector("#loginForm input[placeholder='البريد الإلكتروني']").value;
+            const username = document.querySelector("#loginForm input[placeholder='اسم المستخدم']").value;
             const password = document.querySelector("#loginForm input[placeholder='كلمة السر']").value;
-            const rememberMe = document.getElementById("rememberMe").checked;
 
             if (!username || !password) {
                 Toastify({ text: "يرجى ملء جميع الحقول.", duration: 3000, backgroundColor: "#FF0000" }).showToast();
@@ -247,7 +199,6 @@
                 const data = await response.json();
                 Toastify({ text: data.message, duration: 3000, backgroundColor: response.ok ? "#0072ff" : "#FF0000" }).showToast();
                 if (response.ok) {
-                    if (rememberMe) localStorage.setItem("authToken", data.token);
                     window.location.href = "dashboard.html";
                 }
             } catch (error) {
