@@ -250,15 +250,33 @@
 
         // جلب بيانات المستخدم
         async function fetchUserData() {
-            // الكود تم تعليقه لأنك لم تضع الـ API
+            try {
+                // رابط API الخاص بك
+                const apiUrl = "https://backend-theta-tawny-74.vercel.app/user"; // عدل الرابط حسب الـ API الخاص بك
+
+                // جلب البيانات من API
+                const response = await fetch(apiUrl);
+
+                // التحقق من الاستجابة
+                if (!response.ok) {
+                    throw new Error("فشل في جلب بيانات المستخدم");
+                }
+
+                // تحويل الاستجابة إلى JSON
+                const userData = await response.json();
+
+                // عرض البيانات في الصفحة
+                document.getElementById("username").textContent = userData.username || "اسم المستخدم";
+                document.getElementById("balance").textContent = `الرصيد: ${userData.balance || 0} جنيه`;
+            } catch (error) {
+                console.error("حدث خطأ:", error);
+                alert("تعذر جلب بيانات المستخدم. يرجى المحاولة لاحقًا.");
+            }
         }
 
-        async function purchaseVIP(price) {
-            alert('جاري تفعيل الباقة...');
-        }
-
+        // تحميل بيانات المستخدم عند فتح الصفحة
         window.onload = fetchUserData;
     </script>
 </body>
 
-</html>
+    </html>
