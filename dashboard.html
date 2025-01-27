@@ -244,7 +244,7 @@
                     return;
                 }
 
-                const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
+                const apiUrl = `https://backend-theta-tawny-74.vercel.app/users/${username}`;
                 const response = await fetch(apiUrl);
 
                 if (!response.ok) throw new Error("فشل في جلب بيانات المستخدم");
@@ -268,7 +268,7 @@
                     return;
                 }
 
-                const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/purchaseVIP`;
+                const apiUrl = `https://backend-theta-tawny-74.vercel.app/users/purchaseVIP`;
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
