@@ -28,9 +28,8 @@
             color: #fff;
             display: flex;
             justify-content: space-between;
-            font-size: 16px; /* تصغير حجم النص */
+            font-size: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
         }
 
         header span {
@@ -145,11 +144,6 @@
         .sidebar.open {
             right: 0;
         }
-
-        .sidebar a:nth-child(1) {
-            margin-top: 80px; /* تحريك "إيداع" لأسفل */
-        }
-
     </style>
 </head>
 
@@ -220,20 +214,12 @@
 
     <!-- الشريط الجانبي -->
     <div class="sidebar" id="sidebar">
-        <a href="deposit.html" style="text-decoration: none; color: inherit;">
-    <i class="fas fa-wallet"></i> إيداع
-        </a>
-        <a href="withdraw.html" style="text-decoration: none; color: inherit;">
-    <i class="fas fa-hand-holding-usd"></i> سحب
-        </a>
-        <a href="#" onclick="alert('فتح صفحة اللعبة')">
-            <i class="fas fa-gamepad"></i> لعبة
-        </a>
+        <a href="deposit.html"><i class="fas fa-wallet"></i> إيداع</a>
+        <a href="withdraw.html"><i class="fas fa-hand-holding-usd"></i> سحب</a>
+        <a href="#" onclick="alert('فتح صفحة اللعبة')"><i class="fas fa-gamepad"></i> لعبة</a>
         <a href="deposit-records.html">سجلات الإيداع</a>
         <a href="withdraw-records.html">سجلات السحب</a>
-        <a href="#" onclick="alert('فتح صفحة الهدايا')">
-            <i class="fas fa-gift"></i> الهدايا
-        </a>
+        <a href="#" onclick="alert('فتح صفحة الهدايا')"><i class="fas fa-gift"></i> الهدايا</a>
     </div>
 
     <!-- أيقونة فتح/إغلاق الشريط الجانبي -->
@@ -249,51 +235,67 @@
         }
 
         // جلب بيانات المستخدم
-async function fetchUserData() {
-    try {
-async function fetchUserData() {
-    try {
-        // استبدل هذا بالقيمة المخزنة في Local Storage أو الجلسة
-        const username = localStorage.getItem('username'); // جلب اسم المستخدم المخزن
-        if (!username) {
-            alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
-            return;
+        async function fetchUserData() {
+            try {
+                const username = localStorage.getItem('username');
+                if (!username) {
+                    alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
+                    window.location.href = "index.html";
+                    return;
+                }
+
+                const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
+                const response = await fetch(apiUrl);
+
+                if (!response.ok) throw new Error("فشل في جلب بيانات المستخدم");
+
+                const { data } = await response.json();
+                document.getElementById("username").textContent = data.username || "اسم المستخدم";
+                document.getElementById("balance").
+                    document.getElementById("balance").textContent = `${data.balance || 0} جنيه`;
+            } catch (error) {
+                console.error("خطأ أثناء جلب بيانات المستخدم:", error);
+                alert("حدث خطأ أثناء جلب بيانات المستخدم.");
+            }
         }
 
-        const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
+        // شراء خطة VIP
+        async function purchaseVIP(price) {
+            try {
+                const username = localStorage.getItem('username');
+                if (!username) {
+                    alert("يرجى تسجيل الدخول أولاً.");
+                    return;
+                }
 
-        // جلب البيانات من API
-        const response = await fetch(apiUrl);
+                const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/purchaseVIP`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, price }),
+                });
 
-        if (!response.ok) {
-            throw new Error("فشل في جلب بيانات المستخدم");
+                if (!response.ok) throw new Error("فشل في تنفيذ عملية الشراء.");
+
+                const { success, newBalance } = await response.json();
+
+                if (success) {
+                    alert("تمت عملية الشراء بنجاح!");
+                    document.getElementById("balance").textContent = `${newBalance} جنيه`;
+                } else {
+                    alert("لا يوجد رصيد كافٍ لإتمام العملية.");
+                }
+            } catch (error) {
+                console.error("خطأ أثناء عملية الشراء:", error);
+                alert("حدث خطأ أثناء تنفيذ عملية الشراء.");
+            }
         }
 
-        const userData = await response.json();
-
-        // تحديث الصفحة باسم المستخدم والرصيد
-        document.getElementById("username").textContent = userData.username || "اسم المستخدم";
-        document.getElementById("balance").textContent = `الرصيد: ${userData.balance || 0} جنيه`;
-    } catch (error) {
-        console.error("حدث خطأ:", error);
-        alert("تعذر جلب بيانات المستخدم. يرجى المحاولة لاحقًا.");
-    }
-}
-
-// تحميل بيانات المستخدم عند فتح الصفحة
-window.onload = function() {
-  const username = localStorage.getItem('username');
-  const balance = localStorage.getItem('balance');
-
-  if (username && balance) {
-    document.getElementById('usernameDisplay').textContent = username;
-    document.getElementById('balanceDisplay').textContent = balance + " جنيه";
-  } else {
-    // إذا لم يتم العثور على بيانات، إعادة توجيه المستخدم لصفحة تسجيل الدخول
-    window.location.href = "index.html";
-  }
-};
+        // جلب بيانات المستخدم عند تحميل الصفحة
+        window.onload = fetchUserData;
     </script>
 </body>
 
-    </html>
+</html>
