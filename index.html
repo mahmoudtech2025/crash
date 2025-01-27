@@ -233,7 +233,7 @@
       <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
     </div>
     <div id="loginForm" class="form-content active">
-      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required></div>
+      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="اسم المستخدم" required></div>
       <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="كلمة السر" required></div>
       <button class="btn" onclick="loginUser()">تسجيل الدخول</button>
     </div>
@@ -255,68 +255,58 @@
   <script>
     AOS.init();
 
+    window.onload = function() {
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        window.location.href = 'dashboard.html'; // إذا كان المستخدم مسجلاً دخوله بالفعل
+      }
+    };
+
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
-      const closeButton = document.createElement('div');
-      closeButton.className = 'close-btn';
-      closeButton.innerHTML = '&times;';
-      closeButton.onclick = function() {
-        sidebar.style.left = '-250px';
-      };
-      if (sidebar.style.left === '0px') {
-        sidebar.style.left = '-250px';
-      } else {
-        sidebar.style.left = '0';
-      }
+      sidebar.style.left = sidebar.style.left === '-250px' ? '0' : '-250px';
     }
 
     function toggleForm(formType) {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const loginTab = document.getElementById('loginTab');
+      const signupTab = document.getElementById('signupTab');
+
       if (formType === 'login') {
-        document.getElementById('loginTab').classList.add('active');
-        document.getElementById('signupTab').classList.remove('active');
-        document.getElementById('loginForm').classList.add('active');
-        document.getElementById('signupForm').classList.remove('active');
-      } else if (formType === 'signup') {
-        document.getElementById('signupTab').classList.add('active');
-        document.getElementById('loginTab').classList.remove('active');
-        document.getElementById('signupForm').classList.add('active');
-        document.getElementById('loginForm').classList.remove('active');
+        loginForm.classList.add('active');
+        signupForm.classList.remove('active');
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+      } else {
+        signupForm.classList.add('active');
+        loginForm.classList.remove('active');
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
       }
     }
 
     function loginUser() {
-      const email = document.getElementById('loginEmail').value;
+      const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
 
-      if (email && password) {
-        const loginData = {
-          email: email,
-          password: password,
-        };
-
-        fetch('https://backend-theta-tawny-74.vercel.app/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(loginData),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            localStorage.setItem('token', data.token); // حفظ التوكن في localStorage
-            document.getElementById('messageBox').innerText = 'تم تسجيل الدخول بنجاح';
-            document.getElementById('messageBox').style.display = 'block';
-          } else {
-            document.getElementById('messageBox').innerText = 'خطأ في البريد الإلكتروني أو كلمة السر';
-            document.getElementById('messageBox').style.display = 'block';
-          }
-        })
-        .catch(error => {
-          document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
-          document.getElementById('messageBox').style.display = 'block';
-        });
+      if (!username || !password) {
+        showMessage("يرجى ملء جميع الحقول", "error");
+        return;
       }
+
+      const storedData = JSON.parse(localStorage.getItem('userData'));
+
+      if (!storedData || storedData.username !== username || storedData.password !== password) {
+        showMessage("اسم المستخدم أو كلمة السر غير صحيحة", "error");
+        return;
+      }
+
+      showMessage("تم تسجيل الدخول بنجاح!", "success");
+      localStorage.setItem('isLoggedIn', 'true');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1000);
     }
 
     function signupUser() {
@@ -324,38 +314,33 @@
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
 
-      if (username && email && password) {
-        const signupData = {
-          username: username,
-          email: email,
-          password: password,
-        };
-
-        fetch('https://backend-theta-tawny-74.vercel.app/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(signupData),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            localStorage.setItem('token', data.token); // حفظ التوكن في localStorage عند إنشاء الحساب
-            document.getElementById('messageBox').innerText = 'تم إنشاء الحساب بنجاح';
-            document.getElementById('messageBox').style.display = 'block';
-            toggleForm('login');
-          } else {
-            document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
-            document.getElementById('messageBox').style.display = 'block';
-          }
-        })
-        .catch(error => {
-          document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
-          document.getElementById('messageBox').style.display = 'block';
-        });
+      if (!username || !email || !password) {
+        showMessage("يرجى ملء جميع الحقول", "error");
+        return;
       }
+
+      const userData = {
+        username: username,
+        email: email,
+        password: password
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
+      showMessage("تم إنشاء الحساب بنجاح!", "success");
+      setTimeout(() => {
+        toggleForm('login');
+      }, 1000);
+    }
+
+    function showMessage(message, type) {
+      const messageBox = document.getElementById('messageBox');
+      messageBox.textContent = message;
+      messageBox.style.display = 'block';
+      messageBox.style.backgroundColor = type === 'success' ? '#4caf50' : '#f44336';
+      setTimeout(() => {
+        messageBox.style.display = 'none';
+      }, 3000);
     }
   </script>
 </body>
-  </html>
+</html>
