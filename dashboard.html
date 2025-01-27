@@ -148,10 +148,10 @@
 </head>
 
 <body>
-    <header>
-        <span id="username">اسم المستخدم</span> |
-        <span id="balance">الرصيد</span>
-    </header>
+<header>
+    <span id="usernameDisplay">اسم المستخدم</span> |
+    <span id="balanceDisplay">الرصيد</span>
+</header>
 
     <div class="content">
         <!-- صناديق VIP -->
@@ -296,6 +296,18 @@
         // جلب بيانات المستخدم عند تحميل الصفحة
         window.onload = fetchUserData;
     </script>
+    // استرجاع بيانات المستخدم من localStorage
+const username = localStorage.getItem('username');
+const balance = localStorage.getItem('balance');
+
+if (username && balance) {
+  // عرض البيانات في الصفحة
+  document.getElementById('usernameDisplay').textContent = `مرحبًا، ${username}`;
+  document.getElementById('balanceDisplay').textContent = `الرصيد: ${balance} جنيه`;
+} else {
+  // إعادة التوجيه إلى صفحة تسجيل الدخول إذا لم تكن البيانات موجودة
+  window.location.href = 'login.html';
+}
 </body>
 
 </html>
