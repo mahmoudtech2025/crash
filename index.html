@@ -141,72 +141,6 @@
       transform: scale(1.05);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
     }
-    .social-icons {
-      display: flex;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .social-icons a {
-      width: 50px;
-      height: 50px;
-      background-color: #0072ff;
-      color: #fff;
-      font-size: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      text-decoration: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-    .social-icons a:hover {
-      background-color: #005bb5;
-      transform: scale(1.1);
-    }
-    .form-content {
-      display: none;
-    }
-    .form-content.active {
-      display: block;
-    }
-    @media (max-width: 480px) {
-      header {
-        font-size: 24px;
-      }
-      .btn {
-        font-size: 16px;
-        padding: 12px;
-      }
-      .social-icons a {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-      }
-      .sidebar {
-        width: 200px;
-      }
-      .form-container {
-        margin-left: 0;
-      }
-    }
-    .customer-support {
-      font-size: 30px;
-      color: #00c6ff;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #141e30;
-      border-radius: 50%;
-      padding: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-    .customer-support:hover {
-      background-color: #243b55;
-      transform: scale(1.1);
-    }
     .message {
       background-color: #00c6ff;
       color: #fff;
@@ -219,117 +153,82 @@
   </style>
 </head>
 <body>
-  <div class="sidebar-icon" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
-  <div class="sidebar">
-    <a href="#">الصفحة الرئيسية</a>
-    <a href="support.html">الدعم</a>
-    <a href="terms.html">الشروط والأحكام</a>
-    <a href="about.html">من نحن</a>
-  </div>
-  <header data-aos="fade-down">مرحباً بك</header>
-  <div class="form-container" data-aos="fade-up">
+  <header>مرحباً بك</header>
+  <div class="form-container">
     <div class="form-header">
       <button id="loginTab" class="active" onclick="toggleForm('login')">تسجيل الدخول</button>
       <button id="signupTab" onclick="toggleForm('signup')">إنشاء حساب</button>
     </div>
     <div id="loginForm" class="form-content active">
-      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="اسم المستخدم" required></div>
-      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="كلمة السر" required></div>
+      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="loginUsername" placeholder="اسم المستخدم"></div>
+      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="loginPassword" placeholder="كلمة السر"></div>
       <button class="btn" onclick="loginUser()">تسجيل الدخول</button>
     </div>
     <div id="signupForm" class="form-content">
-      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="signupUsername" placeholder="اسم المستخدم" required></div>
-      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required></div>
-      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="signupPassword" placeholder="كلمة السر" required></div>
+      <div class="textbox"><i class="fas fa-user"></i><input type="text" id="signupUsername" placeholder="اسم المستخدم"></div>
+      <div class="textbox"><i class="fas fa-envelope"></i><input type="email" id="signupEmail" placeholder="البريد الإلكتروني"></div>
+      <div class="textbox"><i class="fas fa-lock"></i><input type="password" id="signupPassword" placeholder="كلمة السر"></div>
       <button class="btn" onclick="signupUser()">إنشاء حساب</button>
     </div>
-    <div class="message" id="messageBox"></div>
-  </div>
-  <div class="social-icons" data-aos="fade-up">
-    <a href="https://facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>
-  </div>
-  <div class="customer-support" onclick="window.location.href='https://t.me/+5ez6TBHzsFJlOGE0'">
-    <i class="fas fa-headset"></i>
+    <div id="messageBox" class="message"></div>
   </div>
   <script>
-    AOS.init();
+    const apiBaseUrl = "https://backend-theta-tawny-74.vercel.app";
 
-    window.onload = function() {
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        window.location.href = 'dashboard.html'; // إذا كان المستخدم مسجلاً دخوله بالفعل
-      }
-    };
-
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.style.left = sidebar.style.left === '-250px' ? '0' : '-250px';
+    function toggleForm(type) {
+      document.getElementById('loginForm').classList.toggle('active', type === 'login');
+      document.getElementById('signupForm').classList.toggle('active', type === 'signup');
+      document.getElementById('loginTab').classList.toggle('active', type === 'login');
+      document.getElementById('signupTab').classList.toggle('active', type === 'signup');
     }
 
-    function toggleForm(formType) {
-      const loginForm = document.getElementById('loginForm');
-      const signupForm = document.getElementById('signupForm');
-      const loginTab = document.getElementById('loginTab');
-      const signupTab = document.getElementById('signupTab');
-
-      if (formType === 'login') {
-        loginForm.classList.add('active');
-        signupForm.classList.remove('active');
-        loginTab.classList.add('active');
-        signupTab.classList.remove('active');
-      } else {
-        signupForm.classList.add('active');
-        loginForm.classList.remove('active');
-        signupTab.classList.add('active');
-        loginTab.classList.remove('active');
-      }
-    }
-
-    function loginUser() {
+    async function loginUser() {
       const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
 
-      if (!username || !password) {
-        showMessage("يرجى ملء جميع الحقول", "error");
-        return;
+      try {
+        const response = await fetch(`${apiBaseUrl}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          showMessage("تم تسجيل الدخول بنجاح!", "success");
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1000);
+        } else {
+          showMessage(result.message || "حدث خطأ أثناء تسجيل الدخول", "error");
+        }
+      } catch (error) {
+        showMessage("خطأ في الاتصال بالخادم", "error");
       }
-
-      const storedData = JSON.parse(localStorage.getItem('userData'));
-
-      if (!storedData || storedData.username !== username || storedData.password !== password) {
-        showMessage("اسم المستخدم أو كلمة السر غير صحيحة", "error");
-        return;
-      }
-
-      showMessage("تم تسجيل الدخول بنجاح!", "success");
-      localStorage.setItem('isLoggedIn', 'true');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 1000);
     }
 
-    function signupUser() {
+    async function signupUser() {
       const username = document.getElementById('signupUsername').value;
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
 
-      if (!username || !email || !password) {
-        showMessage("يرجى ملء جميع الحقول", "error");
-        return;
+      try {
+        const response = await fetch(`${apiBaseUrl}/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          showMessage("تم إنشاء الحساب بنجاح!", "success");
+          toggleForm('login');
+        } else {
+          showMessage(result.message || "حدث خطأ أثناء إنشاء الحساب", "error");
+        }
+      } catch (error) {
+        showMessage("خطأ في الاتصال بالخادم", "error");
       }
-
-      const userData = {
-        username: username,
-        email: email,
-        password: password
-      };
-
-      localStorage.setItem('userData', JSON.stringify(userData));
-      showMessage("تم إنشاء الحساب بنجاح!", "success");
-      setTimeout(() => {
-        toggleForm('login');
-      }, 1000);
     }
 
     function showMessage(message, type) {
