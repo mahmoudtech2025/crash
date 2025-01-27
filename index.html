@@ -267,78 +267,95 @@
         sidebar.style.left = '-250px';
       } else {
         sidebar.style.left = '0';
-        sidebar.appendChild(closeButton);
       }
     }
 
-    function toggleForm(form) {
-      document.querySelectorAll('.form-content').forEach((el) => el.classList.remove('active'));
-      document.getElementById(`${form}Form`).classList.add('active');
-      document.querySelectorAll('.form-header button').forEach((el) => el.classList.remove('active'));
-      document.getElementById(`${form}Tab`).classList.add('active');
+    function toggleForm(formType) {
+      if (formType === 'login') {
+        document.getElementById('loginTab').classList.add('active');
+        document.getElementById('signupTab').classList.remove('active');
+        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('signupForm').classList.remove('active');
+      } else if (formType === 'signup') {
+        document.getElementById('signupTab').classList.add('active');
+        document.getElementById('loginTab').classList.remove('active');
+        document.getElementById('signupForm').classList.add('active');
+        document.getElementById('loginForm').classList.remove('active');
+      }
     }
 
-    async function loginUser() {
-      const username = document.getElementById('loginEmail').value;
+    function loginUser() {
+      const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
 
-      const response = await fetch("https://backend-theta-tawny-74.vercel.app/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
+      if (email && password) {
+        const loginData = {
+          email: email,
+          password: password,
+        };
 
-      const data = await response.json();
-
-      const messageBox = document.getElementById('messageBox');
-      if (data.success) {
-        messageBox.textContent = "تم تسجيل الدخول بنجاح!";
-        messageBox.style.backgroundColor = "#00c6ff";
-        messageBox.style.display = "block";
-        setTimeout(() => window.location.href = "dashboard.html", 2000);
-      } else {
-        messageBox.textContent = data.message;
-        messageBox.style.backgroundColor = "#f44336";
-        messageBox.style.display = "block";
+        fetch('https://backend-theta-tawny-74.vercel.app/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(loginData),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem('token', data.token); // حفظ التوكن في localStorage
+            document.getElementById('messageBox').innerText = 'تم تسجيل الدخول بنجاح';
+            document.getElementById('messageBox').style.display = 'block';
+          } else {
+            document.getElementById('messageBox').innerText = 'خطأ في البريد الإلكتروني أو كلمة السر';
+            document.getElementById('messageBox').style.display = 'block';
+          }
+        })
+        .catch(error => {
+          document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
+          document.getElementById('messageBox').style.display = 'block';
+        });
       }
     }
 
-    async function signupUser() {
+    function signupUser() {
       const username = document.getElementById('signupUsername').value;
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
 
-      const response = await fetch("https://backend-theta-tawny-74.vercel.app/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        }),
-      });
+      if (username && email && password) {
+        const signupData = {
+          username: username,
+          email: email,
+          password: password,
+        };
 
-      const data = await response.json();
-
-      const messageBox = document.getElementById('messageBox');
-      if (data.success) {
-        messageBox.textContent = "تم التسجيل بنجاح!";
-        messageBox.style.backgroundColor = "#00c6ff";
-        messageBox.style.display = "block";
-        setTimeout(() => window.location.href = "dashboard.html", 2000);
-      } else {
-        messageBox.textContent = data.message;
-        messageBox.style.backgroundColor = "#f44336";
-        messageBox.style.display = "block";
+        fetch('https://backend-theta-tawny-74.vercel.app/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(signupData),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem('token', data.token); // حفظ التوكن في localStorage عند إنشاء الحساب
+            document.getElementById('messageBox').innerText = 'تم إنشاء الحساب بنجاح';
+            document.getElementById('messageBox').style.display = 'block';
+            toggleForm('login');
+          } else {
+            document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
+            document.getElementById('messageBox').style.display = 'block';
+          }
+        })
+        .catch(error => {
+          document.getElementById('messageBox').innerText = 'حدث خطأ، حاول مرة أخرى';
+          document.getElementById('messageBox').style.display = 'block';
+        });
       }
     }
   </script>
 </body>
-                                                        </html>
+  </html>
