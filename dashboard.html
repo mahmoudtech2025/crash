@@ -281,7 +281,18 @@ async function fetchUserData() {
 }
 
 // تحميل بيانات المستخدم عند فتح الصفحة
-window.onload = fetchUserData;
+window.onload = function() {
+  const username = localStorage.getItem('username');
+  const balance = localStorage.getItem('balance');
+
+  if (username && balance) {
+    document.getElementById('usernameDisplay').textContent = username;
+    document.getElementById('balanceDisplay').textContent = balance + " جنيه";
+  } else {
+    // إذا لم يتم العثور على بيانات، إعادة توجيه المستخدم لصفحة تسجيل الدخول
+    window.location.href = "index.html";
+  }
+};
     </script>
 </body>
 
