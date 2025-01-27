@@ -251,32 +251,37 @@
         // جلب بيانات المستخدم
 async function fetchUserData() {
     try {
-        // تعديل الرابط ليحتوي على اسم المستخدم
-        const username = "اسم_المستخدم"; // استبدلها بالاسم الفعلي للمستخدم
-        const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`; // تحديث الرابط
+async function fetchUserData() {
+    try {
+        // استبدل هذا بالقيمة المخزنة في Local Storage أو الجلسة
+        const username = localStorage.getItem('username'); // جلب اسم المستخدم المخزن
+        if (!username) {
+            alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
+            return;
+        }
+
+        const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
 
         // جلب البيانات من API
         const response = await fetch(apiUrl);
 
-        // التحقق من الاستجابة
         if (!response.ok) {
             throw new Error("فشل في جلب بيانات المستخدم");
         }
 
-        // تحويل الاستجابة إلى JSON
         const userData = await response.json();
 
-        // عرض البيانات في الصفحة
+        // تحديث الصفحة باسم المستخدم والرصيد
         document.getElementById("username").textContent = userData.username || "اسم المستخدم";
         document.getElementById("balance").textContent = `الرصيد: ${userData.balance || 0} جنيه`;
     } catch (error) {
         console.error("حدث خطأ:", error);
         alert("تعذر جلب بيانات المستخدم. يرجى المحاولة لاحقًا.");
     }
-        }
+}
 
-        // تحميل بيانات المستخدم عند فتح الصفحة
-        window.onload = fetchUserData;
+// تحميل بيانات المستخدم عند فتح الصفحة
+window.onload = fetchUserData;
     </script>
 </body>
 
