@@ -236,26 +236,27 @@
 
         // جلب بيانات المستخدم
         async function fetchUserData() {
-    try {
-        const username = localStorage.getItem('username');
-        if (!username) {
-            alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
-            window.location.href = "index.html";  // إعادة التوجيه إلى صفحة تسجيل الدخول
-            return;
-        }
+       try {
+         const username = localStorage.getItem('username');
+         if (!username) {
+           alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
+           window.location.href = "index.html";
+           return;
+         }
 
-        const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
-        const response = await fetch(apiUrl);
+         const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
+         const response = await fetch(apiUrl);
 
-        if (!response.ok) throw new Error("فشل في جلب بيانات المستخدم");
+         if (!response.ok) throw new Error("فشل في جلب بيانات المستخدم");
 
-        const { data } = await response.json();
-        document.getElementById("usernameDisplay").textContent = data.username || "اسم المستخدم";
-        document.getElementById("balanceDisplay").textContent = `${data.balance || 0} جنيه`;
-    } catch (error) {
-        console.error("خطأ أثناء جلب بيانات المستخدم:", error);
-        alert("حدث خطأ أثناء جلب بيانات المستخدم.");
-    }
+         const { data } = await response.json();
+         console.log("بيانات المستخدم:", data); // التحقق من البيانات
+         document.getElementById("usernameDisplay").textContent = data.username || "اسم المستخدم";
+         document.getElementById("balanceDisplay").textContent = `${data.balance || 0} جنيه`;
+       } catch (error) {
+         console.error("خطأ أثناء جلب بيانات المستخدم:", error);
+         alert("حدث خطأ أثناء جلب بيانات المستخدم.");
+       }
         }
 
         // شراء خطة VIP
