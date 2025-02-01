@@ -3,308 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark 🌑</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>DARK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* تنسيق عام */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #1a1a1a;
-            color: #fff;
+        /* الأنماط الأساسية */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            text-align: center;
-            overflow-x: hidden;
-            background-image: url('https://www.transparenttextures.com/patterns/dark-geometric.png'); /* خلفية جذابة */
         }
 
-        /* أعلى الصفحة */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #000000, #2d2d2d);
+            color: #fff;
+        }
+
+        /* شريط التنقل */
+        .nav {
             padding: 20px;
-            background-color: rgba(51, 51, 51, 0.9); /* شفافية */
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+            text-align: left;
         }
 
-        .language-switcher {
-            display: flex;
-            align-items: center;
-        }
-
-        .language-switcher i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-
-        .language-switcher select {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .sidebar-icon {
+        #darkModeToggle {
             font-size: 24px;
             cursor: pointer;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 60px;
-            right: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: rgba(51, 51, 51, 0.9); /* شفافية */
-            transition: right 0.3s ease;
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 20px 0;
-        }
-
-        .sidebar ul li a {
             color: #fff;
-            text-decoration: none;
-            font-size: 18px;
+            background: none;
+            border: none;
         }
 
-        /* اسم الموقع */
-        .site-name {
-            margin-top: 100px;
+        /* اللوجو */
+        .logo {
+            text-align: center;
+            margin: 50px 0;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .site-name h1 {
-            font-family: 'Roboto', sans-serif;
-            font-size: 72px;
-            font-weight: 700;
-            color: #ff6f61;
-            text-shadow: 2px 2px 10px rgba(255, 111, 97, 0.5);
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff6f61, 0 0 30px #ff6f61;
-            }
-            to {
-                text-shadow: 0 0 20px #ff6f61, 0 0 30px #ff6f61, 0 0 40px #ff6f61;
-            }
-        }
-
-        /* مربع تسجيل الدخول وإنشاء حساب */
-        .auth-box {
-            background-color: rgba(68, 68, 68, 0.9); /* شفافية */
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
+        /* نموذج الدخول */
+        .form-container {
             max-width: 400px;
-            margin: 50px auto;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 20px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
-        .auth-box h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .auth-box input {
+        input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 5px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
             font-size: 16px;
         }
 
-        .auth-box button {
+        button {
             width: 100%;
-            padding: 10px;
-            background-color: #ff6f61;
+            padding: 12px;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             border: none;
             border-radius: 5px;
             color: #fff;
-            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .auth-box button:hover {
-            background-color: #ff4a3d;
+        button:hover {
+            transform: scale(1.02);
         }
 
-        .auth-box .switch-auth {
-            color: #ff6f61;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* أيقونة خدمة العملاء */
-        .customer-service-icon {
+        /* الروابط الاجتماعية */
+        .social-icons {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            font-size: 40px;
-            color: #ff6f61;
-            cursor: pointer;
-            animation: bounce 2s infinite;
+            left: 20px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
+        .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            transition: color 0.3s;
         }
 
-        /* تنسيقات إضافية */
-        .auth-box input::placeholder {
-            color: #999;
+        .social-icons a:hover {
+            color: #ff6b6b;
         }
 
-        .auth-box input:focus {
-            outline: none;
-            border: 2px solid #ff6f61;
+        /* حقوق النشر */
+        footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
         }
 
-        .auth-box button:focus {
-            outline: none;
+        .hidden {
+            display: none;
         }
 
-        .sidebar ul li a:hover {
-            color: #ff6f61;
-        }
-
-        .sidebar-icon:hover {
-            color: #ff6f61;
-        }
-
-        .customer-service-icon:hover {
-            color: #ff4a3d;
-        }
-
-        /* ملاءمة للجوال */
-        @media (max-width: 768px) {
-            .site-name h1 {
-                font-size: 48px;
-            }
-
-            .auth-box {
-                width: 90%;
-            }
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- أعلى الصفحة -->
-    <header>
-        <!-- أيقونة تغيير اللغة -->
-        <div class="language-switcher">
-            <i class="fas fa-globe"></i>
-            <select id="language" onchange="changeLanguage()">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-            </select>
+    <nav class="nav">
+        <button id="darkModeToggle">🌙</button>
+    </nav>
+
+    <h1 class="logo">DARK</h1>
+
+    <div class="form-container">
+        <div id="loginForm">
+            <input type="text" placeholder="اسم المستخدم">
+            <input type="password" placeholder="كلمة المرور">
+            <button onclick="handleLogin()">تسجيل الدخول</button>
+            <button onclick="showSignupForm()">إنشاء حساب</button>
         </div>
 
-        <!-- القائمة الجانبية -->
-        <div class="sidebar-icon" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
+        <div id="signupForm" class="hidden">
+            <input type="text" placeholder="اسم المستخدم">
+            <input type="password" placeholder="كلمة المرور" id="signupPassword">
+            <input type="password" placeholder="أعد إدخال كلمة المرور">
+            <div id="passwordError" class="error-message"></div>
+            <button onclick="handleSignup()">إنشاء حساب</button>
+            <button onclick="showLoginForm()">لديك حساب؟ سجل الدخول</button>
         </div>
-
-        <!-- القائمة الجانبية -->
-        <div class="sidebar" id="sidebar">
-            <ul>
-                <li><a href="#">خدمة العملاء</a></li>
-                <li><a href="#">من نحن</a></li>
-                <li><a href="#">الشروط والأحكام</a></li>
-                <li><a href="#">الأحداث</a></li>
-                <li><a href="#">كيفية العمل</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <!-- اسم الموقع -->
-    <div class="site-name">
-        <h1>Dark 🌑</h1>
     </div>
 
-    <!-- مربع تسجيل الدخول وإنشاء حساب -->
-    <div class="auth-box">
-        <h2 id="auth-title">تسجيل الدخول</h2>
-        <form id="login-form">
-            <input type="text" placeholder="اسم المستخدم" required>
-            <input type="password" placeholder="كلمة المرور" required>
-            <button type="submit">تسجيل الدخول</button>
-        </form>
-        <form id="signup-form" style="display: none;">
-            <input type="text" placeholder="اسم المستخدم" required>
-            <input type="password" placeholder="كلمة المرور" required>
-            <input type="password" placeholder="أعد إدخال كلمة المرور" required>
-            <button type="submit">إنشاء حساب</button>
-        </form>
-        <p class="switch-auth" onclick="toggleAuth()" id="switch-auth-text">أنشئ حساب الآن</p>
+    <div class="social-icons">
+        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
 
-    <!-- أيقونة خدمة العملاء -->
-    <div class="customer-service-icon">
-        <i class="fas fa-headset"></i>
-    </div>
+    <footer>© 2025 DARK. All rights reserved.</footer>
 
     <script>
-        // JavaScript لإظهار/إخفاء القائمة الجانبية ونموذج إنشاء الحساب
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+        // تبديل الوضع الليلي
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+
+        // استعادة إعدادات الوضع الليلي
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
         }
 
-        // تبديل بين تسجيل الدخول وإنشاء حساب
-        function toggleAuth() {
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const authTitle = document.getElementById('auth-title');
-            const switchAuthText = document.getElementById('switch-auth-text');
-
-            if (loginForm.style.display === 'none') {
-                loginForm.style.display = 'block';
-                signupForm.style.display = 'none';
-                authTitle.innerText = 'تسجيل الدخول';
-                switchAuthText.innerText = 'أنشئ حساب الآن';
-            } else {
-                loginForm.style.display = 'none';
-                signupForm.style.display = 'block';
-                authTitle.innerText = 'إنشاء حساب';
-                switchAuthText.innerText = 'تسجيل الدخول';
-            }
+        // تبديل النماذج
+        function showSignupForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
         }
 
-        // تغيير اللغة
-        function changeLanguage() {
-            const language = document.getElementById('language').value;
-            if (language === 'en') {
-                window.location.href = 'index-en.html'; // صفحة باللغة الإنجليزية
-            } else {
-                window.location.href = 'index.html'; // صفحة باللغة العربية
+        function showLoginForm() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        // التحقق من كلمة المرور
+        function validatePassword(password) {
+            const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            return regex.test(password);
+        }
+
+        function handleSignup() {
+            const password = document.getElementById('signupPassword').value;
+            const errorElement = document.getElementById('passwordError');
+
+            if (!validatePassword(password)) {
+                errorElement.textContent = 'يجب أن تحتوي كلمة المرور على الأقل 8 أحرف، رقم، رمز، وحروف كبيرة وصغيرة';
+                return;
             }
+            errorElement.textContent = '';
+            alert('تم إنشاء الحساب بنجاح!');
+        }
+
+        function handleLogin() {
+            alert('تم تسجيل الدخول بنجاح!');
         }
     </script>
 </body>
