@@ -6,6 +6,14 @@
     <title>لوحة التحكم - DARK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ffd93d;
+            --accent-color: #4ecdc4;
+            --dark-bg: #1a1a1a;
+            --glass-effect: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,13 +21,14 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
             background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #000000, #4a4a4a);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             color: #fff;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         @keyframes gradientBG {
@@ -32,60 +41,122 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
         .user-box, .balance-box {
-            background: rgba(255,255,255,0.1);
+            background: var(--glass-effect);
             padding: 1.5rem 3rem;
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .balance-box {
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            overflow: hidden;
         }
 
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .balance-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: balanceGlow 4s infinite;
+        }
+
+        @keyframes balanceGlow {
+            0% { transform: rotate(45deg) translateX(-150%); }
+            100% { transform: rotate(45deg) translateX(150%); }
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
 
         .service-card {
-            background: rgba(255,255,255,0.1);
+            background: var(--glass-effect);
             padding: 2rem;
             border-radius: 20px;
             text-align: center;
-            transition: all 0.3s;
-            min-height: 200px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         .service-card i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #ffd93d;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover i {
+            transform: rotate(15deg) scale(1.2);
         }
 
         .full-width-card {
             grid-column: 1 / -1;
             background: rgba(255,255,255,0.15);
-            padding: 2.5rem;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .full-width-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            animation: borderAnim 3s infinite;
+        }
+
+        @keyframes borderAnim {
+            0% { width: 0%; left: 0; }
+            50% { width: 100%; left: 0; }
+            100% { width: 0%; left: 100%; }
         }
 
         .social-footer {
@@ -95,18 +166,31 @@
             right: 30px;
             display: flex;
             justify-content: space-between;
+            z-index: 3;
         }
 
         .social-icon {
             color: #fff;
             font-size: 2.5rem;
-            transition: all 0.3s;
+            transition: all 0.4s;
             text-decoration: none;
+            position: relative;
         }
 
-        .social-icon:hover {
-            color: #ff6b6b;
-            transform: scale(1.2);
+        .social-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .social-icon:hover::after {
+            width: 100%;
         }
 
         @media (max-width: 768px) {
@@ -115,17 +199,76 @@
                 gap: 1.5rem;
             }
             
-            .grid-container {
-                grid-template-columns: 1fr;
+            .service-card {
+                min-height: 200px;
+                padding: 1.5rem;
             }
             
-            .service-card {
-                min-height: 150px;
+            .full-width-card {
+                padding: 2rem;
             }
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--glass-effect);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: loading 1s linear infinite;
+        }
+
+        @keyframes loading {
+            to { transform: rotate(360deg); }
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            background: #ff5252;
         }
     </style>
 </head>
 <body>
+    <div class="loader"></div>
+
+    <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        تسجيل الخروج
+    </button>
+
     <div class="header-section">
         <div class="user-box">
             <h2>المستخدم: <span id="username">---</span></h2>
@@ -137,7 +280,6 @@
 
     <div class="main-content">
         <div class="grid-container">
-            <!-- الصف الأول -->
             <div class="service-card">
                 <i class="fas fa-coins"></i>
                 <h3>إيداع</h3>
@@ -151,7 +293,6 @@
                 <h3>الاشتراكات</h3>
             </div>
 
-            <!-- الصف الثاني -->
             <div class="service-card">
                 <i class="fas fa-gamepad"></i>
                 <h3>الألعاب</h3>
@@ -165,7 +306,6 @@
                 <h3>الاستبيانات</h3>
             </div>
 
-            <!-- الصف الثالث -->
             <div class="service-card">
                 <i class="fas fa-gift"></i>
                 <h3>المكافأة</h3>
@@ -179,7 +319,6 @@
                 <h3>من نحن</h3>
             </div>
 
-            <!-- البنود الكاملة العرض -->
             <div class="service-card full-width-card">
                 <i class="fas fa-file-signature"></i>
                 <h3>الشروط والأحكام</h3>
@@ -197,17 +336,27 @@
     </div>
 
     <script>
-        // جلب بيانات المستخدم من localStorage
-        const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
-            username: 'مستخدم جديد',
-            balance: 0
-        };
+        window.addEventListener('load', () => {
+            document.querySelector('.loader').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.loader').style.display = 'none';
+            }, 500);
+        });
 
-        // عرض بيانات المستخدم
-        document.getElementById('username').textContent = currentUser.username;
-        document.getElementById('balance').textContent = currentUser.balance;
+        function updateUserData() {
+            const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+            document.getElementById('username').textContent = user.username || 'مستخدم جديد';
+            document.getElementById('balance').textContent = user.balance || 0;
+        }
 
-        // إضافة أحداث النقر على البطاقات
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        setInterval(updateUserData, 5000);
+        updateUserData();
+
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', function() {
                 const serviceName = this.querySelector('h3').textContent;
@@ -216,4 +365,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
