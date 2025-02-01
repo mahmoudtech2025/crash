@@ -23,7 +23,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
+            padding: 20px;
         }
 
         @keyframes gradientBG {
@@ -34,7 +34,7 @@
 
         .logo {
             text-align: center;
-            margin: 1rem 0;
+            margin: 2rem 0;
             font-weight: 900;
             text-transform: uppercase;
             background: linear-gradient(45deg, #ff6b6b, #ffd93d, #4ecdc4);
@@ -43,7 +43,14 @@
             position: relative;
             animation: logoFloat 3s ease-in-out infinite;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
-            font-size: 4rem;
+            font-size: 3.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+                margin: 1rem 0;
+            }
         }
 
         @keyframes logoFloat {
@@ -52,8 +59,8 @@
         }
 
         .form-container {
-            width: 90%;
-            max-width: 450px;
+            width: 100%;
+            max-width: 500px;
             padding: 2rem;
             background: rgba(0, 0, 0, 0.25);
             border-radius: 20px;
@@ -61,26 +68,12 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             border: 1px solid rgba(255,255,255,0.1);
             margin: 1rem auto;
-            position: relative;
-            overflow-y: auto;
         }
 
         .auth-form {
-            position: relative;
-            z-index: 2;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            min-height: 300px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .auth-form.active {
-            opacity: 1;
-            transform: translateX(0);
+            gap: 1.5rem;
         }
 
         input {
@@ -109,25 +102,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: rotate(45deg);
-            animation: buttonGlow 3s infinite;
-        }
-
-        @keyframes buttonGlow {
-            0% { transform: rotate(45deg) translateX(-150%); }
-            100% { transform: rotate(45deg) translateX(150%); }
         }
 
         button:hover {
@@ -140,7 +114,6 @@
             bottom: 2rem;
             display: flex;
             gap: 1.5rem;
-            z-index: 1000;
         }
 
         .social-icons a {
@@ -155,66 +128,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
         }
 
         .social-icons a:hover {
-            transform: translateY(-5px) scale(1.1);
+            transform: translateY(-5px);
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
         }
 
-        .error-message {
-            color: #ff6b6b;
-            font-size: 0.9rem;
-            text-align: right;
-        }
-
-        .custom-alert {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: alertSlide 0.5s ease-out;
-            z-index: 2000;
-        }
-
-        @keyframes alertSlide {
-            from { top: -100px; }
-            to { top: 1rem; }
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-                margin: 0.5rem 0;
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
             }
 
             .form-container {
                 padding: 1.5rem;
-                width: 95%;
             }
 
             input, button {
                 padding: 0.8rem;
-                font-size: 0.9rem;
             }
 
             .social-icons {
                 bottom: 1rem;
                 gap: 1rem;
-            }
-
-            .social-icons a {
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
             }
         }
     </style>
@@ -223,73 +159,56 @@
     <h1 class="logo">DARK</h1>
 
     <div class="form-container">
-        <div id="loginForm" class="auth-form active">
+        <div id="loginForm" class="auth-form">
             <input type="text" placeholder="اسم المستخدم">
             <input type="password" placeholder="كلمة المرور">
             <button onclick="handleLogin()">تسجيل الدخول</button>
             <button onclick="switchForm('signupForm')">إنشاء حساب</button>
         </div>
 
-        <div id="signupForm" class="auth-form">
+        <div id="signupForm" class="auth-form" style="display: none;">
             <input type="text" placeholder="اسم المستخدم">
             <input type="password" placeholder="كلمة المرور" id="signupPassword">
             <input type="password" placeholder="أعد إدخال كلمة المرور">
-            <div id="passwordError" class="error-message"></div>
             <button onclick="handleSignup()">إنشاء حساب</button>
             <button onclick="switchForm('loginForm')">لديك حساب؟ سجل الدخول</button>
         </div>
     </div>
 
     <div class="social-icons">
-        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
-        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" rel="noopener">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank" rel="noopener">
+            <i class="fab fa-youtube"></i>
+        </a>
     </div>
 
     <script>
-        // تبديل النماذج
         function switchForm(formId) {
             document.querySelectorAll('.auth-form').forEach(form => {
-                form.classList.remove('active');
+                form.style.display = 'none';
             });
-            document.getElementById(formId).classList.add('active');
+            document.getElementById(formId).style.display = 'flex';
         }
 
-        // نظام التحقق
         function validatePassword(password) {
-            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
             return strongRegex.test(password);
         }
 
         function handleSignup() {
             const password = document.getElementById('signupPassword').value;
-            const errorElement = document.getElementById('passwordError');
-            
             if (!validatePassword(password)) {
-                showMessage('يجب أن تحتوي كلمة المرور على 8 أحرف، حرف كبير، رقم، ورَمز خاص', 'error');
+                alert('كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم، ورَمز خاص');
                 return;
             }
-            showMessage('تم إنشاء الحساب بنجاح!', 'success');
+            alert('تم إنشاء الحساب بنجاح!');
         }
 
         function handleLogin() {
-            showMessage('مرحبًا بك! جاري التوجيه...', 'success');
-        }
-
-        // نظام الإشعارات
-        function showMessage(text, type) {
-            const alert = document.createElement('div');
-            alert.className = `custom-alert ${type}`;
-            alert.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
-                ${text}
-            `;
-            document.body.appendChild(alert);
-            
-            setTimeout(() => {
-                alert.style.opacity = '0';
-                setTimeout(() => alert.remove(), 300);
-            }, 3000);
+            alert('مرحبًا بك! جاري التوجيه...');
         }
     </script>
 </body>
-        </html>
+</html>
