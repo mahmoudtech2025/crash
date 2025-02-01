@@ -74,7 +74,7 @@
             border-radius: 20px;
             text-align: center;
             transition: all 0.4s ease;
-            min-height: 250px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -111,110 +111,95 @@
             text-align: center;
         }
 
-        .social-footer {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            right: 30px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
-        }
-
         @media (max-width: 768px) {
             .grid-container {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             .grid-container {
-                grid-template-columns: repeat(1, 1fr);
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header-section">
-        <div class="user-box">
-            <h2>المستخدم: <span id="username">---</span></h2>
+
+<div class="header-section">
+    <div class="user-box">
+        <h2>المستخدم: <span id="username">---</span></h2>
+    </div>
+    <div class="balance-box">
+        <h2>الرصيد: <span id="balance">0</span> جنيه</h2>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="grid-container">
+        <div class="service-card">
+            <i class="fas fa-coins"></i>
+            <h3>إيداع</h3>
         </div>
-        <div class="balance-box">
-            <h2>الرصيد: <span id="balance">0</span> جنيه</h2>
+        <div class="service-card">
+            <i class="fas fa-hand-holding-usd"></i>
+            <h3>سحب</h3>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>الاشتراكات</h3>
+        </div>
+
+        <div class="service-card">
+            <i class="fas fa-gamepad"></i>
+            <h3>الألعاب</h3>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-film"></i>
+            <h3>الفيديوهات</h3>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-poll"></i>
+            <h3>الاستبيانات</h3>
+        </div>
+
+        <div class="service-card">
+            <i class="fas fa-gift"></i>
+            <h3>المكافأة</h3>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-users"></i>
+            <h3>الاحالات</h3>
+        </div>
+        <div class="service-card">
+            <i class="fas fa-info-circle"></i>
+            <h3>من نحن</h3>
+        </div>
+
+        <div class="service-card full-width-card">
+            <i class="fas fa-file-signature"></i>
+            <h3>الشروط والأحكام</h3>
         </div>
     </div>
+</div>
 
-    <div class="main-content">
-        <div class="grid-container">
-            <div class="service-card">
-                <i class="fas fa-coins"></i>
-                <h3>إيداع</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-hand-holding-usd"></i>
-                <h3>سحب</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-calendar-alt"></i>
-                <h3>الاشتراكات</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-gamepad"></i>
-                <h3>الألعاب</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-film"></i>
-                <h3>الفيديوهات</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-poll"></i>
-                <h3>الاستبيانات</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-gift"></i>
-                <h3>المكافأة</h3>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-users"></i>
-                <h3>الإحالات</h3>
-            </div>
-            <div class="service-card full-width-card">
-                <i class="fas fa-file-signature"></i>
-                <h3>الشروط والأحكام</h3>
-            </div>
-        </div>
-    </div>
+<script>
+    function updateUserData() {
+        const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+        document.getElementById('username').textContent = user.username || 'مستخدم جديد';
+        document.getElementById('balance').textContent = user.balance || 0;
+    }
 
-    <div class="social-footer">
-        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" class="social-icon">
-            <i class="fab fa-telegram"></i>
-        </a>
-        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank" class="social-icon">
-            <i class="fab fa-youtube"></i>
-        </a>
-    </div>
+    setInterval(updateUserData, 5000);
+    updateUserData();
 
-    <script>
-        function updateUserData() {
-            const user = JSON.parse(localStorage.getItem('currentUser')) || {};
-            document.getElementById('username').textContent = user.username || 'مستخدم جديد';
-            document.getElementById('balance').textContent = user.balance || 0;
-        }
-
-        function logout() {
-            localStorage.removeItem('currentUser');
-            window.location.href = 'index.html';
-        }
-
-        setInterval(updateUserData, 5000);
-        updateUserData();
-
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const serviceName = this.querySelector('h3').textContent;
-                alert(`خدمة ${serviceName} - قيد التطوير`);
-            });
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const serviceName = this.querySelector('h3').textContent;
+            alert(`خدمة ${serviceName} - قيد التطوير`);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
