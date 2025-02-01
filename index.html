@@ -34,14 +34,23 @@
 
         .logo {
             text-align: center;
+            margin: 2rem 0;
             font-weight: 900;
             text-transform: uppercase;
             background: linear-gradient(45deg, #ff6b6b, #ffd93d, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            position: relative;
             animation: logoFloat 3s ease-in-out infinite;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
             font-size: 3.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+                margin: 1rem 0;
+            }
         }
 
         @keyframes logoFloat {
@@ -67,23 +76,21 @@
             gap: 1.5rem;
         }
 
-        .input-container {
+        .input-group {
             position: relative;
         }
 
-        .input-container i {
+        .input-group i {
             position: absolute;
-            right: 15px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
+            color: rgba(255,255,255,0.5);
         }
 
-        .input-container input {
+        input {
             width: 100%;
-            padding: 1rem;
-            padding-right: 40px;
+            padding: 1rem 1rem 1rem 40px;
             border: 2px solid rgba(255,255,255,0.2);
             border-radius: 12px;
             background: rgba(0,0,0,0.3);
@@ -92,9 +99,8 @@
             transition: all 0.3s;
         }
 
-        input:focus {
-            border-color: #ffd93d;
-            box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+        input.error {
+            border-color: #ff6b6b !important;
         }
 
         button {
@@ -145,6 +151,25 @@
             transform: translateY(-5px);
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
         }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            input, button {
+                padding: 0.8rem;
+            }
+
+            .social-icons {
+                bottom: 1rem;
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -152,12 +177,12 @@
 
     <div class="form-container">
         <div id="loginForm" class="auth-form">
-            <div class="input-container">
-                <i class="fa fa-user"></i>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
                 <input type="text" placeholder="اسم المستخدم" id="loginUsername">
             </div>
-            <div class="input-container">
-                <i class="fa fa-eye" onclick="togglePassword('loginPassword')"></i>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
                 <input type="password" placeholder="كلمة المرور" id="loginPassword">
             </div>
             <button onclick="handleLogin()">تسجيل الدخول</button>
@@ -165,16 +190,16 @@
         </div>
 
         <div id="signupForm" class="auth-form" style="display: none;">
-            <div class="input-container">
-                <i class="fa fa-user"></i>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
                 <input type="text" placeholder="اسم المستخدم" id="signupUsername">
             </div>
-            <div class="input-container">
-                <i class="fa fa-eye" onclick="togglePassword('signupPassword')"></i>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
                 <input type="password" placeholder="كلمة المرور" id="signupPassword">
             </div>
-            <div class="input-container">
-                <i class="fa fa-eye" onclick="togglePassword('confirmPassword')"></i>
+            <div class="input-group">
+                <i class="fas fa-redo"></i>
                 <input type="password" placeholder="أعد إدخال كلمة المرور" id="confirmPassword">
             </div>
             <div id="passwordError" class="error-message"></div>
@@ -183,36 +208,135 @@
         </div>
     </div>
 
+    <div class="social-icons">
+        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" rel="noopener">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank" rel="noopener">
+            <i class="fab fa-youtube"></i>
+        </a>
+    </div>
+
     <script>
+        // تخزين البيانات
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
         function switchForm(formId) {
             document.querySelectorAll('.auth-form').forEach(form => {
                 form.style.display = 'none';
             });
             document.getElementById(formId).style.display = 'flex';
+            clearErrors();
         }
 
-        function togglePassword(fieldId) {
-            let field = document.getElementById(fieldId);
-            field.type = field.type === "password" ? "text" : "password";
+        function clearErrors() {
+            document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            document.getElementById('passwordError').textContent = '';
+        }
+
+        function validateLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            let isValid = true;
+
+            if (!username) {
+                document.getElementById('loginUsername').classList.add('error');
+                isValid = false;
+            }
+            if (!password) {
+                document.getElementById('loginPassword').classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateSignup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const confirm = document.getElementById('confirmPassword').value.trim();
+            let isValid = true;
+
+            if (!username) {
+                document.getElementById('signupUsername').classList.add('error');
+                isValid = false;
+            }
+            if (!password) {
+                document.getElementById('signupPassword').classList.add('error');
+                isValid = false;
+            }
+            if (!confirm) {
+                document.getElementById('confirmPassword').classList.add('error');
+                isValid = false;
+            }
+
+            if (password !== confirm) {
+                document.getElementById('passwordError').textContent = 'كلمات المرور غير متطابقة';
+                isValid = false;
+            }
+
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+            if (!strongRegex.test(password)) {
+                document.getElementById('passwordError').textContent = 'يجب أن تحتوي كلمة المرور على 8 أحرف، حرف كبير، رقم، ورَمز خاص';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function handleLogin() {
+            if (!validateLogin()) {
+                alert('الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert('مرحبًا بك! جاري التوجيه...');
+                // window.location.href = 'dashboard.html'; // إضافة صفحة التوجيه هنا
+            } else {
+                alert('بيانات الدخول غير صحيحة');
+            }
         }
 
         function handleSignup() {
-            const username = document.getElementById('signupUsername').value.trim();
-            const password = document.getElementById('signupPassword').value.trim();
-            localStorage.setItem('username', username);
-            localStorage.setItem('password', password);
+            if (!validateSignup()) return;
+            
+            const newUser = {
+                username: document.getElementById('signupUsername').value.trim(),
+                password: document.getElementById('signupPassword').value.trim()
+            };
+            
+            if (users.some(u => u.username === newUser.username)) {
+                alert('اسم المستخدم موجود مسبقًا');
+                return;
+            }
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
             alert('تم إنشاء الحساب بنجاح!');
             switchForm('loginForm');
         }
 
-        function handleLogin() {
-            const storedUsername = localStorage.getItem('username');
-            const storedPassword = localStorage.getItem('password');
-            if (document.getElementById('loginUsername').value === storedUsername && document.getElementById('loginPassword').value === storedPassword) {
-                alert('تم تسجيل الدخول بنجاح!');
-            } else {
-                alert('خطأ في البيانات');
-            }
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+                if(input.id === 'signupPassword' || input.id === 'confirmPassword') {
+                    document.getElementById('passwordError').textContent = '';
+                }
+            });
+        });
+
+        // استعادة آخر مستخدم مسجل
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            document.getElementById('loginUsername').value = currentUser.username;
+            document.getElementById('loginPassword').value = currentUser.password;
         }
     </script>
 </body>
