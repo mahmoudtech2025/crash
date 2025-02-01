@@ -1,313 +1,219 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>لوحة التحكم - DARK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-            color: #333;
         }
 
-        header {
-            width: 100%;
-            padding: 15px;
-            background-color: #0072ff;
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #000000, #4a4a4a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header-section {
             display: flex;
             justify-content: space-between;
-            font-size: 16px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
         }
 
-        header span {
-            margin-left: 20px;
-            margin-right: 20px;
+        .user-box, .balance-box {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            padding: 20px;
-            width: 100%;
+        .balance-box {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+        }
+
+        .main-content {
             max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .box {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 5px solid #0072ff;
-        }
-
-        .box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .box h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #0072ff;
-        }
-
-        .box p {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        .box button {
-            margin-top: 10px;
-            background-color: #0072ff;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .box button:hover {
-            background-color: #005bb5;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #333;
-            color: #fff;
+            transition: all 0.3s;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            transition: right 0.3s ease;
-            box-shadow: -4px 0 6px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .sidebar a {
-            width: 100%;
-            padding: 15px 20px;
-            text-align: right;
-            text-decoration: none;
-            color: #fff;
-            font-size: 16px;
-            border-bottom: 1px solid #444;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: #444;
-        }
-
-        .sidebar-icon {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #0072ff;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
         }
 
-        .sidebar-icon:hover {
-            background-color: #005bb5;
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
 
-        .sidebar.open {
-            right: 0;
+        .service-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffd93d;
+        }
+
+        .full-width-card {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,0.15);
+            padding: 2.5rem;
+        }
+
+        .social-footer {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .social-icon {
+            color: #fff;
+            font-size: 2.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: #ff6b6b;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-card {
+                min-height: 150px;
+            }
         }
     </style>
 </head>
-
 <body>
-<header>
-    <span id="usernameDisplay">اسم المستخدم</span> |
-    <span id="balanceDisplay">الرصيد</span>
-</header>
-
-    <div class="content">
-        <!-- صناديق VIP -->
-        <div class="box" data-price="100">
-            <h3>VIP1</h3>
-            <p>القيمة: 100 جنيه</p>
-            <p>الأرباح: 4%</p>
-            <button onclick="purchaseVIP(100)">شراء</button>
+    <div class="header-section">
+        <div class="user-box">
+            <h2>المستخدم: <span id="username">---</span></h2>
         </div>
-
-        <div class="box" data-price="300">
-            <h3>VIP2</h3>
-            <p>القيمة: 300 جنيه</p>
-            <p>الأرباح: 7%</p>
-            <button onclick="purchaseVIP(300)">شراء</button>
-        </div>
-
-        <div class="box" data-price="500">
-            <h3>VIP3</h3>
-            <p>القيمة: 500 جنيه</p>
-            <p>الأرباح: 9%</p>
-            <button onclick="purchaseVIP(500)">شراء</button>
-        </div>
-
-        <div class="box" data-price="800">
-            <h3>VIP4</h3>
-            <p>القيمة: 800 جنيه</p>
-            <p>الأرباح: 11%</p>
-            <button onclick="purchaseVIP(800)">شراء</button>
-        </div>
-
-        <div class="box" data-price="1200">
-            <h3>VIP5</h3>
-            <p>القيمة: 1200 جنيه</p>
-            <p>الأرباح: 13%</p>
-            <button onclick="purchaseVIP(1200)">شراء</button>
-        </div>
-
-        <div class="box" data-price="1500">
-            <h3>VIP6</h3>
-            <p>القيمة: 1500 جنيه</p>
-            <p>الأرباح: 15%</p>
-            <button onclick="purchaseVIP(1500)">شراء</button>
-        </div>
-
-        <div class="box" data-price="2500">
-            <h3>VIP7</h3>
-            <p>القيمة: 2500 جنيه</p>
-            <p>الأرباح: 17%</p>
-            <button onclick="purchaseVIP(2500)">شراء</button>
-        </div>
-
-        <div class="box" data-price="5000">
-            <h3>VIP8</h3>
-            <p>القيمة: 5000 جنيه</p>
-            <p>الأرباح: 19%</p>
-            <button onclick="purchaseVIP(5000)">شراء</button>
+        <div class="balance-box">
+            <h2>الرصيد: <span id="balance">0</span> جنيه</h2>
         </div>
     </div>
 
-    <!-- الشريط الجانبي -->
-    <div class="sidebar" id="sidebar">
-        <a href="deposit.html"><i class="fas fa-wallet"></i> إيداع</a>
-        <a href="withdraw.html"><i class="fas fa-hand-holding-usd"></i> سحب</a>
-        <a href="#" onclick="alert('فتح صفحة اللعبة')"><i class="fas fa-gamepad"></i> لعبة</a>
-        <a href="deposit-records.html">سجلات الإيداع</a>
-        <a href="withdraw-records.html">سجلات السحب</a>
-        <a href="#" onclick="alert('فتح صفحة الهدايا')"><i class="fas fa-gift"></i> الهدايا</a>
+    <div class="main-content">
+        <div class="grid-container">
+            <!-- الصف الأول -->
+            <div class="service-card">
+                <i class="fas fa-coins"></i>
+                <h3>إيداع</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>سحب</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>الاشتراكات</h3>
+            </div>
+
+            <!-- الصف الثاني -->
+            <div class="service-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>الألعاب</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-film"></i>
+                <h3>الفيديوهات</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-poll"></i>
+                <h3>الاستبيانات</h3>
+            </div>
+
+            <!-- الصف الثالث -->
+            <div class="service-card">
+                <i class="fas fa-gift"></i>
+                <h3>المكافأة</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-users"></i>
+                <h3>الاحالات</h3>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-info-circle"></i>
+                <h3>من نحن</h3>
+            </div>
+
+            <!-- البنود الكاملة العرض -->
+            <div class="service-card full-width-card">
+                <i class="fas fa-file-signature"></i>
+                <h3>الشروط والأحكام</h3>
+            </div>
+        </div>
     </div>
 
-    <!-- أيقونة فتح/إغلاق الشريط الجانبي -->
-    <div class="sidebar-icon" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
+    <div class="social-footer">
+        <a href="https://t.me/+5ez6TBHzsFJlOGE0" target="_blank" class="social-icon">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://www.youtube.com/@Dark-o6g1j" target="_blank" class="social-icon">
+            <i class="fab fa-youtube"></i>
+        </a>
     </div>
 
     <script>
-        // فتح/إغلاق الشريط الجانبي
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
+        // جلب بيانات المستخدم من localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
+            username: 'مستخدم جديد',
+            balance: 0
+        };
 
-        // جلب بيانات المستخدم
-        async function fetchUserData() {
-       try {
-         const username = localStorage.getItem('username');
-         if (!username) {
-           alert("لم يتم العثور على اسم المستخدم، يرجى تسجيل الدخول.");
-           window.location.href = "index.html";
-           return;
-         }
+        // عرض بيانات المستخدم
+        document.getElementById('username').textContent = currentUser.username;
+        document.getElementById('balance').textContent = currentUser.balance;
 
-         const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/${username}`;
-         const response = await fetch(apiUrl);
-
-         if (!response.ok) throw new Error("فشل في جلب بيانات المستخدم");
-
-         const { data } = await response.json();
-         console.log("بيانات المستخدم:", data); // التحقق من البيانات
-         document.getElementById("usernameDisplay").textContent = data.username || "اسم المستخدم";
-         document.getElementById("balanceDisplay").textContent = `${data.balance || 0} جنيه`;
-       } catch (error) {
-         console.error("خطأ أثناء جلب بيانات المستخدم:", error);
-         alert("حدث خطأ أثناء جلب بيانات المستخدم.");
-       }
-        }
-
-        // شراء خطة VIP
-        async function purchaseVIP(price) {
-            try {
-                const username = localStorage.getItem('username');
-                if (!username) {
-                    alert("يرجى تسجيل الدخول أولاً.");
-                    return;
-                }
-
-                const apiUrl = `https://backend-theta-tawny-74.vercel.app/user/purchaseVIP`;
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, price }),
-                });
-
-                if (!response.ok) throw new Error("فشل في تنفيذ عملية الشراء.");
-
-                const { success, newBalance } = await response.json();
-
-                if (success) {
-                    alert("تمت عملية الشراء بنجاح!");
-                    document.getElementById("balance").textContent = `${newBalance} جنيه`;
-                } else {
-                    alert("لا يوجد رصيد كافٍ لإتمام العملية.");
-                }
-            } catch (error) {
-                console.error("خطأ أثناء عملية الشراء:", error);
-                alert("حدث خطأ أثناء تنفيذ عملية الشراء.");
-            }
-        }
-
-        // جلب بيانات المستخدم عند تحميل الصفحة
-        window.onload = fetchUserData;
+        // إضافة أحداث النقر على البطاقات
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceName = this.querySelector('h3').textContent;
+                alert(`خدمة ${serviceName} - قيد التطوير`);
+            });
+        });
     </script>
-    // استرجاع بيانات المستخدم من localStorage
-const username = localStorage.getItem('username');
-const balance = localStorage.getItem('balance');
-
-if (username && balance) {
-  // عرض البيانات في الصفحة
-  document.getElementById('usernameDisplay').textContent = `مرحبًا، ${username}`;
-  document.getElementById('balanceDisplay').textContent = `الرصيد: ${balance} جنيه`;
-} else {
-  // إعادة التوجيه إلى صفحة تسجيل الدخول إذا لم تكن البيانات موجودة
-  window.location.href = 'login.html';
-}
 </body>
-
 </html>
