@@ -61,26 +61,9 @@
             overflow: hidden;
         }
 
-        .balance-box::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: balanceGlow 4s infinite;
-        }
-
-        @keyframes balanceGlow {
-            0% { transform: rotate(45deg) translateX(-150%); }
-            100% { transform: rotate(45deg) translateX(150%); }
-        }
-
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -90,7 +73,7 @@
             padding: 2rem;
             border-radius: 20px;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
             min-height: 250px;
             display: flex;
             flex-direction: column;
@@ -100,21 +83,6 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .service-card:hover::before {
-            left: 100%;
         }
 
         .service-card:hover {
@@ -140,23 +108,7 @@
             background: rgba(255,255,255,0.15);
             padding: 3rem;
             position: relative;
-        }
-
-        .full-width-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            animation: borderAnim 3s infinite;
-        }
-
-        @keyframes borderAnim {
-            0% { width: 0%; left: 0; }
-            50% { width: 100%; left: 0; }
-            100% { width: 0%; left: 100%; }
+            text-align: center;
         }
 
         .social-footer {
@@ -169,106 +121,20 @@
             z-index: 3;
         }
 
-        .social-icon {
-            color: #fff;
-            font-size: 2.5rem;
-            transition: all 0.4s;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .social-icon::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--primary-color);
-            transition: width 0.3s;
-        }
-
-        .social-icon:hover::after {
-            width: 100%;
-        }
-
         @media (max-width: 768px) {
-            .header-section {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .service-card {
-                min-height: 200px;
-                padding: 1.5rem;
-            }
-            
-            .full-width-card {
-                padding: 2rem;
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-
-        .loader::after {
-            content: '';
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--glass-effect);
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: loading 1s linear infinite;
-        }
-
-        @keyframes loading {
-            to { transform: rotate(360deg); }
-        }
-
-        .logout-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-3px);
-            background: #ff5252;
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: repeat(1, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="loader"></div>
-
-    <button class="logout-btn" onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-        تسجيل الخروج
-    </button>
-
     <div class="header-section">
         <div class="user-box">
             <h2>المستخدم: <span id="username">---</span></h2>
@@ -292,7 +158,6 @@
                 <i class="fas fa-calendar-alt"></i>
                 <h3>الاشتراكات</h3>
             </div>
-
             <div class="service-card">
                 <i class="fas fa-gamepad"></i>
                 <h3>الألعاب</h3>
@@ -305,20 +170,14 @@
                 <i class="fas fa-poll"></i>
                 <h3>الاستبيانات</h3>
             </div>
-
             <div class="service-card">
                 <i class="fas fa-gift"></i>
                 <h3>المكافأة</h3>
             </div>
             <div class="service-card">
                 <i class="fas fa-users"></i>
-                <h3>الاحالات</h3>
+                <h3>الإحالات</h3>
             </div>
-            <div class="service-card">
-                <i class="fas fa-info-circle"></i>
-                <h3>من نحن</h3>
-            </div>
-
             <div class="service-card full-width-card">
                 <i class="fas fa-file-signature"></i>
                 <h3>الشروط والأحكام</h3>
@@ -336,13 +195,6 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            document.querySelector('.loader').style.opacity = '0';
-            setTimeout(() => {
-                document.querySelector('.loader').style.display = 'none';
-            }, 500);
-        });
-
         function updateUserData() {
             const user = JSON.parse(localStorage.getItem('currentUser')) || {};
             document.getElementById('username').textContent = user.username || 'مستخدم جديد';
@@ -365,4 +217,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
