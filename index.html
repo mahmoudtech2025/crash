@@ -208,7 +208,11 @@
         function handleLogin() {
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
-            alert(storedUsername ? 'تم تسجيل الدخول بنجاح!' : 'خطأ في البيانات');
+            if (document.getElementById('loginUsername').value === storedUsername && document.getElementById('loginPassword').value === storedPassword) {
+                alert('تم تسجيل الدخول بنجاح!');
+            } else {
+                alert('خطأ في البيانات');
+            }
         }
     </script>
 </body>
