@@ -87,9 +87,8 @@
             transition: all 0.3s;
         }
 
-        input:focus {
-            border-color: #ff6b6b;
-            box-shadow: 0 0 15px rgba(255,107,107,0.3);
+        input.error {
+            border-color: #ff6b6b !important;
         }
 
         button {
@@ -107,6 +106,12 @@
         button:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255,107,107,0.4);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: -0.5rem;
         }
 
         .social-icons {
@@ -160,16 +165,17 @@
 
     <div class="form-container">
         <div id="loginForm" class="auth-form">
-            <input type="text" placeholder="اسم المستخدم">
-            <input type="password" placeholder="كلمة المرور">
+            <input type="text" placeholder="اسم المستخدم" id="loginUsername">
+            <input type="password" placeholder="كلمة المرور" id="loginPassword">
             <button onclick="handleLogin()">تسجيل الدخول</button>
             <button onclick="switchForm('signupForm')">إنشاء حساب</button>
         </div>
 
         <div id="signupForm" class="auth-form" style="display: none;">
-            <input type="text" placeholder="اسم المستخدم">
+            <input type="text" placeholder="اسم المستخدم" id="signupUsername">
             <input type="password" placeholder="كلمة المرور" id="signupPassword">
-            <input type="password" placeholder="أعد إدخال كلمة المرور">
+            <input type="password" placeholder="أعد إدخال كلمة المرور" id="confirmPassword">
+            <div id="passwordError" class="error-message"></div>
             <button onclick="handleSignup()">إنشاء حساب</button>
             <button onclick="switchForm('loginForm')">لديك حساب؟ سجل الدخول</button>
         </div>
@@ -190,25 +196,86 @@
                 form.style.display = 'none';
             });
             document.getElementById(formId).style.display = 'flex';
+            clearErrors();
         }
 
-        function validatePassword(password) {
-            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-            return strongRegex.test(password);
+        function clearErrors() {
+            document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            document.getElementById('passwordError').textContent = '';
         }
 
-        function handleSignup() {
-            const password = document.getElementById('signupPassword').value;
-            if (!validatePassword(password)) {
-                alert('كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم، ورَمز خاص');
-                return;
+        function validateLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            let isValid = true;
+
+            if (!username) {
+                document.getElementById('loginUsername').classList.add('error');
+                isValid = false;
             }
-            alert('تم إنشاء الحساب بنجاح!');
+            if (!password) {
+                document.getElementById('loginPassword').classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateSignup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const confirm = document.getElementById('confirmPassword').value.trim();
+            let isValid = true;
+
+            if (!username) {
+                document.getElementById('signupUsername').classList.add('error');
+                isValid = false;
+            }
+            if (!password) {
+                document.getElementById('signupPassword').classList.add('error');
+                isValid = false;
+            }
+            if (!confirm) {
+                document.getElementById('confirmPassword').classList.add('error');
+                isValid = false;
+            }
+
+            if (password !== confirm) {
+                document.getElementById('passwordError').textContent = 'كلمات المرور غير متطابقة';
+                isValid = false;
+            }
+
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+            if (!strongRegex.test(password)) {
+                document.getElementById('passwordError').textContent = 'يجب أن تحتوي كلمة المرور على 8 أحرف، حرف كبير، رقم، ورَمز خاص';
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         function handleLogin() {
+            if (!validateLogin()) {
+                alert('الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
             alert('مرحبًا بك! جاري التوجيه...');
         }
+
+        function handleSignup() {
+            if (!validateSignup()) return;
+            alert('تم إنشاء الحساب بنجاح!');
+            switchForm('loginForm');
+        }
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+                if(input.id === 'signupPassword' || input.id === 'confirmPassword') {
+                    document.getElementById('passwordError').textContent = '';
+                }
+            });
+        });
     </script>
 </body>
 </html>
