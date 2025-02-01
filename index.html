@@ -6,7 +6,7 @@
     <title>DARK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* الأنماط الأساسية */
+        /* الأنماط المحسنة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,110 +15,176 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #000000, #4a4a4a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #fff;
             transition: all 0.3s ease;
             min-height: 100vh;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         body.dark-mode {
-            background: linear-gradient(135deg, #000000, #2d2d2d);
-            color: #fff;
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #2d2d2d, #4a4a4a);
         }
 
-        /* شريط التنقل */
+        /* تحسينات الشريط العلوي */
         .nav {
             padding: 20px;
             text-align: left;
+            position: relative;
+            z-index: 2;
         }
 
         #darkModeToggle {
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
             color: #fff;
             background: none;
             border: none;
+            transition: transform 0.3s;
         }
 
-        /* اللوجو */
+        #darkModeToggle:hover {
+            transform: rotate(25deg);
+        }
+
+        /* لوجو محسّن */
         .logo {
             text-align: center;
             margin: 50px 0;
-            font-size: 3em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            position: relative;
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: logoShine 3s ease-in-out infinite;
         }
 
-        /* نموذج الدخول */
+        @keyframes logoShine {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,107,107,0.5); }
+            50% { text-shadow: 0 0 40px rgba(255,217,61,0.8); }
+        }
+
+        /* تحسينات النموذج */
         .form-container {
             max-width: 400px;
             margin: 20px auto;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 2;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 5px;
-            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
             color: #fff;
             font-size: 16px;
+            transition: all 0.3s;
         }
 
+        input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(255,107,107,0.3);
+        }
+
+        /* تحسينات الأزرار */
         button {
             width: 100%;
-            padding: 12px;
-            margin-top: 15px;
+            padding: 15px;
+            margin-top: 20px;
             background: linear-gradient(45deg, #ff6b6b, #ffd93d);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: #fff;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: buttonGlow 3s infinite;
+        }
+
+        @keyframes buttonGlow {
+            0% { transform: rotate(45deg) translateX(-150%); }
+            100% { transform: rotate(45deg) translateX(150%); }
         }
 
         button:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
         }
 
-        /* الروابط الاجتماعية */
+        /* أيقونات التواصل المحسنة */
         .social-icons {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            left: 20px;
+            bottom: 30px;
+            width: 100%;
             display: flex;
             justify-content: space-between;
+            padding: 0 30px;
+            box-sizing: border-box;
+            z-index: 2;
         }
 
         .social-icons a {
             color: #fff;
-            font-size: 24px;
-            transition: color 0.3s;
+            font-size: 32px;
+            transition: all 0.3s;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .social-icons a:hover {
             color: #ff6b6b;
+            transform: scale(1.2);
+            background: rgba(255,255,255,0.2);
         }
 
-        /* حقوق النشر */
+        /* حقوق النشر المحسنة */
         footer {
             position: fixed;
-            bottom: 20px;
+            bottom: 100px;
             width: 100%;
             text-align: center;
             font-size: 14px;
             color: rgba(255,255,255,0.7);
+            z-index: 2;
         }
 
         .hidden {
@@ -129,12 +195,24 @@
             color: #ff6b6b;
             font-size: 14px;
             margin-top: 5px;
+            text-align: right;
+        }
+
+        /* تأثيرات إضافية */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
     <nav class="nav">
-        <button id="darkModeToggle">🌙</button>
+        <button id="darkModeToggle">🌓</button>
     </nav>
 
     <h1 class="logo">DARK</h1>
@@ -165,21 +243,23 @@
     <footer>© 2025 DARK. All rights reserved.</footer>
 
     <script>
-        // تبديل الوضع الليلي
+        // تحسينات الوضع الليلي
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
 
         darkModeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌓';
         });
 
-        // استعادة إعدادات الوضع الليلي
+        // استعادة الإعدادات
         if (localStorage.getItem('darkMode') === 'true') {
             body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
         }
 
-        // تبديل النماذج
+        // وظائف النماذج
         function showSignupForm() {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.remove('hidden');
@@ -190,10 +270,10 @@
             document.getElementById('loginForm').classList.remove('hidden');
         }
 
-        // التحقق من كلمة المرور
+        // تحقق متقدم من كلمة المرور
         function validatePassword(password) {
-            const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-            return regex.test(password);
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+            return strongRegex.test(password);
         }
 
         function handleSignup() {
@@ -201,15 +281,40 @@
             const errorElement = document.getElementById('passwordError');
 
             if (!validatePassword(password)) {
-                errorElement.textContent = 'يجب أن تحتوي كلمة المرور على الأقل 8 أحرف، رقم، رمز، وحروف كبيرة وصغيرة';
+                errorElement.innerHTML = `
+                    يجب أن تحتوي كلمة المرور على:<br>
+                    - 8 أحرف على الأقل<br>
+                    - حرف كبير على الأقل<br>
+                    - رقم واحد على الأقل<br>
+                    - رمز خاص (!@#$%^&*)`;
                 return;
             }
             errorElement.textContent = '';
-            alert('تم إنشاء الحساب بنجاح!');
+            showMessage('تم إنشاء الحساب بنجاح!', 'success');
         }
 
         function handleLogin() {
-            alert('تم تسجيل الدخول بنجاح!');
+            showMessage('تم تسجيل الدخول بنجاح!', 'success');
+        }
+
+        function showMessage(text, type) {
+            const message = document.createElement('div');
+            message.textContent = text;
+            message.style.position = 'fixed';
+            message.style.top = '20px';
+            message.style.left = '50%';
+            message.style.transform = 'translateX(-50%)';
+            message.style.padding = '15px 30px';
+            message.style.background = type === 'success' ? '#4CAF50' : '#f44336';
+            message.style.color = 'white';
+            message.style.borderRadius = '25px';
+            message.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+            message.style.zIndex = '1000';
+            document.body.appendChild(message);
+
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
         }
     </script>
 </body>
