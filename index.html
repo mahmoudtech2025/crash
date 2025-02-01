@@ -298,7 +298,7 @@
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 alert('مرحبًا بك! جاري التوجيه...');
-                // window.location.href = 'dashboard.html'; // إضافة صفحة التوجيه هنا
+                 window.location.href = 'dashboard.html'; // إضافة صفحة التوجيه هنا
             } else {
                 alert('بيانات الدخول غير صحيحة');
             }
@@ -308,9 +308,10 @@
             if (!validateSignup()) return;
             
             const newUser = {
-                username: document.getElementById('signupUsername').value.trim(),
-                password: document.getElementById('signupPassword').value.trim()
-            };
+    username: document.getElementById('signupUsername').value.trim(),
+    password: document.getElementById('signupPassword').value.trim(),
+    balance: 0 // إضافة هذا الحقل
+};
             
             if (users.some(u => u.username === newUser.username)) {
                 alert('اسم المستخدم موجود مسبقًا');
