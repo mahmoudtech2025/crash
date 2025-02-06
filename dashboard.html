@@ -11,7 +11,9 @@
             --secondary-color: #ffd93d;
             --accent-color: #4ecdc4;
             --dark-bg: #1a1a1a;
+            --light-bg: #f4f4f4;
             --glass-effect: rgba(255, 255, 255, 0.1);
+            --text-color: #fff;
         }
 
         * {
@@ -25,7 +27,7 @@
             background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #000000, #4a4a4a);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            color: #fff;
+            color: var(--text-color);
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
@@ -259,6 +261,101 @@
             transform: translateY(-3px);
             background: #ff5252;
         }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+            z-index: 5;
+            display: none;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            background: #ff5252;
+        }
+
+        .skeleton-loading {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .parallax {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .animated-text {
+            animation: textAnimation 3s infinite;
+        }
+
+        @keyframes textAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -269,12 +366,20 @@
         تسجيل الخروج
     </button>
 
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+        تغيير الثيم
+    </button>
+
     <div class="header-section">
         <div class="user-box">
             <h2>المستخدم: <span id="username">---</span></h2>
         </div>
         <div class="balance-box">
             <h2>الرصيد: <span id="balance">0</span> جنيه</h2>
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
         </div>
     </div>
 
@@ -314,10 +419,6 @@
                 <i class="fas fa-users"></i>
                 <h3>الاحالات</h3>
             </div>
-            <div class="service-card">
-                <i class="fas fa-info-circle"></i>
-                <h3>من نحن</h3>
-            </div>
 
             <div class="service-card full-width-card">
                 <i class="fas fa-file-signature"></i>
@@ -335,6 +436,10 @@
         </a>
     </div>
 
+    <div class="notification" id="notification">
+        <span id="notification-text"></span>
+    </div>
+
     <script>
         window.addEventListener('load', () => {
             document.querySelector('.loader').style.opacity = '0';
@@ -347,11 +452,42 @@
             const user = JSON.parse(localStorage.getItem('currentUser')) || {};
             document.getElementById('username').textContent = user.username || 'مستخدم جديد';
             document.getElementById('balance').textContent = user.balance || 0;
+            const progressBar = document.getElementById('progress-bar-fill');
+            const balance = user.balance || 0;
+            const maxBalance = 1000; // يمكن تغيير هذا الرقم حسب الحاجة
+            const progress = (balance / maxBalance) * 100;
+            progressBar.style.width = `${progress}%`;
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
-            window.location.href = 'index.html';
+            showNotification('تم تسجيل الخروج بنجاح');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            notificationText.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.style.backgroundColor = '#1a1a1a';
+                body.style.color = '#fff';
+            } else {
+                body.classList.add('light-theme');
+                body.style.backgroundColor = '#f4f4f4';
+                body.style.color = '#000';
+            }
         }
 
         setInterval(updateUserData, 5000);
@@ -360,9 +496,9 @@
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', function() {
                 const serviceName = this.querySelector('h3').textContent;
-                alert(`خدمة ${serviceName} - قيد التطوير`);
+                showNotification(`خدمة ${serviceName} - قيد التطوير`);
             });
         });
     </script>
 </body>
-    </html>
+</html>
