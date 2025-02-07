@@ -291,7 +291,7 @@
 
             <button type="submit">إيداع</button>
             <div class="loader" id="loader">
-                <i class="fas fa-spinner"></i> جاري معالجة العملية...
+                <i class="fas fa-spinner"></i> جاري إضافة الأموال...
             </div>
         </form>
     </div>
@@ -379,10 +379,9 @@
             // إظهار مؤشر التحميل
             document.getElementById('loader').style.display = 'block';
 
-            // محاكاة عملية الإيداع
+            // إرسال البيانات إلى الباك إند (يمكنك إضافة الكود الخاص بالباك إند هنا)
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
-                alert(`تم إيداع ${amount} جنيه باستخدام ${method}.`);
                 window.location.href = 'dashboard.html'; // العودة إلى لوحة التحكم
             }, 3000); // محاكاة انتظار 3 ثواني
         });
