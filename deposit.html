@@ -1,107 +1,391 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إيداع</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>إيداع الأموال - DARK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ffd93d;
+            --accent-color: #4ecdc4;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f4f4f4;
+            --glass-effect: rgba(255, 255, 255, 0.1);
+            --text-color: #fff;
+            --glow: 0 0 15px rgba(255, 107, 107, 0.7);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f8f9fa;
         }
 
-        .container {
-            background-color: #fff;
+        body {
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(-45deg, #1a1a1a, #2d2d2d, #000000, #4a4a4a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .deposit-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 2rem;
+            background: var(--glass-effect);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: var(--glow);
+            border: 1px solid rgba(255,255,255,0.1);
             text-align: center;
-            width: 90%;
-            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
         }
 
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #0072ff;
-            margin-bottom: 20px;
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        .title i {
-            margin-left: 10px;
+        .deposit-container h1 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-color);
+            text-shadow: var(--glow);
         }
 
-        input[type="text"] {
+        .deposit-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .deposit-container input {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
-        .phone-option {
+        .deposit-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--glow);
+        }
+
+        .deposit-container input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .deposit-container button {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            box-shadow: var(--glow);
+        }
+
+        .deposit-container button:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--glow);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            background: #ff5252;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.9);
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .phone-option input {
-            margin-right: 10px;
+        .payment-method:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
         }
 
-        button {
+        .payment-method.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .payment-method.disabled:hover {
+            background: rgba(255,255,255,0.05);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .payment-method span {
+            font-size: 1rem;
+        }
+
+        .payment-method i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .soon {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .loader {
+            display: none;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .loader i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .payment-details {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .additional-input {
+            display: none;
+            margin-top: 1rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .additional-input input {
             width: 100%;
             padding: 10px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #0072ff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
-        button:hover {
-            background-color: #005bb5;
+        .additional-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--glow);
+        }
+
+        .additional-input input::placeholder {
+            color: rgba(255,255,255,0.7);
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="title">
-            <i class="fas fa-wallet"></i> إيداع
-        </div>
-        <input type="text" placeholder="أدخل قيمة الإيداع" id="deposit-amount">
-        <input type="text" placeholder="أدخل رقم الهاتف" id="phone-number">
-        <div class="phone-option">
-            <input type="radio" name="phone" value="01097000178" id="phone1">
-            <label for="phone1">01097000178</label>
-        </div>
-        <div class="phone-option">
-            <input type="radio" name="phone" value="01112585208" id="phone2">
-            <label for="phone2">01112585208</label>
-        </div>
-        <button onclick="handleDeposit()">إتمام الإيداع</button>
+    <button class="back-btn" onclick="window.location.href = 'dashboard.html';">
+        <i class="fas fa-arrow-left"></i>
+        العودة
+    </button>
+
+    <div class="deposit-container">
+        <h1>إيداع الأموال</h1>
+        <form id="deposit-form">
+            <label for="amount">المبلغ:</label>
+            <input type="number" id="amount" placeholder="أدخل المبلغ" required>
+            
+            <div class="payment-methods">
+                <div class="payment-method" data-method="payeer">
+                    <span>Payeer</span>
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="payment-method" data-method="vodafone-cash">
+                    <span>فودافون كاش</span>
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="payment-method" data-method="etisalat-cash">
+                    <span>اتصالات كاش</span>
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="payment-method disabled" data-method="fawry-pay">
+                    <span>فوري باي <span class="soon">(قريبًا)</span></span>
+                </div>
+            </div>
+
+            <div class="payment-details" id="payment-details">
+                <p>قم بإرسال الأموال إلى:</p>
+                <p><strong id="payment-number"></strong></p>
+            </div>
+
+            <div class="additional-input" id="payeer-input">
+                <input type="text" id="payeer-account" placeholder="أدخل رقم حساب Payeer">
+            </div>
+
+            <div class="additional-input" id="vodafone-input">
+                <input type="text" id="vodafone-number" placeholder="أدخل رقم فودافون كاش">
+            </div>
+
+            <div class="additional-input" id="etisalat-input">
+                <input type="text" id="etisalat-number" placeholder="أدخل رقم اتصالات كاش">
+            </div>
+
+            <button type="submit">إيداع</button>
+            <div class="loader" id="loader">
+                <i class="fas fa-spinner"></i> جاري معالجة العملية...
+            </div>
+        </form>
     </div>
 
     <script>
-        function handleDeposit() {
-            alert('جاري إضافة الرصيد...');
-        }
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const paymentDetails = document.getElementById('payment-details');
+        const paymentNumber = document.getElementById('payment-number');
+        const payeerInput = document.getElementById('payeer-input');
+        const vodafoneInput = document.getElementById('vodafone-input');
+        const etisalatInput = document.getElementById('etisalat-input');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                if (method.classList.contains('disabled')) return;
+
+                // إزالة التحديد من جميع الطرق
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                // إضافة التحديد للطريقة المختارة
+                method.classList.add('selected');
+
+                // إخفاء جميع الخانات الإضافية
+                payeerInput.style.display = 'none';
+                vodafoneInput.style.display = 'none';
+                etisalatInput.style.display = 'none';
+
+                // عرض تفاصيل الدفع والخانة الإضافية المناسبة
+                const selectedMethod = method.getAttribute('data-method');
+                if (selectedMethod === 'payeer') {
+                    paymentNumber.textContent = 'P1128580150';
+                    paymentDetails.style.display = 'block';
+                    payeerInput.style.display = 'block';
+                } else if (selectedMethod === 'vodafone-cash') {
+                    paymentNumber.textContent = '01097000178';
+                    paymentDetails.style.display = 'block';
+                    vodafoneInput.style.display = 'block';
+                } else if (selectedMethod === 'etisalat-cash') {
+                    paymentNumber.textContent = '01112585208';
+                    paymentDetails.style.display = 'block';
+                    etisalatInput.style.display = 'block';
+                } else {
+                    paymentDetails.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('deposit-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const selectedMethod = document.querySelector('.payment-method.selected');
+
+            if (!amount || isNaN(amount) || amount <= 0) {
+                alert('يرجى إدخال مبلغ صحيح.');
+                return;
+            }
+
+            if (!selectedMethod) {
+                alert('يرجى اختيار طريقة دفع.');
+                return;
+            }
+
+            const method = selectedMethod.getAttribute('data-method');
+            let accountNumber = '';
+
+            if (method === 'payeer') {
+                accountNumber = document.getElementById('payeer-account').value;
+                if (!accountNumber) {
+                    alert('يرجى إدخال رقم حساب Payeer.');
+                    return;
+                }
+            } else if (method === 'vodafone-cash') {
+                accountNumber = document.getElementById('vodafone-number').value;
+                if (!accountNumber) {
+                    alert('يرجى إدخال رقم فودافون كاش.');
+                    return;
+                }
+            } else if (method === 'etisalat-cash') {
+                accountNumber = document.getElementById('etisalat-number').value;
+                if (!accountNumber) {
+                    alert('يرجى إدخال رقم اتصالات كاش.');
+                    return;
+                }
+            }
+
+            // إظهار مؤشر التحميل
+            document.getElementById('loader').style.display = 'block';
+
+            // محاكاة عملية الإيداع
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                alert(`تم إيداع ${amount} جنيه باستخدام ${method}.`);
+                window.location.href = 'dashboard.html'; // العودة إلى لوحة التحكم
+            }, 3000); // محاكاة انتظار 3 ثواني
+        });
     </script>
 </body>
-
 </html>
