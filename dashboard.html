@@ -6,6 +6,10 @@
     <meta name="description" content="لوحة تحكم DARK - إدارة الحساب والخدمات بسهولة.">
     <meta name="keywords" content="لوحة تحكم, DARK, إيداع, سحب, اشتراكات, ألعاب">
     <meta name="author" content="DARK Team">
+    <meta property="og:title" content="لوحة التحكم - DARK">
+    <meta property="og:description" content="إدارة الحساب والخدمات بسهولة.">
+    <meta property="og:image" content="https://example.com/logo.png">
+    <meta property="og:url" content="https://example.com">
     <title>لوحة التحكم - DARK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -396,6 +400,15 @@
             visibility: visible;
             opacity: 1;
         }
+
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .lazy-load.loaded {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -501,6 +514,7 @@
                 document.querySelector('.loader').style.display = 'none';
             }, 500);
             loadTheme();
+            lazyLoadImages();
         });
 
         function updateUserData() {
@@ -569,6 +583,18 @@
                 }
             });
         }
+
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('.lazy-load');
+            images.forEach(img => {
+                if (img.getBoundingClientRect().top < window.innerHeight) {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', lazyLoadImages);
 
         setInterval(updateUserData, 5000);
         updateUserData();
